@@ -102,6 +102,45 @@ button:hover { background:#00c4b7; }
   text-decoration:none;
   font-size:13px;
 }
+.forgot-link {
+  display:block;
+  margin-top:10px;
+  font-size:13px;
+  color:var(--gray2);
+  text-align:center;
+  cursor:pointer;
+  background:none;
+  border:none;
+  width:auto;
+  padding:0;
+  text-decoration:underline;
+  font-family:'DM Sans',sans-serif;
+}
+.forgot-link:hover { color:var(--teal); background:none; }
+.panel-fp {
+  display:none;
+}
+.panel-fp.active {
+  display:block;
+}
+.divider {
+  border:none;
+  border-top:1px solid rgba(200,214,224,0.10);
+  margin:20px 0;
+}
+.back-login {
+  display:inline-block;
+  margin-top:8px;
+  font-size:13px;
+  color:var(--teal);
+  cursor:pointer;
+  background:none;
+  border:none;
+  width:auto;
+  padding:0;
+  font-family:'DM Sans',sans-serif;
+}
+.back-login:hover { background:none; text-decoration:underline; }
 </style>
 </head>
 <body>
@@ -121,19 +160,55 @@ button:hover { background:#00c4b7; }
       <div id="msg" class="msg"></div>
     </form>
 
-    <div class="help">Administrador inicial: admin@aljcursos.com.br</div>
-    <a href="index-ifrs-19.html" class="back">Voltar para o índice</a>
+    <!-- Painel de login -->
+    <div id="panel-login">
+      <button type="button" class="forgot-link" id="btn-forgot">Esqueci minha senha</button>
+      <div class="help">Administrador inicial: admin@aljcursos.com.br</div>
+    </div>
+
+    <!-- Painel de recuperação de senha -->
+    <div id="panel-fp" class="panel-fp">
+      <hr class="divider">
+      <div class="badge">Recuperar acesso</div>
+      <h1 style="font-size:22px;margin-bottom:6px;">Esqueci minha senha</h1>
+      <p class="subtitle">Informe seu e-mail e enviaremos sua senha.</p>
+      <form id="fp-form">
+        <label for="fp-email">E-mail cadastrado</label>
+        <input id="fp-email" type="email" autocomplete="email" required placeholder="seu@email.com">
+        <button type="submit" id="fp-btn">Enviar senha por e-mail</button>
+        <div id="fp-msg" class="msg"></div>
+      </form>
+      <button type="button" class="back-login" id="btn-back-login">← Voltar para o login</button>
+    </div>
+
+    <a href="index-ifrs-19.html" class="back" id="back-link">Voltar para o índice</a>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="auth.js"></script>
   <script>
+    // ─── Configuração EmailJS ────────────────────────────────────────────────
+    // Crie conta gratuita em emailjs.com e preencha abaixo:
+    var EMAILJS_PUBLIC_KEY   = 'SUA_PUBLIC_KEY';   // Account > API Keys
+    var EMAILJS_SERVICE_ID   = 'SUA_SERVICE_ID';   // Email Services
+    var EMAILJS_TEMPLATE_ID  = 'SUA_TEMPLATE_ID';  // Email Templates
+    // Template precisa ter as variáveis: {{to_email}}, {{user_name}}, {{user_password}}
+    // ────────────────────────────────────────────────────────────────────────
+
+    (function () {
+      if (EMAILJS_PUBLIC_KEY !== 'SUA_PUBLIC_KEY') {
+        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+      }
+    })();
+
+    // ─── Login ───────────────────────────────────────────────────────────────
     const form = document.getElementById('login-form');
-    const msg = document.getElementById('msg');
-    const params = new URLSearchParams(window.location.search);
+    const msg  = document.getElementById('msg');
+    const params    = new URLSearchParams(window.location.search);
     const returnUrl = params.get('returnUrl') || 'index-ifrs-19.html';
-    const fromUrl = params.get('fromUrl');
-    const backLink = document.querySelector('.back');
-    let backTarget = fromUrl || returnUrl;
+    const fromUrl   = params.get('fromUrl');
+    const backLink  = document.getElementById('back-link');
+    let backTarget  = fromUrl || returnUrl;
     if (!backTarget || /^aula\d+\.html(\?.*)?$/i.test(backTarget)) {
       backTarget = 'index-ifrs-19.html';
     }
@@ -143,22 +218,83 @@ button:hover { background:#00c4b7; }
       e.preventDefault();
       msg.textContent = '';
       msg.className = 'msg';
-
-      const email = document.getElementById('email').value;
+      const email    = document.getElementById('email').value;
       const password = document.getElementById('password').value;
-      const result = window.CourseAuth.login(email, password);
-
+      const result   = window.CourseAuth.login(email, password);
       if (!result.ok) {
         msg.textContent = result.message;
         msg.className = 'msg error';
         return;
       }
-
       msg.textContent = 'Acesso liberado. Redirecionando...';
       msg.className = 'msg ok';
-      setTimeout(function () {
-        window.location.href = returnUrl;
-      }, 300);
+      setTimeout(function () { window.location.href = returnUrl; }, 300);
+    });
+
+    // ─── Esqueci minha senha ─────────────────────────────────────────────────
+    const panelLogin = document.getElementById('panel-login');
+    const panelFp    = document.getElementById('panel-fp');
+    const fpForm     = document.getElementById('fp-form');
+    const fpMsg      = document.getElementById('fp-msg');
+    const fpBtn      = document.getElementById('fp-btn');
+
+    document.getElementById('btn-forgot').addEventListener('click', function () {
+      panelLogin.style.display = 'none';
+      panelFp.classList.add('active');
+    });
+
+    document.getElementById('btn-back-login').addEventListener('click', function () {
+      panelFp.classList.remove('active');
+      panelLogin.style.display = '';
+      fpMsg.textContent = '';
+      fpMsg.className = 'msg';
+      fpForm.reset();
+    });
+
+    fpForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      fpMsg.textContent = '';
+      fpMsg.className = 'msg';
+
+      var email    = document.getElementById('fp-email').value.trim();
+      var emailNorm = window.CourseAuth.normalizeEmail(email);
+      var users    = window.CourseAuth.listUsers();
+      var user     = users.find(function (u) {
+        return (u.emailNorm || '') === emailNorm;
+      });
+
+      if (!user) {
+        fpMsg.textContent = 'E-mail não encontrado. Verifique o endereço informado.';
+        fpMsg.className = 'msg error';
+        return;
+      }
+
+      // EmailJS configurado: envia por e-mail
+      if (EMAILJS_PUBLIC_KEY !== 'SUA_PUBLIC_KEY') {
+        fpBtn.disabled = true;
+        fpBtn.textContent = 'Enviando...';
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          to_email:      user.email,
+          user_name:     user.username,
+          user_password: user.password
+        }).then(function () {
+          fpMsg.textContent = 'Senha enviada para ' + user.email + '. Verifique sua caixa de entrada.';
+          fpMsg.className = 'msg ok';
+          fpBtn.disabled = false;
+          fpBtn.textContent = 'Enviar senha por e-mail';
+          fpForm.reset();
+        }, function () {
+          fpMsg.textContent = 'Erro ao enviar e-mail. Tente novamente.';
+          fpMsg.className = 'msg error';
+          fpBtn.disabled = false;
+          fpBtn.textContent = 'Enviar senha por e-mail';
+        });
+      } else {
+        // Fallback: exibe a senha na tela (EmailJS ainda não configurado)
+        fpMsg.innerHTML = 'Sua senha é: <strong style="color:var(--teal);letter-spacing:1px">' +
+          user.password + '</strong><br><span style="font-size:11px;color:var(--gray2)">Guarde-a em local seguro.</span>';
+        fpMsg.className = 'msg ok';
+      }
     });
   </script>
 </body>
