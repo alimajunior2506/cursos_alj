@@ -1,0 +1,1121 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IFRS 18 — Aula 3: Resultado das Operações Principais</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --navy:#0D2137; --dark:#081929; --card:#112840;
+  --teal:#00A99D; --amber:#F5A623; --white:#FFFFFF;
+  --gray:#C8D6E0; --gray2:#7A9AB0; --red:#C0392B; --green:#27AE60;
+  --purple:#8B5CF6; --blue:#3B82F6;
+}
+html,body { width:100%; height:100%; background:var(--dark); font-family:'DM Sans',sans-serif; color:var(--white); }
+#slides { width:100%; height:100%; position:relative; }
+.slide { position:absolute; inset:0; display:flex; flex-direction:column; opacity:0; pointer-events:none; overflow:visible; padding-top:56px; padding-bottom:16px; }
+.slide.active { opacity:1; pointer-events:all; }
+.no-pad { padding-top:0 !important; padding-bottom:0 !important; }
+
+/* NAV */
+#nav-trigger { position:fixed; bottom:0; left:0; right:0; height:80px; z-index:999; }
+#nav { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(100px); z-index:1000; display:flex; align-items:center; gap:14px; opacity:0; transition:opacity 0.3s ease, transform 0.3s ease; pointer-events:none; }
+#nav.visible { opacity:1; transform:translateX(-50%) translateY(0); pointer-events:all; }
+.nav-btn { width:42px; height:42px; border-radius:50%; border:1px solid rgba(0,169,157,0.35); background:rgba(17,40,64,0.92); color:var(--teal); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; backdrop-filter:blur(10px); }
+.nav-btn:hover { background:rgba(0,169,157,0.18); border-color:var(--teal); }
+.nav-btn:disabled { opacity:0.25; cursor:default; }
+#progress-dots { display:flex; gap:4px; align-items:center; }
+.dot { width:5px; height:5px; border-radius:50%; background:var(--gray2); transition:all 0.35s; cursor:pointer; }
+.dot.active { background:var(--teal); width:18px; border-radius:3px; }
+#slide-counter { font-family:'Syne',sans-serif; font-size:12px; font-weight:700; color:var(--gray2); min-width:58px; text-align:center; }
+#home-btn { position:fixed; top:10px; left:12px; z-index:2000; background:rgba(17,40,64,0.92); border:1px solid rgba(0,169,157,0.25); border-radius:7px; padding:7px 14px; font-size:12px; font-weight:500; color:var(--teal); text-decoration:none; display:flex; align-items:center; gap:6px; backdrop-filter:blur(10px); transition:all 0.2s; }
+#home-btn:hover { background:rgba(0,169,157,0.14); }
+#kb-hint { position:fixed; bottom:28px; right:28px; z-index:1000; font-size:11px; color:var(--gray2); display:flex; align-items:center; gap:6px; opacity:0; transition:opacity 0.3s ease; pointer-events:none; }
+#kb-hint.visible { opacity:0.6; pointer-events:all; }
+.kb { border:1px solid var(--gray2); border-radius:3px; padding:2px 6px; font-size:10px; }
+
+/* ANIMAÇÕES */
+@keyframes fadeUp    { from{opacity:0;transform:translateY(28px)}  to{opacity:1;transform:translateY(0)} }
+@keyframes fadeLeft  { from{opacity:0;transform:translateX(-28px)} to{opacity:1;transform:translateX(0)} }
+@keyframes fadeRight { from{opacity:0;transform:translateX(28px)}  to{opacity:1;transform:translateX(0)} }
+@keyframes scaleIn   { from{opacity:0;transform:scale(0.88)}       to{opacity:1;transform:scale(1)} }
+@keyframes slideBar  { from{transform:scaleY(0)} to{transform:scaleY(1)} }
+@keyframes glowPulse { 0%,100%{opacity:0.07} 50%{opacity:0.13} }
+
+/* RESPONSIVIDADE MOBILE */
+@media (max-width:1024px) {
+  html,body { width:100% !important; height:auto !important; overflow-y:auto !important; overflow-x:hidden !important; }
+  #slides { width:100% !important; height:auto !important; }
+  .slide { position:static !important; inset:auto !important; opacity:1 !important; pointer-events:all !important; margin-bottom:20px !important; padding:40px 16px !important; min-height:auto !important; overflow:visible !important; transform:none !important; display:flex !important; flex-direction:column !important; width:100% !important; }
+  .slide .body { flex:none !important; height:auto !important; }
+  .slide.active { opacity:1 !important; }
+  #nav-trigger, #nav, #kb-hint, #home-btn { display:none !important; }
+  .hdr { padding:16px 12px !important; }
+  .h-title { font-size:16px !important; }
+  #s1 .t1 { font-size:clamp(36px,8vw,56px) !important; }
+  #s1 .t2, #s1 .t3 { font-size:clamp(18px,5vw,28px) !important; }
+  #s1 .t4 { font-size:clamp(12px,3vw,18px) !important; }
+  .res-item, .prob-item, .inov, .comp-box { font-size:13px !important; padding:12px 10px !important; }
+  #s2 .body, #s3 .body, #s4 .body, #s5 .body, #s6 .body, #s7 .body { grid-template-columns:1fr !important; padding:16px 12px !important; gap:12px !important; }
+  .comp-col, .cat-box, .mat-item { width:100% !important; }
+  table { font-size:11px !important; }
+  .glow { display:none !important; }
+  .meta { flex-direction:column !important; gap:12px !important; }
+  .inov { flex-direction:column !important; gap:12px !important; }
+  .inov-num { font-size:32px !important; }
+}
+
+/* HEADER PADRÃO */
+.hdr { background:var(--card); padding:18px 48px 18px 36px; display:flex; align-items:center; gap:14px; border-bottom:1px solid rgba(200,214,224,0.07); opacity:0; flex-shrink:0; }
+.slide.active .hdr { animation:fadeUp 0.5s ease 0.1s forwards; }
+.h-tag { font-family:'Syne',sans-serif; font-size:11px; font-weight:700; letter-spacing:2.5px; color:var(--teal); text-transform:uppercase; }
+.h-tag.amber{color:var(--amber);} .h-tag.green{color:var(--green);} .h-tag.red{color:var(--red);} .h-tag.purple{color:var(--purple);}
+.h-sep { width:1px; height:18px; background:rgba(200,214,224,0.18); flex-shrink:0; }
+.h-title { font-family:'Syne',sans-serif; font-size:20px; font-weight:700; color:var(--white); }
+.h-time { margin-left:auto; font-size:11px; color:var(--gray2); }
+
+.body { flex:1; padding:20px 48px 16px 36px; display:flex; flex-direction:column; }
+.body.center { justify-content:center; }
+.body.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start; }
+
+.card { background:var(--card); border-radius:10px; padding:16px 18px; border:1px solid rgba(200,214,224,0.07); }
+.card.teal  { border-left:3px solid var(--teal); }
+.card.amber { border-left:3px solid var(--amber); }
+.card.green { border-left:3px solid var(--green); }
+.card.red   { border-left:3px solid var(--red); }
+.card.purple{ border-left:3px solid var(--purple); }
+.card.blue  { border-left:3px solid var(--blue); }
+
+.card-title { font-family:'Syne',sans-serif; font-size:14px; font-weight:700; color:var(--white); margin-bottom:6px; }
+.card-text  { font-size:12.5px; color:var(--gray2); line-height:1.6; }
+.card-tag { display:inline-block; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:3px 8px; border-radius:3px; margin-bottom:8px; }
+.card-tag.teal  { background:rgba(0,169,157,0.15); color:var(--teal); }
+.card-tag.amber { background:rgba(245,166,35,0.15); color:var(--amber); }
+.card-tag.green { background:rgba(39,174,96,0.15); color:var(--green); }
+.card-tag.red   { background:rgba(192,57,43,0.15); color:var(--red); }
+.card-tag.purple{ background:rgba(139,92,246,0.15); color:var(--purple); }
+.card-tag.blue  { background:rgba(59,130,246,0.15); color:var(--blue); }
+
+.slide.active .d2  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.32s forwards; }
+.slide.active .d3  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.44s forwards; }
+.slide.active .d4  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.56s forwards; }
+.slide.active .d5  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.68s forwards; }
+.slide.active .d6  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.80s forwards; }
+.slide.active .dl1 { animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.20s forwards; }
+.slide.active .dl2 { animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.33s forwards; }
+.slide.active .dl3 { animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.46s forwards; }
+.slide.active .dl4 { animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.59s forwards; }
+.slide.active .dl5 { animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.72s forwards; }
+.slide.active .dr1 { animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.20s forwards; }
+.slide.active .dr2 { animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.33s forwards; }
+.slide.active .dr3 { animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.46s forwards; }
+.slide.active .dr4 { animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.59s forwards; }
+.slide.active .dr5 { animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.72s forwards; }
+.slide.active .sc1 { animation:scaleIn 0.5s cubic-bezier(0.22,1,0.36,1) 0.20s forwards; }
+.slide.active .sc2 { animation:scaleIn 0.5s cubic-bezier(0.22,1,0.36,1) 0.35s forwards; }
+.slide.active .sc3 { animation:scaleIn 0.5s cubic-bezier(0.22,1,0.36,1) 0.50s forwards; }
+
+/* CAPA */
+.capa { background:var(--dark); justify-content:flex-end; }
+.capa .glow { position:absolute; border-radius:50%; pointer-events:none; filter:blur(90px); animation:glowPulse 5s ease infinite; }
+.capa .g1 { width:700px;height:500px;background:rgba(0,169,157,1);top:-200px;left:-150px; }
+.capa .g2 { width:500px;height:400px;background:rgba(139,92,246,1);bottom:-100px;right:-100px;animation-delay:2.5s; }
+.capa .bar { position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--teal);transform:scaleY(0);transform-origin:top; }
+.capa.active .bar { animation:slideBar 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s forwards; }
+.capa .cnt { padding:0 64px 72px 52px; position:relative; z-index:1; }
+.capa .eyebrow { font-size:11px;font-weight:500;letter-spacing:3px;color:var(--teal);text-transform:uppercase;display:flex;align-items:center;gap:10px;margin-bottom:20px;opacity:0; }
+.capa .eyebrow::before { content:'';width:24px;height:2px;background:var(--teal); }
+.capa.active .eyebrow { animation:fadeLeft 0.6s ease 0.35s forwards; }
+.capa .t1 { font-family:'Syne',sans-serif;font-size:clamp(20px,2.5vw,30px);font-weight:400;color:var(--gray2);display:block;opacity:0; }
+.capa .t2 { font-family:'Syne',sans-serif;font-size:clamp(44px,6vw,80px);font-weight:800;letter-spacing:-3px;color:var(--teal);display:block;opacity:0;line-height:1; }
+.capa .t3 { font-family:'Syne',sans-serif;font-size:clamp(24px,3.2vw,44px);font-weight:800;letter-spacing:-2px;color:var(--white);display:block;opacity:0;line-height:1.1; }
+.capa .t4 { font-family:'Syne',sans-serif;font-size:clamp(14px,1.8vw,22px);font-weight:500;color:var(--amber);display:block;opacity:0;margin-top:10px; }
+.capa.active .t1 { animation:fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.45s forwards; }
+.capa.active .t2 { animation:fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.58s forwards; }
+.capa.active .t3 { animation:fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.72s forwards; }
+.capa.active .t4 { animation:fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.88s forwards; }
+.capa .meta { display:flex;gap:36px;padding-top:24px;border-top:1px solid rgba(200,214,224,0.1);margin-top:16px;opacity:0; }
+.capa.active .meta { animation:fadeUp 0.6s ease 1.05s forwards; }
+.meta-item { display:flex;flex-direction:column;gap:3px; }
+.meta-label { font-size:10px;letter-spacing:2px;color:var(--gray2);text-transform:uppercase; }
+.meta-val { font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--white); }
+.meta-val span { color:var(--amber); }
+.bg-num { position:absolute;right:-20px;top:50%;transform:translateY(-50%);font-family:'Syne',sans-serif;font-size:300px;font-weight:800;color:rgba(0,169,157,0.03);line-height:1;user-select:none;letter-spacing:-12px;pointer-events:none;z-index:0; }
+
+/* ENCERRAMENTO */
+.enc { background:var(--dark); justify-content:flex-end; }
+.enc .bar { position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--teal);transform:scaleY(0);transform-origin:top; }
+.enc.active .bar { animation:slideBar 0.6s cubic-bezier(0.22,1,0.36,1) 0.1s forwards; }
+.enc .cnt { padding:0 64px 64px 52px; position:relative; z-index:1; }
+.enc .eyebrow { font-size:11px;font-weight:500;letter-spacing:3px;color:var(--amber);text-transform:uppercase;margin-bottom:14px;opacity:0; }
+.enc.active .eyebrow { animation:fadeUp 0.5s ease 0.2s forwards; }
+.enc .title { font-family:'Syne',sans-serif;font-size:clamp(28px,3.8vw,46px);font-weight:800;letter-spacing:-1.5px;color:var(--white);margin-bottom:24px;opacity:0; }
+.enc.active .title { animation:fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.35s forwards; }
+.enc-items { display:flex;flex-direction:column;gap:9px; }
+.enc-item { display:flex;align-items:flex-start;gap:12px;font-size:13.5px;color:var(--white);line-height:1.5;opacity:0;transform:translateX(-20px); }
+.enc-dot { width:9px;height:9px;flex-shrink:0;border-radius:50%;background:var(--teal);margin-top:5px; }
+.enc.active .enc-item:nth-child(1){animation:fadeLeft 0.4s ease 0.55s forwards;}
+.enc.active .enc-item:nth-child(2){animation:fadeLeft 0.4s ease 0.67s forwards;}
+.enc.active .enc-item:nth-child(3){animation:fadeLeft 0.4s ease 0.79s forwards;}
+.enc.active .enc-item:nth-child(4){animation:fadeLeft 0.4s ease 0.91s forwards;}
+.enc.active .enc-item:nth-child(5){animation:fadeLeft 0.4s ease 1.03s forwards;}
+.enc.active .enc-item:nth-child(6){animation:fadeLeft 0.4s ease 1.15s forwards;}
+.enc-next { margin-top:20px;background:var(--card);border:1px solid rgba(0,169,157,0.28);border-radius:9px;padding:13px 18px;display:flex;align-items:center;gap:12px;font-size:13px;color:var(--teal);font-weight:500;opacity:0;transform:translateY(12px); }
+.enc.active .enc-next { animation:fadeUp 0.5s ease 1.3s forwards; }
+
+/* CALLOUT */
+.callout { border-radius:8px;padding:12px 18px;font-size:13px;font-weight:500;line-height:1.5;display:flex;align-items:flex-start;gap:10px; }
+.callout.teal  { background:rgba(0,169,157,0.1);border:1px solid rgba(0,169,157,0.25);color:var(--white);border-left:3px solid var(--teal); }
+.callout.amber { background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.25);color:var(--amber);border-left:3px solid var(--amber); }
+.callout.green { background:rgba(39,174,96,0.1);border:1px solid rgba(39,174,96,0.25);color:var(--white);border-left:3px solid var(--green); }
+.callout.red   { background:rgba(192,57,43,0.1);border:1px solid rgba(192,57,43,0.25);color:var(--white);border-left:3px solid var(--red); }
+.callout.purple{ background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.25);color:var(--white);border-left:3px solid var(--purple); }
+
+/* TABELA DRE */
+.dre-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+.dre-table tr td { padding:6px 10px; border-bottom:1px solid rgba(200,214,224,0.06); }
+.dre-table .cat-hdr td { background:rgba(0,169,157,0.12); color:var(--teal); font-family:'Syne',sans-serif; font-weight:700; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; padding:7px 10px; }
+.dre-table .cat-hdr.amber td { background:rgba(245,166,35,0.1); color:var(--amber); }
+.dre-table .cat-hdr.purple td { background:rgba(139,92,246,0.1); color:var(--purple); }
+.dre-table .item td { color:var(--gray2); }
+.dre-table .item td:last-child { text-align:right; color:var(--white); }
+.dre-table .item.neg td:last-child { color:#F87171; }
+.dre-table .item.hl td { color:var(--amber); }
+.dre-table .item.hl td:last-child { color:var(--amber); }
+.dre-table .subtotal td { color:var(--white); font-weight:700; background:rgba(200,214,224,0.04); }
+.dre-table .subtotal td:last-child { color:var(--teal); }
+.dre-table .subtotal.amber td:last-child { color:var(--amber); }
+.dre-table .total td { color:var(--white); font-family:'Syne',sans-serif; font-weight:800; font-size:14px; background:rgba(0,169,157,0.08); }
+.dre-table .total td:last-child { color:var(--teal); }
+
+/* AD ROW */
+.ad-row { display:grid; grid-template-columns:1fr 36px 1fr; gap:8px; align-items:center; }
+.ad-item { padding:10px 14px; border-radius:7px; font-size:12.5px; color:var(--white); line-height:1.4; }
+.ad-item.red   { background:rgba(192,57,43,0.12);border:1px solid rgba(192,57,43,0.25); }
+.ad-item.green { background:rgba(39,174,96,0.10);border:1px solid rgba(39,174,96,0.25); }
+.ad-arrow-sm { display:flex;align-items:center;justify-content:center; }
+.circ { width:28px;height:28px;background:var(--amber);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--white); }
+
+/* BADGE */
+.badge { display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase; }
+.badge.teal  { background:rgba(0,169,157,0.12);color:var(--teal);border:1px solid rgba(0,169,157,0.25); }
+.badge.amber { background:rgba(245,166,35,0.12);color:var(--amber);border:1px solid rgba(245,166,35,0.25); }
+.badge.green { background:rgba(39,174,96,0.12);color:var(--green);border:1px solid rgba(39,174,96,0.25); }
+.badge.red   { background:rgba(192,57,43,0.12);color:var(--red);border:1px solid rgba(192,57,43,0.25); }
+.badge.purple{ background:rgba(139,92,246,0.12);color:var(--purple);border:1px solid rgba(139,92,246,0.25); }
+
+/* SLIDES DE REFERÊNCIA */
+.ref-slide { background:var(--navy); }
+.ref-slide .ref-bar { position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,var(--teal) 0%,rgba(0,169,157,0.3) 100%); }
+.ref-slide .ref-bg-par { position:absolute;right:24px;bottom:-20px;font-family:'Syne',sans-serif;font-size:200px;font-weight:800;color:rgba(0,169,157,0.03);line-height:1;user-select:none;pointer-events:none;z-index:0; }
+.ref-slide .ref-connector { position:absolute;left:50%;top:80px;bottom:72px;width:1px;background:linear-gradient(180deg,transparent,rgba(0,169,157,0.12) 20%,rgba(0,169,157,0.12) 80%,transparent);transform:translateX(-10px);z-index:0; }
+.ref-hdr { background:var(--card);padding:16px 44px 16px 36px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(200,214,224,0.07);flex-shrink:0;opacity:0;position:relative;z-index:1; }
+.slide.active .ref-hdr { animation:fadeUp 0.5s ease 0.1s forwards; }
+.ref-badge { display:flex;align-items:center;gap:7px;background:rgba(0,169,157,0.1);border:1px solid rgba(0,169,157,0.25);border-radius:5px;padding:5px 11px; }
+.ref-badge-text { font-family:'Courier New',monospace;font-size:10px;font-weight:500;color:var(--teal);letter-spacing:1px; }
+.ref-norm-ref { margin-left:auto;font-family:'Courier New',monospace;font-size:11px;color:var(--gray2);background:rgba(200,214,224,0.05);border:1px solid rgba(200,214,224,0.12);border-radius:4px;padding:4px 10px; }
+.ref-body { flex:1;padding:14px 40px 12px 36px;display:grid;grid-template-columns:1fr 1fr;gap:14px;position:relative;z-index:1; }
+.ref-col { display:flex;flex-direction:column;gap:8px; }
+.ref-col-label { display:flex;align-items:center;gap:7px; }
+.ref-col-lang { font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray2); }
+.ref-col-lang span { color:var(--amber); }
+.ref-par { background:#0D2035;border:1px solid rgba(200,214,224,0.08);border-radius:9px;overflow:hidden;flex:1;display:flex;flex-direction:column; }
+.ref-par.pt { background:rgba(0,169,157,0.04);border-color:rgba(0,169,157,0.15); }
+.ref-par-hdr { display:flex;align-items:center;gap:9px;padding:8px 14px;background:rgba(0,169,157,0.06);border-bottom:1px solid rgba(200,214,224,0.07); }
+.ref-par.pt .ref-par-hdr { background:rgba(0,169,157,0.1);border-bottom-color:rgba(0,169,157,0.15); }
+.ref-par-num { font-family:'Courier New',monospace;font-size:11px;color:var(--teal);background:rgba(0,169,157,0.12);border:1px solid rgba(0,169,157,0.2);border-radius:4px;padding:2px 7px; }
+.ref-par.pt .ref-par-num { color:var(--amber);background:rgba(245,166,35,0.1);border-color:rgba(245,166,35,0.2); }
+.ref-par-lbl { font-size:11px;color:var(--gray2);font-style:italic; }
+.ref-par.pt .ref-par-lbl { color:var(--teal);font-style:normal; }
+.ref-par-text { padding:11px 14px;font-size:12px;color:var(--gray);line-height:1.75;font-style:italic;flex:1; }
+.ref-par.pt .ref-par-text { color:var(--white);font-style:normal; }
+.ref-par-text strong { color:var(--white);font-style:normal;font-weight:500; }
+.ref-par-text .hl { color:var(--teal);font-style:normal;font-weight:500; }
+.ref-par.pt .ref-par-text .hl { color:var(--amber); }
+.ref-footnote { grid-column:1/-1;display:flex;align-items:center;gap:9px;background:rgba(245,166,35,0.05);border:1px solid rgba(245,166,35,0.14);border-left:3px solid var(--amber);border-radius:6px;padding:9px 14px;font-size:11px;color:var(--gray2);line-height:1.5; }
+.ref-footnote strong { color:var(--amber); }
+.ref-col.ani-ref { opacity:0;transform:translateY(20px); }
+.slide.active .ref-col.ani-ref:nth-child(1) { animation:fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.25s forwards; }
+.slide.active .ref-col.ani-ref:nth-child(2) { animation:fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.42s forwards; }
+.ref-footnote.ani-fn { opacity:0;transform:translateY(14px); }
+.slide.active .ref-footnote.ani-fn { animation:fadeUp 0.5s ease 0.6s forwards; }
+</style>
+</head>
+<body>
+
+<a href="index-ifrs-19.html" id="home-btn">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+  Índice do curso
+</a>
+<div id="kb-hint"><span class="kb">←</span><span class="kb">→</span> ou <span class="kb">Espaço</span></div>
+<div id="slides">
+
+<!-- SLIDE 1 CAPA -->
+<div class="slide capa no-pad" id="s1">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div class="bar"></div>
+  <div class="bg-num">3</div>
+  <div class="cnt">
+    <div class="eyebrow">Aula 03 — Resultado das Operações Principais</div>
+    <span class="t1">IFRS 18</span>
+    <span class="t2">Aula 3</span>
+    <span class="t3">O Resultado das Operações Principais:<br>julgamentos e casos complexos</span>
+    <span class="t4">Atividade principal, hedge, múltiplos negócios e impacto para analistas</span>
+    <div class="meta">
+      <div class="meta-item"><span class="meta-label">Slides</span><span class="meta-val">19 <span>slides</span></span></div>
+      <div class="meta-item"><span class="meta-label">Duração estimada</span><span class="meta-val">~50 <span>min</span></span></div>
+      <div class="meta-item"><span class="meta-label">Foco</span><span class="meta-val">Julgamento <span>+ Casos</span></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 2 AGENDA -->
+<div class="slide" id="s2">
+  <div class="hdr"><span class="h-tag">Aula 03</span><div class="h-sep"></div><span class="h-title">Agenda</span><span class="h-time">⏱ ~50 min</span></div>
+  <div class="body grid2" style="gap:12px;">
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div class="card teal ani-up d1"><div class="card-tag teal">01 — 05 min</div><div class="card-title">O conceito de atividade principal</div><div class="card-text">O que define o que é operacional — e por que esse julgamento determina toda a estrutura da DRE</div></div>
+      <div class="card teal ani-up d2"><div class="card-tag teal">02 — 02 min</div><div class="card-title">📜 O que diz a norma — §53–54</div><div class="card-text">Texto original sobre atividades principais e suas implicações na classificação</div></div>
+      <div class="card amber ani-up d3"><div class="card-tag amber">03 — 05 min</div><div class="card-title">Itens incomuns e infrequentes</div><div class="card-text">Impairment, reestruturação, multas regulatórias, indenizações — onde cada um vai</div></div>
+      <div class="card amber ani-up d4"><div class="card-tag amber">04 — 04 min</div><div class="card-title">Entidades com múltiplas atividades principais</div><div class="card-text">Quando a empresa tem operação industrial e financeira ao mesmo tempo</div></div>
+      <div class="card amber ani-up d5"><div class="card-tag amber">05 — 02 min</div><div class="card-title">📜 O que diz a norma — §64–68</div><div class="card-text">Texto original sobre múltiplas atividades principais e critérios de avaliação</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div class="card green ani-up d1"><div class="card-tag green">06 — 05 min</div><div class="card-title">Hedge accounting na DRE</div><div class="card-text">O resultado do hedge segue o item protegido — como isso muda a leitura da DRE</div></div>
+      <div class="card green ani-up d2"><div class="card-tag green">07 — 02 min</div><div class="card-title">📜 O que diz a norma — §B77–B80</div><div class="card-text">Texto original sobre classificação de instrumentos de hedge</div></div>
+      <div class="card ani-up d3" style="border-left:3px solid var(--blue)"><div class="card-tag blue">08 — 10 min</div><div class="card-title">Casos práticos numéricos</div><div class="card-text">Dois casos com julgamento documentado: empresa com operação financeira e caso de impairment</div></div>
+      <div class="card ani-up d4" style="border-left:3px solid var(--purple)"><div class="card-tag purple">09 — 07 min</div><div class="card-title">Resultado das Operações Principais vs. EBIT e EBITDA</div><div class="card-text">O que muda para o analista financeiro — comparação prática com métricas de mercado</div></div>
+      <div class="card ani-up d5" style="border-left:3px solid var(--gray2)"><div class="card-tag" style="background:rgba(200,214,224,0.08);color:var(--gray2);">10 — 07 min</div><div class="card-title">Auditoria, eliminações e encerramento</div><div class="card-text">Pontos de atenção para auditores, eliminações na consolidação e pontos-chave da aula</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3 ATIVIDADE PRINCIPAL -->
+<div class="slide" id="s3">
+  <div class="hdr"><span class="h-tag">3.1</span><div class="h-sep"></div><span class="h-title">O conceito de atividade principal — o que determina tudo</span></div>
+  <div class="body" style="gap:10px;">
+    <div class="callout teal ani-up d1">
+      <span>📌</span>
+      <span><strong>Princípio central:</strong> No IFRS 18, a classificação de quase todo item da DRE começa pela mesma pergunta: <strong>esse item decorre das atividades principais da entidade?</strong> A resposta a essa pergunta determina se o item é operacional, de investimento ou de financiamento.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--teal);letter-spacing:1px;margin-bottom:2px;">CRITÉRIOS PARA AVALIAR ATIVIDADE PRINCIPAL</div>
+        <div class="card teal ani-up dl1" style="padding:11px 14px;"><div class="card-text"><strong style="color:var(--white);">Modelo de negócio:</strong> Como a entidade gera valor e retorno para seus acionistas? Qual é o propósito central da organização?</div></div>
+        <div class="card teal ani-up dl2" style="padding:11px 14px;"><div class="card-text"><strong style="color:var(--white);">Natureza dos ativos e passivos:</strong> Quais ativos são centrais para a operação e quais existem para gerar retorno independente?</div></div>
+        <div class="card teal ani-up dl3" style="padding:11px 14px;"><div class="card-text"><strong style="color:var(--white);">Relevância relativa:</strong> As receitas e despesas dessa atividade são materialmente significativas para o resultado total?</div></div>
+        <div class="card teal ani-up dl4" style="padding:11px 14px;"><div class="card-text"><strong style="color:var(--white);">Consistência:</strong> O julgamento deve ser aplicado de forma consistente entre períodos e documentado nas políticas contábeis.</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--amber);letter-spacing:1px;margin-bottom:2px;">EXEMPLOS POR SETOR</div>
+        <div class="card ani-up dr1" style="padding:11px 14px;border-left:3px solid var(--teal);">
+          <div style="font-size:10px;font-weight:700;color:var(--teal);margin-bottom:4px;">EMPRESA INDUSTRIAL</div>
+          <div class="card-text">Fabricar e vender produtos. Juros recebidos sobre caixa: <span style="color:var(--blue)">Investimento</span>. Depreciação de fábricas: <span style="color:var(--teal)">Operacional</span>.</div>
+        </div>
+        <div class="card ani-up dr2" style="padding:11px 14px;border-left:3px solid var(--amber);">
+          <div style="font-size:10px;font-weight:700;color:var(--amber);margin-bottom:4px;">BANCO COMERCIAL</div>
+          <div class="card-text">Emprestar e captar. Juros recebidos de clientes: <span style="color:var(--teal)">Operacional</span>. Juros pagos por depósitos: <span style="color:var(--teal)">Operacional</span>.</div>
+        </div>
+        <div class="card ani-up dr3" style="padding:11px 14px;border-left:3px solid var(--green);">
+          <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">EMPRESA DE LOCAÇÃO</div>
+          <div class="card-text">Alugar ativos. Receita de aluguel: <span style="color:var(--teal)">Operacional</span>. Depreciação dos bens locados: <span style="color:var(--teal)">Operacional</span>.</div>
+        </div>
+        <div class="card ani-up dr4" style="padding:11px 14px;border-left:3px solid var(--purple);">
+          <div style="font-size:10px;font-weight:700;color:var(--purple);margin-bottom:4px;">HOLDING PURA</div>
+          <div class="card-text">Investir em participações. Equivalência patrimonial: <span style="color:var(--teal)">Operacional</span>. Dividendos recebidos: <span style="color:var(--teal)">Operacional</span>.</div>
+        </div>
+      </div>
+    </div>
+    <div class="callout amber ani-up d5">
+      <span>⚠</span>
+      <span><strong>Ponto crítico para auditores:</strong> O julgamento sobre o que constitui a atividade principal precisa estar documentado nas políticas contábeis e ser consistente com o modelo de negócio apresentado em outras partes das demonstrações financeiras, como no relatório da administração e no segmento de informação.</span>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4 REF §53-54 -->
+<div class="slide ref-slide" id="s4">
+  <div class="ref-bar"></div>
+  <div class="ref-bg-par">§53</div>
+  <div class="ref-connector"></div>
+  <div class="ref-hdr">
+    <div class="ref-badge"><span class="ref-badge-icon">📜</span><span class="ref-badge-text">O que diz a norma</span></div>
+    <div class="h-sep"></div>
+    <span class="h-title">Atividade principal — texto original</span>
+    <span class="ref-norm-ref">IFRS 18 · §53–54</span>
+  </div>
+  <div class="ref-body">
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span class="ref-col-flag">🇬🇧</span><span class="ref-col-lang">Original · <span>English</span></span></div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 53</span><span class="ref-par-lbl">Main business activities — investing in assets</span></div>
+        <div class="ref-par-text">"An entity shall assess whether its <strong>main business activities</strong> include <span class="hl">investing in assets</span>. If so, the entity classifies in the operating category income and expenses from those assets that it would otherwise classify in the investing category."</div>
+      </div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 54</span><span class="ref-par-lbl">Main business activities — providing financing to customers</span></div>
+        <div class="ref-par-text">"An entity shall assess whether its <strong>main business activities</strong> include <span class="hl">providing financing to customers</span>. If so, the entity classifies in the operating category income and expenses from those activities that it would otherwise classify in the financing category."</div>
+      </div>
+    </div>
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span class="ref-col-flag">🇧🇷</span><span class="ref-col-lang">Tradução · <span>Português</span></span></div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 53</span><span class="ref-par-lbl">Atividades principais — investimento em ativos</span></div>
+        <div class="ref-par-text">"Uma entidade deve avaliar se suas <strong>atividades principais</strong> incluem <span class="hl">investir em ativos</span>. Em caso afirmativo, a entidade classifica na categoria operacional as receitas e despesas desses ativos que, de outra forma, classificaria na categoria investimento."</div>
+      </div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 54</span><span class="ref-par-lbl">Atividades principais — concessão de financiamento</span></div>
+        <div class="ref-par-text">"Uma entidade deve avaliar se suas <strong>atividades principais</strong> incluem <span class="hl">conceder financiamento a clientes</span>. Em caso afirmativo, a entidade classifica na categoria operacional as receitas e despesas dessas atividades que, de outra forma, classificaria na categoria financiamento."</div>
+      </div>
+    </div>
+    <div class="ref-footnote ani-fn"><span>⚠</span><span><strong>Nota:</strong> Tradução livre para fins didáticos. O texto oficial e vinculante é o original em inglês publicado pelo IASB em abril de 2024.</span></div>
+  </div>
+</div>
+
+<!-- SLIDE 5 ITENS INCOMUNS -->
+<div class="slide" id="s5">
+  <div class="hdr"><span class="h-tag amber">3.2</span><div class="h-sep"></div><span class="h-title">Itens incomuns e infrequentes — onde classificar</span></div>
+  <div class="body" style="gap:10px;">
+    <div class="callout teal ani-up d1">
+      <span>📌</span>
+      <span><strong>Princípio do IFRS 18:</strong> Um item é classificado pela natureza do ativo ou passivo que o originou — não pela sua frequência ou incomum natureza. Não existe mais a categoria "itens extraordinários" ou "não recorrentes" como categoria separada na DRE.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;">
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--teal);letter-spacing:1px;margin-bottom:2px;">CATEGORIA OPERACIONAL</div>
+        <div class="card teal ani-up dl1" style="padding:10px 13px;">
+          <div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:4px;">Impairment de ativos operacionais</div>
+          <div class="card-text">Perdas por redução ao valor recuperável de PP&E, intangíveis operacionais e estoques vão para Operacional — são ativos das atividades principais.</div>
+        </div>
+        <div class="card teal ani-up dl2" style="padding:10px 13px;">
+          <div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:4px;">Provisões para reestruturação</div>
+          <div class="card-text">Custos de rescisão, fechamento de unidades e reorganização operacional: Operacional. A reestruturação afeta as atividades principais.</div>
+        </div>
+        <div class="card teal ani-up dl3" style="padding:10px 13px;">
+          <div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:4px;">Multas regulatórias e indenizações</div>
+          <div class="card-text">Multas de órgãos reguladores por descumprimento operacional e indenizações a clientes: Operacional.</div>
+        </div>
+        <div class="card teal ani-up dl4" style="padding:10px 13px;">
+          <div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:4px;">Plano de opções de ações (IFRS 2)</div>
+          <div class="card-text">Despesas com remuneração baseada em ações de empregados das operações: Operacional.</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--blue);letter-spacing:1px;margin-bottom:2px;">CATEGORIA INVESTIMENTO</div>
+        <div class="card ani-up d1" style="padding:10px 13px;border-left:3px solid var(--blue);">
+          <div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:4px;">Impairment de participações</div>
+          <div class="card-text">Perdas por redução ao valor recuperável de investimentos em coligadas e joint ventures: Investimento.</div>
+        </div>
+        <div class="card ani-up d2" style="padding:10px 13px;border-left:3px solid var(--blue);">
+          <div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:4px;">Impairment de propriedades para investimento</div>
+          <div class="card-text">Reduções no valor de imóveis mantidos para valorização ou aluguel (não operacionais): Investimento.</div>
+        </div>
+        <div class="card ani-up d3" style="padding:10px 13px;border-left:3px solid var(--blue);">
+          <div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:4px;">Ganho ou perda na venda de subsidiária</div>
+          <div class="card-text">Resultado na alienação de participações societárias não consolidadas: Investimento.</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--amber);letter-spacing:1px;margin-bottom:2px;">ATENÇÃO — CASOS LIMÍTROFES</div>
+        <div class="card amber ani-up dr1" style="padding:10px 13px;">
+          <div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:4px;">Indenizações de seguros</div>
+          <div class="card-text">Segue o item segurado. Indenização por dano a equipamento operacional: <strong style="color:var(--teal)">Operacional</strong>. Indenização por dano a imóvel de investimento: <strong style="color:var(--blue)">Investimento</strong>.</div>
+        </div>
+        <div class="card amber ani-up dr2" style="padding:10px 13px;">
+          <div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:4px;">Multas sobre dívidas financeiras</div>
+          <div class="card-text">Multas e penalidades relacionadas a contratos de dívida (por descumprimento de covenant): <strong style="color:var(--amber)">Financiamento</strong>.</div>
+        </div>
+        <div class="card amber ani-up dr3" style="padding:10px 13px;">
+          <div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:4px;">Doações e subvenções governamentais</div>
+          <div class="card-text">Subvenção para aquisição de ativo operacional: <strong style="color:var(--teal)">Operacional</strong>. Subvenção relacionada a financiamento: análise caso a caso.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6 MÚLTIPLAS ATIVIDADES -->
+<div class="slide" id="s6">
+  <div class="hdr"><span class="h-tag amber">3.3</span><div class="h-sep"></div><span class="h-title">Entidades com múltiplas atividades principais</span></div>
+  <div class="body" style="gap:10px;">
+    <div class="callout teal ani-up d1">
+      <span>📌</span>
+      <span><strong>Situação:</strong> Algumas entidades têm mais de uma atividade principal simultaneamente. O IFRS 18 prevê essa situação e permite — e exige — que a entidade classifique na categoria operacional os itens de ambas as atividades, mesmo que em outras circunstâncias fossem de investimento ou financiamento.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div class="card ani-up dl1" style="padding:14px;border-left:3px solid var(--purple);">
+          <div style="font-size:11px;font-weight:700;color:var(--purple);margin-bottom:8px;">CASO 1 — CONGLOMERADO INDUSTRIAL-FINANCEIRO</div>
+          <div class="card-text" style="margin-bottom:8px;">Uma empresa que fabrica equipamentos pesados e também oferece crédito aos clientes para financiar a compra (vendor finance) tem duas atividades principais: fabricar equipamentos e conceder financiamento.</div>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:8px;">
+            <div style="font-size:12px;color:var(--teal);">→ Juros recebidos dos clientes financiados: <strong>Operacional</strong></div>
+            <div style="font-size:12px;color:var(--teal);">→ Receita de venda dos equipamentos: <strong>Operacional</strong></div>
+            <div style="font-size:12px;color:var(--gray2);">→ Juros sobre a própria dívida da empresa: <strong>Financiamento</strong></div>
+          </div>
+        </div>
+        <div class="card ani-up dl2" style="padding:14px;border-left:3px solid var(--amber);">
+          <div style="font-size:11px;font-weight:700;color:var(--amber);margin-bottom:8px;">CASO 2 — SEGURADORA COM CARTEIRA DE INVESTIMENTOS</div>
+          <div class="card-text" style="margin-bottom:8px;">Uma seguradora tem como atividade principal tanto a subscrição de riscos quanto a gestão de uma carteira de ativos financeiros para honrar sinistros futuros.</div>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:8px;">
+            <div style="font-size:12px;color:var(--teal);">→ Prêmios de seguro e sinistros: <strong>Operacional</strong></div>
+            <div style="font-size:12px;color:var(--teal);">→ Rendimentos da carteira de investimentos: <strong>Operacional</strong></div>
+            <div style="font-size:12px;color:var(--gray2);">→ Juros sobre dívidas subordinadas: <strong>Financiamento</strong></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div class="card ani-up dr1" style="padding:14px;border-left:3px solid var(--green);">
+          <div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:8px;">CASO 3 — FUNDO DE INVESTIMENTO IMOBILIÁRIO (FII)</div>
+          <div class="card-text" style="margin-bottom:8px;">Um FII tem como atividade principal investir em imóveis para geração de renda. Portanto, itens que para uma empresa industrial seriam de Investimento, para o FII são Operacionais.</div>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:8px;">
+            <div style="font-size:12px;color:var(--teal);">→ Receita de aluguéis: <strong>Operacional</strong></div>
+            <div style="font-size:12px;color:var(--teal);">→ Variação no valor justo dos imóveis: <strong>Operacional</strong></div>
+            <div style="font-size:12px;color:var(--teal);">→ Ganho na venda de imóveis: <strong>Operacional</strong></div>
+          </div>
+        </div>
+        <div class="callout amber ani-up dr2">
+          <span>🇧🇷</span>
+          <span><strong>Impacto no Brasil:</strong> Muitos grupos econômicos brasileiros têm braços financeiros relevantes — fintechs, financeiras de crédito ao consumidor, arrendadoras. A análise de múltiplas atividades principais será um dos principais desafios na implementação do IFRS 18 para esses grupos.</span>
+        </div>
+        <div class="callout red ani-up dr3">
+          <span>⚠</span>
+          <span><strong>Atenção:</strong> A avaliação de múltiplas atividades principais não é uma escolha contábil — é um julgamento baseado em fatos. A entidade não pode escolher tratar uma atividade como principal apenas para obter um resultado mais favorável na DRE.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7 REF §64-68 -->
+<div class="slide ref-slide" id="s7">
+  <div class="ref-bar"></div>
+  <div class="ref-bg-par">§64</div>
+  <div class="ref-connector"></div>
+  <div class="ref-hdr">
+    <div class="ref-badge"><span class="ref-badge-icon">📜</span><span class="ref-badge-text">O que diz a norma</span></div>
+    <div class="h-sep"></div>
+    <span class="h-title">Múltiplas atividades principais — texto original</span>
+    <span class="ref-norm-ref">IFRS 18 · §64–68</span>
+  </div>
+  <div class="ref-body">
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span class="ref-col-flag">🇬🇧</span><span class="ref-col-lang">Original · <span>English</span></span></div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 64</span><span class="ref-par-lbl">Entities with specified main business activities</span></div>
+        <div class="ref-par-text">"An entity that has <strong>specified main business activities</strong> classifies in the operating category income and expenses from those activities that it would otherwise classify in the investing or financing category. This applies <span class="hl">in addition to</span> all income and expenses classified in the operating category under the general requirements."</div>
+      </div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 68</span><span class="ref-par-lbl">Assessment of main business activities</span></div>
+        <div class="ref-par-text">"In assessing whether an activity is a <strong>main business activity</strong>, an entity considers <span class="hl">all relevant facts and circumstances</span>, including the entity's business model, the nature of its assets and liabilities, and the relative significance of income and expenses from those activities."</div>
+      </div>
+    </div>
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span class="ref-col-flag">🇧🇷</span><span class="ref-col-lang">Tradução · <span>Português</span></span></div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 64</span><span class="ref-par-lbl">Entidades com atividades principais específicas</span></div>
+        <div class="ref-par-text">"Uma entidade que possui <strong>atividades principais específicas</strong> classifica na categoria operacional as receitas e despesas dessas atividades que, de outra forma, classificaria nas categorias investimento ou financiamento. Isso se aplica <span class="hl">adicionalmente</span> a todas as receitas e despesas classificadas na categoria operacional conforme os requisitos gerais."</div>
+      </div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 68</span><span class="ref-par-lbl">Avaliação das atividades principais</span></div>
+        <div class="ref-par-text">"Ao avaliar se uma atividade é uma <strong>atividade principal do negócio</strong>, a entidade considera <span class="hl">todos os fatos e circunstâncias relevantes</span>, incluindo o modelo de negócio da entidade, a natureza de seus ativos e passivos, e a relevância relativa das receitas e despesas dessas atividades."</div>
+      </div>
+    </div>
+    <div class="ref-footnote ani-fn"><span>⚠</span><span><strong>Nota:</strong> Tradução livre para fins didáticos. O texto oficial e vinculante é o original em inglês publicado pelo IASB em abril de 2024.</span></div>
+  </div>
+</div>
+
+<!-- SLIDE 8 HEDGE ACCOUNTING -->
+<div class="slide" id="s8">
+  <div class="hdr"><span class="h-tag green">3.4</span><div class="h-sep"></div><span class="h-title">Hedge accounting na DRE — o resultado segue o item protegido</span></div>
+  <div class="body" style="gap:10px;">
+    <div class="callout teal ani-up d1">
+      <span>📌</span>
+      <span><strong>Regra central:</strong> O resultado de um instrumento de hedge é classificado na mesma categoria do item que ele protege. Isso garante que o efeito econômico do hedge seja apresentado no mesmo lugar do risco que ele mitiga.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <div class="card ani-up d2" style="border-top:3px solid var(--teal);border-left:none;padding:14px;">
+        <div style="font-size:11px;font-weight:700;color:var(--teal);margin-bottom:8px;">HEDGE DE ITEM OPERACIONAL</div>
+        <div class="card-text" style="margin-bottom:10px;">Derivativo que protege receita de exportação (hedge de fluxo de caixa de venda em USD).</div>
+        <div style="padding:8px 10px;background:rgba(0,169,157,0.08);border-radius:6px;font-size:12px;">
+          <div style="color:var(--gray2);margin-bottom:4px;">Item protegido:</div>
+          <div style="color:var(--teal);font-weight:500;">Receita de exportação → Operacional</div>
+          <div style="color:var(--gray2);margin-top:6px;margin-bottom:4px;">Instrumento de hedge:</div>
+          <div style="color:var(--teal);font-weight:500;">NDF sobre USD → <strong>Operacional</strong></div>
+        </div>
+      </div>
+      <div class="card ani-up d3" style="border-top:3px solid var(--amber);border-left:none;padding:14px;">
+        <div style="font-size:11px;font-weight:700;color:var(--amber);margin-bottom:8px;">HEDGE DE DÍVIDA</div>
+        <div class="card-text" style="margin-bottom:10px;">Derivativo que protege taxa de juros de empréstimo em taxa variável (swap de taxa).</div>
+        <div style="padding:8px 10px;background:rgba(245,166,35,0.08);border-radius:6px;font-size:12px;">
+          <div style="color:var(--gray2);margin-bottom:4px;">Item protegido:</div>
+          <div style="color:var(--amber);font-weight:500;">Juros do empréstimo → Financiamento</div>
+          <div style="color:var(--gray2);margin-top:6px;margin-bottom:4px;">Instrumento de hedge:</div>
+          <div style="color:var(--amber);font-weight:500;">Swap de taxa → <strong>Financiamento</strong></div>
+        </div>
+      </div>
+      <div class="card ani-up d4" style="border-top:3px solid var(--blue);border-left:none;padding:14px;">
+        <div style="font-size:11px;font-weight:700;color:var(--blue);margin-bottom:8px;">HEDGE DE INVESTIMENTO LÍQUIDO</div>
+        <div class="card-text" style="margin-bottom:10px;">Instrumento que protege investimento líquido em subsidiária no exterior (risco de conversão).</div>
+        <div style="padding:8px 10px;background:rgba(59,130,246,0.08);border-radius:6px;font-size:12px;">
+          <div style="color:var(--gray2);margin-bottom:4px;">Item protegido:</div>
+          <div style="color:var(--blue);font-weight:500;">Investimento líquido → Financiamento*</div>
+          <div style="color:var(--gray2);margin-top:6px;margin-bottom:4px;">Instrumento de hedge:</div>
+          <div style="color:var(--blue);font-weight:500;">Dívida em moeda estrangeira → <strong>Financiamento</strong></div>
+        </div>
+        <div style="font-size:10px;color:var(--gray2);margin-top:6px;">*O hedge de inv. líquido é classificado no Financiamento pois o investimento é financiado por patrimônio.</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;" class="ani-up d5">
+      <div class="ad-row">
+        <div class="ad-item red"><div style="font-size:10px;font-weight:700;color:var(--red);margin-bottom:4px;">IAS 1 — ANTES</div>Muitas empresas apresentavam todos os derivativos em uma linha única "resultado de instrumentos financeiros" dentro do resultado financeiro, independente do item protegido</div>
+        <div class="ad-arrow-sm"><div class="circ">→</div></div>
+        <div class="ad-item green"><div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">IFRS 18 — DEPOIS</div>Cada derivativo vai para a categoria do seu item protegido — hedge operacional é Operacional, hedge de dívida é Financiamento</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 9 REF §B77-B80 -->
+<div class="slide ref-slide" id="s9">
+  <div class="ref-bar"></div>
+  <div class="ref-bg-par">§B77</div>
+  <div class="ref-connector"></div>
+  <div class="ref-hdr">
+    <div class="ref-badge"><span class="ref-badge-icon">📜</span><span class="ref-badge-text">O que diz a norma</span></div>
+    <div class="h-sep"></div>
+    <span class="h-title">Hedge accounting na DRE — texto original</span>
+    <span class="ref-norm-ref">IFRS 18 · §B77–B80</span>
+  </div>
+  <div class="ref-body">
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span class="ref-col-flag">🇬🇧</span><span class="ref-col-lang">Original · <span>English</span></span></div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ B77</span><span class="ref-par-lbl">Hedging instruments — classification</span></div>
+        <div class="ref-par-text">"An entity shall classify income and expenses from <strong>hedging instruments</strong> in the same category as the income and expenses from the <span class="hl">hedged item</span>. This requirement applies regardless of whether the hedging instrument is a derivative or a non-derivative financial instrument."</div>
+      </div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ B80</span><span class="ref-par-lbl">Hedge of net investment in a foreign operation</span></div>
+        <div class="ref-par-text">"Income and expenses from instruments hedging a <strong>net investment in a foreign operation</strong> are classified in the <span class="hl">financing category</span>, because the hedged item — the net investment — is financed by equity, and the hedge economically offsets the translation risk of that financing."</div>
+      </div>
+    </div>
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span class="ref-col-flag">🇧🇷</span><span class="ref-col-lang">Tradução · <span>Português</span></span></div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ B77</span><span class="ref-par-lbl">Instrumentos de hedge — classificação</span></div>
+        <div class="ref-par-text">"Uma entidade deve classificar as receitas e despesas de <strong>instrumentos de hedge</strong> na mesma categoria das receitas e despesas do <span class="hl">item protegido (hedged item)</span>. Este requisito se aplica independentemente de o instrumento de hedge ser um derivativo ou um instrumento financeiro não derivativo."</div>
+      </div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ B80</span><span class="ref-par-lbl">Hedge de investimento líquido no exterior</span></div>
+        <div class="ref-par-text">"As receitas e despesas de instrumentos que protegem um <strong>investimento líquido em operação no exterior</strong> são classificadas na <span class="hl">categoria financiamento</span>, porque o item protegido — o investimento líquido — é financiado por patrimônio líquido, e o hedge compensa economicamente o risco de conversão desse financiamento."</div>
+      </div>
+    </div>
+    <div class="ref-footnote ani-fn"><span>⚠</span><span><strong>Nota:</strong> Tradução livre para fins didáticos. O texto oficial e vinculante é o original em inglês publicado pelo IASB em abril de 2024.</span></div>
+  </div>
+</div>
+
+<!-- SLIDE 10 CASO PRÁTICO 1 -->
+<div class="slide" id="s10">
+  <div class="hdr"><span class="h-tag" style="color:var(--blue)">Caso Prático 1</span><div class="h-sep"></div><span class="h-title">Empresa industrial com operação de vendor finance</span></div>
+  <div class="body" style="gap:10px;">
+    <div class="callout amber ani-up d1" style="font-size:12.5px;">
+      <span>📋</span>
+      <span><strong>Cenário:</strong> Empresa de máquinas agrícolas que vende equipamentos e financia 40% das vendas diretamente aos clientes (vendor finance). Duas atividades principais: fabricar/vender e conceder crédito. Período: R$ MM.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;" class="ani-up d2">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--red);margin-bottom:8px;text-align:center;padding:6px;background:rgba(192,57,43,0.1);border-radius:6px;">ANTES — IAS 1</div>
+        <table class="dre-table">
+          <tr class="item"><td>Receita de vendas</td><td>1.200</td></tr>
+          <tr class="item neg"><td>CPV</td><td>(720)</td></tr>
+          <tr class="item neg"><td>Despesas operacionais</td><td>(180)</td></tr>
+          <tr class="subtotal"><td>Resultado operacional (EBIT)</td><td>300</td></tr>
+          <tr class="item hl"><td>Juros recebidos dos clientes (vendor)</td><td>85</td></tr>
+          <tr class="item hl"><td>Juros pagos — captação própria</td><td>(45)</td></tr>
+          <tr class="item hl"><td>Resultado financeiro líquido</td><td>40</td></tr>
+          <tr class="subtotal"><td>Resultado antes do IR</td><td>340</td></tr>
+          <tr class="item neg"><td>IR e CSLL</td><td>(115)</td></tr>
+          <tr class="total"><td>Resultado do período</td><td>225</td></tr>
+        </table>
+        <div style="margin-top:7px;padding:8px;background:rgba(192,57,43,0.08);border-radius:6px;font-size:11px;color:var(--red);">⚠ Resultado operacional de 300 não inclui os juros do vendor finance (atividade principal)</div>
+      </div>
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--teal);margin-bottom:8px;text-align:center;padding:6px;background:rgba(0,169,157,0.1);border-radius:6px;">DEPOIS — IFRS 18</div>
+        <table class="dre-table">
+          <tr class="cat-hdr"><td colspan="2">① CATEGORIA OPERACIONAL (2 atividades principais)</td></tr>
+          <tr class="item"><td>Receita de vendas de máquinas</td><td>1.200</td></tr>
+          <tr class="item neg"><td>CPV</td><td>(720)</td></tr>
+          <tr class="item neg"><td>Despesas operacionais</td><td>(180)</td></tr>
+          <tr class="item"><td>Juros recebidos — vendor finance</td><td>85</td></tr>
+          <tr class="subtotal"><td>⭐ Resultado das Operações Principais</td><td>385</td></tr>
+          <tr class="cat-hdr amber"><td colspan="2">③ CATEGORIA FINANCIAMENTO</td></tr>
+          <tr class="item neg"><td>Juros pagos — captação própria</td><td>(45)</td></tr>
+          <tr class="subtotal amber"><td>Resultado antes do IR</td><td>340</td></tr>
+          <tr class="cat-hdr purple"><td colspan="2">④ CATEGORIA IR E CSLL</td></tr>
+          <tr class="item neg"><td>IR e CSLL</td><td>(115)</td></tr>
+          <tr class="total"><td>Resultado do período</td><td>225</td></tr>
+        </table>
+        <div style="margin-top:7px;padding:8px;background:rgba(0,169,157,0.08);border-radius:6px;font-size:11px;color:var(--teal);">✓ Resultado das Operações Principais de 385 reflete ambas as atividades principais integradas</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 11 CASO PRÁTICO 2 -->
+<div class="slide" id="s11">
+  <div class="hdr"><span class="h-tag" style="color:var(--blue)">Caso Prático 2</span><div class="h-sep"></div><span class="h-title">Impairment e reestruturação — julgamento documentado</span></div>
+  <div class="body" style="gap:10px;">
+    <div class="callout amber ani-up d1" style="font-size:12.5px;">
+      <span>📋</span>
+      <span><strong>Cenário:</strong> Empresa varejista que no período registrou: (1) impairment de loja fechada R$ 28 MM, (2) provisão para reestruturação R$ 15 MM, (3) impairment de participação em coligada R$ 12 MM, (4) indenização de seguro por incêndio em depósito R$ 8 MM. Como classificar?</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--teal);margin-bottom:4px;letter-spacing:0.5px;">CLASSIFICAÇÃO E JULGAMENTO</div>
+        <div class="card teal ani-up dl1" style="padding:12px 14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <div style="font-size:12px;font-weight:700;color:var(--white);">① Impairment da loja fechada</div>
+            <span class="badge teal">Operacional</span>
+          </div>
+          <div class="card-text">A loja é um ativo operacional (PP&E). O impairment segue a natureza do ativo. Julgamento: a loja estava sendo usada nas operações principais de varejo — inequivocamente operacional.</div>
+        </div>
+        <div class="card teal ani-up dl2" style="padding:12px 14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <div style="font-size:12px;font-weight:700;color:var(--white);">② Provisão para reestruturação</div>
+            <span class="badge teal">Operacional</span>
+          </div>
+          <div class="card-text">Custos de rescisão e fechamento afetam as atividades principais. A reestruturação visa reorganizar a operação de varejo — operacional. Não existe mais "item extraordinário" separado.</div>
+        </div>
+        <div class="card ani-up dl3" style="padding:12px 14px;border-left:3px solid var(--blue);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <div style="font-size:12px;font-weight:700;color:var(--white);">③ Impairment da coligada</div>
+            <span class="badge" style="background:rgba(59,130,246,0.12);color:var(--blue);border:1px solid rgba(59,130,246,0.25);">Investimento</span>
+          </div>
+          <div class="card-text">A participação na coligada não é uma atividade principal do varejista. O ativo é de investimento — portanto o impairment vai para Investimento.</div>
+        </div>
+        <div class="card teal ani-up dl4" style="padding:12px 14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <div style="font-size:12px;font-weight:700;color:var(--white);">④ Indenização de seguro — depósito</div>
+            <span class="badge teal">Operacional</span>
+          </div>
+          <div class="card-text">Segue o item segurado: o depósito é ativo operacional. A indenização compensa um dano operacional — vai para Operacional, mesmo sendo infrequente.</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--teal);margin-bottom:8px;letter-spacing:0.5px;text-align:center;">IMPACTO NA DRE  (R$ MM)</div>
+        <table class="dre-table" class="ani-up dr1">
+          <tr class="cat-hdr"><td colspan="2">① CATEGORIA OPERACIONAL</td></tr>
+          <tr class="item"><td>Receita líquida</td><td>2.400</td></tr>
+          <tr class="item neg"><td>CPV e despesas operacionais</td><td>(2.100)</td></tr>
+          <tr class="item neg"><td>Impairment — loja fechada</td><td>(28)</td></tr>
+          <tr class="item neg"><td>Provisão para reestruturação</td><td>(15)</td></tr>
+          <tr class="item"><td>Indenização de seguro — depósito</td><td>8</td></tr>
+          <tr class="subtotal"><td>⭐ Resultado das Operações Principais</td><td>265</td></tr>
+          <tr class="cat-hdr"><td colspan="2">② CATEGORIA INVESTIMENTO</td></tr>
+          <tr class="item neg"><td>Impairment — participação na coligada</td><td>(12)</td></tr>
+          <tr class="cat-hdr amber"><td colspan="2">③ CATEGORIA FINANCIAMENTO</td></tr>
+          <tr class="item neg"><td>Despesas de juros</td><td>(38)</td></tr>
+          <tr class="subtotal amber"><td>Resultado antes do IR</td><td>215</td></tr>
+          <tr class="cat-hdr purple"><td colspan="2">④ CATEGORIA IR E CSLL</td></tr>
+          <tr class="item neg"><td>IR e CSLL</td><td>(73)</td></tr>
+          <tr class="total"><td>Resultado do período</td><td>142</td></tr>
+        </table>
+        <div class="callout teal ani-up dr2" style="margin-top:10px;font-size:12px;">
+          <span>💡</span>
+          <span>O analista consegue ver que R$ 43 MM de itens incomuns (impairment + reestruturação + indenização) impactaram o Resultado das Operações Principais — sem necessidade de ajuste manual.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 12 REF §24 e §B9 -->
+<div class="slide ref-slide" id="s12">
+  <div class="ref-bar"></div>
+  <div class="ref-bg-par">§24</div>
+  <div class="ref-connector"></div>
+  <div class="ref-hdr">
+    <div class="ref-badge"><span class="ref-badge-icon">📜</span><span class="ref-badge-text">O que diz a norma</span></div>
+    <div class="h-sep"></div>
+    <span class="h-title">Subtotais e julgamento sobre apresentação — texto original</span>
+    <span class="ref-norm-ref">IFRS 18 · §24 e §B9</span>
+  </div>
+  <div class="ref-body">
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span class="ref-col-flag">🇬🇧</span><span class="ref-col-lang">Original · <span>English</span></span></div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 24</span><span class="ref-par-lbl">Additional line items and subtotals</span></div>
+        <div class="ref-par-text">"An entity shall present <strong>additional line items and subtotals</strong> if such presentations are necessary for a primary financial statement to provide a useful structured summary. Those line items or subtotals shall <span class="hl">comprise amounts recognised and measured in accordance with IFRS Accounting Standards</span> and be displayed no more prominently than the totals and subtotals required by IFRS Accounting Standards."</div>
+      </div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ B9</span><span class="ref-par-lbl">Subtotals — prominence requirement</span></div>
+        <div class="ref-par-text">"When an entity presents a subtotal <strong>not required by IFRS Accounting Standards</strong>, that subtotal shall be displayed <span class="hl">less prominently</span> than the totals and subtotals required by this Standard. For example, an entity shall not use a larger font size, bold formatting or a different colour for such a subtotal."</div>
+      </div>
+    </div>
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span class="ref-col-flag">🇧🇷</span><span class="ref-col-lang">Tradução · <span>Português</span></span></div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 24</span><span class="ref-par-lbl">Linhas e subtotais adicionais</span></div>
+        <div class="ref-par-text">"Uma entidade deve apresentar <strong>linhas e subtotais adicionais</strong> quando tais apresentações forem necessárias para que uma demonstração primária forneça um resumo estruturado útil. Essas linhas ou subtotais devem <span class="hl">compreender valores reconhecidos e mensurados conforme as normas IFRS</span> e ser exibidos com menos destaque do que os totais e subtotais exigidos pelas normas IFRS."</div>
+      </div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ B9</span><span class="ref-par-lbl">Subtotais — requisito de destaque visual</span></div>
+        <div class="ref-par-text">"Quando uma entidade apresenta um subtotal <strong>não exigido pelas normas IFRS</strong>, esse subtotal deve ser exibido com <span class="hl">menos destaque</span> do que os totais e subtotais exigidos por esta norma. Por exemplo, a entidade não deve usar tamanho de fonte maior, formatação em negrito ou cor diferente para tal subtotal."</div>
+      </div>
+    </div>
+    <div class="ref-footnote ani-fn"><span>⚠</span><span><strong>Nota:</strong> Tradução livre para fins didáticos. O texto oficial e vinculante é o original em inglês publicado pelo IASB em abril de 2024.</span></div>
+  </div>
+</div>
+
+<!-- SLIDE 13 ROP vs EBIT/EBITDA -->
+<div class="slide" id="s13">
+  <div class="hdr"><span class="h-tag purple">3.6</span><div class="h-sep"></div><span class="h-title">Resultado das Operações Principais vs. EBIT e EBITDA</span></div>
+  <div class="body" style="gap:10px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;" class="ani-up d1">
+      <div class="card" style="border-top:3px solid var(--red);border-left:none;padding:16px;">
+        <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--red);margin-bottom:8px;">EBIT</div>
+        <div style="font-size:11px;font-weight:700;color:var(--gray2);margin-bottom:6px;">Como era calculado (IAS 1)</div>
+        <div class="card-text">Sem definição normativa. Cada empresa calculava à sua maneira, podendo incluir ou excluir equivalência patrimonial, juros recebidos, variações cambiais e outros itens. Mais de 400 variações identificadas pelo IASB.</div>
+        <div style="margin-top:10px;padding:8px;background:rgba(192,57,43,0.08);border-radius:6px;font-size:11.5px;color:var(--red);">❌ Não comparável entre empresas</div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--amber);border-left:none;padding:16px;">
+        <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--amber);margin-bottom:8px;">EBITDA</div>
+        <div style="font-size:11px;font-weight:700;color:var(--gray2);margin-bottom:6px;">Como era calculado (IAS 1)</div>
+        <div class="card-text">EBIT mais depreciação e amortização, mas com variações: "ajustado", "recorrente", "normalizado". Exclusões de itens como reestruturação, impairment e planos de opção tornavam a métrica não auditável.</div>
+        <div style="margin-top:10px;padding:8px;background:rgba(245,166,35,0.08);border-radius:6px;font-size:11.5px;color:var(--amber);">⚠ Se ajustado, vira MPM no IFRS 18</div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--teal);border-left:none;padding:16px;">
+        <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--teal);margin-bottom:8px;">ROP</div>
+        <div style="font-size:11px;font-weight:700;color:var(--gray2);margin-bottom:6px;">Resultado das Operações Principais (IFRS 18)</div>
+        <div class="card-text">Definição normativa precisa: soma de todos os itens da categoria Operacional. Inclui impairment operacional, reestruturação e outros itens incomuns — sem possibilidade de exclusão arbitrária.</div>
+        <div style="margin-top:10px;padding:8px;background:rgba(0,169,157,0.08);border-radius:6px;font-size:11.5px;color:var(--teal);">✓ Comparável e auditável</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;" class="ani-up d2">
+      <div class="card amber" style="padding:14px;">
+        <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--white);margin-bottom:8px;">O que muda para o analista financeiro</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div class="card-text">→ O ROP inclui impairment e reestruturação — o analista precisará entender o que está dentro do número</div>
+          <div class="card-text">→ Equivalência patrimonial sai do ROP para Investimento — comparações históricas precisam ser ajustadas</div>
+          <div class="card-text">→ Modelos de valuation baseados em EBIT precisam ser revistos para usar o ROP como ponto de partida</div>
+          <div class="card-text">→ Múltiplos de mercado (EV/EBIT) podem mudar significativamente para empresas com grandes efeitos de equivalência patrimonial</div>
+        </div>
+      </div>
+      <div class="card teal" style="padding:14px;">
+        <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--white);margin-bottom:8px;">Exemplo numérico — impacto no múltiplo EV/EBIT</div>
+        <table class="dre-table" style="font-size:11.5px;">
+          <tr style="background:rgba(200,214,224,0.05);"><td style="color:var(--gray2);">Métrica</td><td style="text-align:right;color:var(--gray2);">IAS 1</td><td style="text-align:right;color:var(--gray2);">IFRS 18</td></tr>
+          <tr class="item"><td>Receita líquida</td><td style="text-align:right;">1.000</td><td style="text-align:right;">1.000</td></tr>
+          <tr class="item neg"><td>CPV e despesas operac.</td><td style="text-align:right;">(700)</td><td style="text-align:right;">(700)</td></tr>
+          <tr class="item"><td style="color:var(--amber)">Equiv. patrimonial</td><td style="text-align:right;color:var(--amber)">50</td><td style="text-align:right;color:var(--gray2)">—</td></tr>
+          <tr class="subtotal"><td>EBIT / ROP</td><td style="text-align:right;color:var(--red)">350</td><td style="text-align:right;color:var(--teal)">300</td></tr>
+          <tr class="item"><td style="color:var(--gray2);font-size:11px;">EV = R$ 3.500 MM</td><td style="text-align:right;color:var(--gray2);font-size:11px;">10x</td><td style="text-align:right;color:var(--amber);font-size:11px;">11.7x</td></tr>
+        </table>
+        <div style="margin-top:8px;font-size:11px;color:var(--amber);">O mesmo empresa, o mesmo EV — mas o múltiplo muda 17% pela reclassificação da equivalência patrimonial.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 14 REF §69 e §72 -->
+<div class="slide ref-slide" id="s14">
+  <div class="ref-bar"></div>
+  <div class="ref-bg-par">§69</div>
+  <div class="ref-connector"></div>
+  <div class="ref-hdr">
+    <div class="ref-badge"><span class="ref-badge-icon">📜</span><span class="ref-badge-text">O que diz a norma</span></div>
+    <div class="h-sep"></div>
+    <span class="h-title">ROP vs. subtotais de mercado — texto original</span>
+    <span class="ref-norm-ref">IFRS 18 · §69 e §72</span>
+  </div>
+  <div class="ref-body">
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span class="ref-col-flag">🇬🇧</span><span class="ref-col-lang">Original · <span>English</span></span></div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 69</span><span class="ref-par-lbl">Operating profit or loss — mandatory subtotal</span></div>
+        <div class="ref-par-text">"An entity shall present in the statement of profit or loss <strong>operating profit or loss</strong> as a subtotal. Operating profit or loss is the <span class="hl">total of income and expenses classified in the operating category.</span> This subtotal shall be labelled 'operating profit or loss' or a similar description that clearly conveys its meaning."</div>
+      </div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 72</span><span class="ref-par-lbl">Profit or loss before financing and income taxes</span></div>
+        <div class="ref-par-text">"<strong>Profit or loss before financing and income taxes</strong> is the total of: <span class="hl">(a) operating profit or loss; plus (b) income and expenses classified in the investing category.</span> This subtotal differs from commonly used measures such as EBIT because it excludes income and expenses from the investing category that many entities include in their EBIT calculation."</div>
+      </div>
+    </div>
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span class="ref-col-flag">🇧🇷</span><span class="ref-col-lang">Tradução · <span>Português</span></span></div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 69</span><span class="ref-par-lbl">Resultado operacional — subtotal obrigatório</span></div>
+        <div class="ref-par-text">"Uma entidade deve apresentar na demonstração do resultado o <strong>resultado operacional ou prejuízo operacional</strong> como subtotal. O resultado operacional é o <span class="hl">total das receitas e despesas classificadas na categoria operacional.</span> Este subtotal deve ser denominado 'resultado operacional' ou descrição semelhante que transmita claramente seu significado."</div>
+      </div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 72</span><span class="ref-par-lbl">Resultado antes do financiamento e do IR</span></div>
+        <div class="ref-par-text">"O <strong>resultado antes do financiamento e do imposto de renda</strong> é o total de: <span class="hl">(a) resultado operacional; mais (b) receitas e despesas classificadas na categoria investimento.</span> Este subtotal difere de medidas comumente utilizadas como o EBIT porque exclui receitas e despesas da categoria investimento que muitas entidades incluem em seu cálculo de EBIT."</div>
+      </div>
+    </div>
+    <div class="ref-footnote ani-fn"><span>⚠</span><span><strong>Nota:</strong> Tradução livre para fins didáticos. O texto oficial e vinculante é o original em inglês publicado pelo IASB em abril de 2024.</span></div>
+  </div>
+</div>
+
+<!-- SLIDE 15 ELIMINAÇÕES NA CONSOLIDAÇÃO -->
+<div class="slide" id="s15">
+  <div class="hdr"><span class="h-tag">3.5</span><div class="h-sep"></div><span class="h-title">Eliminações na consolidação e segmentos operacionais</span></div>
+  <div class="body" style="gap:10px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--teal);letter-spacing:1px;margin-bottom:2px;">ELIMINAÇÕES NA CONSOLIDAÇÃO</div>
+        <div class="callout teal ani-up dl1" style="font-size:12.5px;">
+          <span>📌</span>
+          <span>As eliminações de transações intragrupo seguem a categoria do item eliminado. Não existe uma categoria separada para eliminações.</span>
+        </div>
+        <div class="card teal ani-up dl2" style="padding:12px 14px;">
+          <div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:5px;">Lucro não realizado em estoque intragrupo</div>
+          <div class="card-text">Eliminação de lucro não realizado em estoques vendidos entre empresas do grupo: <strong style="color:var(--teal)">Operacional</strong> — o estoque é ativo operacional.</div>
+        </div>
+        <div class="card ani-up dl3" style="padding:12px 14px;border-left:3px solid var(--amber);">
+          <div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:5px;">Juros intragrupo</div>
+          <div class="card-text">Eliminação de juros cobrados entre empresas do grupo: segue a categoria. Para a tomadora, são <strong style="color:var(--amber)">Financiamento</strong>. Para a cedente, são <strong style="color:var(--blue)">Investimento</strong>.</div>
+        </div>
+        <div class="card ani-up dl4" style="padding:12px 14px;border-left:3px solid var(--green);">
+          <div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:5px;">Dividendos intragrupo</div>
+          <div class="card-text">Dividendos pagos por subsidiária à controladora: eliminados contra o resultado de equivalência patrimonial na consolidação — <strong style="color:var(--blue)">Investimento</strong>.</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--amber);letter-spacing:1px;margin-bottom:2px;">SEGMENTOS OPERACIONAIS — IFRS 8</div>
+        <div class="callout amber ani-up dr1" style="font-size:12.5px;">
+          <span>📌</span>
+          <span>O IFRS 18 não altera os requisitos do IFRS 8 — Segmentos Operacionais. A informação por segmento continua sendo apresentada com base na visão interna da administração, que pode diferir das categorias do IFRS 18.</span>
+        </div>
+        <div class="card ani-up dr2" style="padding:12px 14px;border-left:3px solid var(--purple);">
+          <div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:5px;">Reconciliação segmento × DRE</div>
+          <div class="card-text">A reconciliação entre o resultado por segmento (IFRS 8) e a DRE (IFRS 18) pode se tornar mais complexa, pois as categorias de resultado de segmento não precisam coincidir com as categorias do IFRS 18.</div>
+        </div>
+        <div class="card ani-up dr3" style="padding:12px 14px;border-left:3px solid var(--gray2);">
+          <div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:5px;">Ponto de atenção prático</div>
+          <div class="card-text">Grupos com múltiplos segmentos e atividades principais distintas por segmento precisarão mapear como as categorias do IFRS 18 se aplicam a cada segmento antes de consolidar a DRE do grupo.</div>
+        </div>
+        <div class="callout red ani-up dr4">
+          <span>⚠</span>
+          <span>Grupos com subsidiárias financeiras e industriais precisarão de atenção especial: as categorias podem ser diferentes para cada entidade do grupo, e a consolidação precisa preservar a classificação correta de cada item.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 16 PONTOS DE ATENÇÃO PARA AUDITORES -->
+<div class="slide" id="s16">
+  <div class="hdr"><span class="h-tag red">3.7</span><div class="h-sep"></div><span class="h-title">Pontos de atenção para auditores</span></div>
+  <div class="body" style="gap:10px;display:grid;grid-template-columns:1fr 1fr;align-items:start;">
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:2px;">RISCOS DE AUDITORIA — IFRS 18</div>
+      <div class="card red ani-up dl1" style="padding:12px 14px;">
+        <div class="card-title">Classificação incorreta por conveniência</div>
+        <div class="card-text" style="margin-top:5px;">Risco de a administração classificar itens desfavoráveis fora do Resultado das Operações Principais para melhorar esse subtotal. O auditor deve verificar se a classificação é consistente com o modelo de negócio documentado.</div>
+      </div>
+      <div class="card red ani-up dl2" style="padding:12px 14px;">
+        <div class="card-title">Inconsistência com o relatório da administração</div>
+        <div class="card-text" style="margin-top:5px;">O conceito de atividade principal nas notas e políticas deve ser consistente com o que a administração descreve como seu modelo de negócio no relatório anual e nos releases de resultados.</div>
+      </div>
+      <div class="card red ani-up dl3" style="padding:12px 14px;">
+        <div class="card-title">Variações cambiais sem segregação por origem</div>
+        <div class="card-text" style="margin-top:5px;">A ausência de controles que identifiquem a origem de cada variação cambial (operacional, investimento, financiamento) é um risco de erro material difícil de detectar sem testes substantivos específicos.</div>
+      </div>
+      <div class="card red ani-up dl4" style="padding:12px 14px;">
+        <div class="card-title">MPMs não identificadas nas comunicações</div>
+        <div class="card-text" style="margin-top:5px;">O auditor precisa revisar press releases, apresentações a investidores e MD&A para identificar MPMs que a empresa usa publicamente e verificar se estão divulgadas e reconciliadas nas notas.</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--teal);letter-spacing:1px;margin-bottom:2px;">PROCEDIMENTOS SUGERIDOS</div>
+      <div class="card teal ani-up dr1" style="padding:12px 14px;">
+        <div class="card-title">Revisão das políticas contábeis</div>
+        <div class="card-text" style="margin-top:5px;">Verificar se as políticas de classificação estão documentadas, aprovadas pela administração e consistentes com o modelo de negócio apresentado em outras partes das demonstrações.</div>
+      </div>
+      <div class="card teal ani-up dr2" style="padding:12px 14px;">
+        <div class="card-title">Teste de consistência do modelo de negócio</div>
+        <div class="card-text" style="margin-top:5px;">Comparar a definição de atividade principal adotada na DRE com: (a) relatório da administração, (b) informação por segmento (IFRS 8), (c) prospectos e releases.</div>
+      </div>
+      <div class="card teal ani-up dr3" style="padding:12px 14px;">
+        <div class="card-title">Mapeamento de itens reclassificados</div>
+        <div class="card-text" style="margin-top:5px;">Para a primeira aplicação do IFRS 18, documentar cada item reclassificado em relação ao período anterior e verificar se a reapresentação retrospectiva foi aplicada corretamente.</div>
+      </div>
+      <div class="callout amber ani-up dr4">
+        <span>💡</span>
+        <span>O IFRS 18 fortalece o papel do auditor ao criar critérios objetivos de classificação. Pela primeira vez, o auditor tem um referencial normativo claro para questionar a posição de itens na DRE.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 17 O QUE MUDA PARA O ANALISTA -->
+<div class="slide" id="s17">
+  <div class="hdr"><span class="h-tag purple">3.6</span><div class="h-sep"></div><span class="h-title">O que muda para o analista financeiro — visão prática</span></div>
+  <div class="body center" style="gap:12px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;" class="ani-up d1">
+      <div class="card" style="border-top:3px solid var(--red);border-left:none;padding:16px;text-align:center;">
+        <div style="font-size:40px;margin-bottom:8px;">📊</div>
+        <div class="card-title">Modelos de valuation</div>
+        <div class="card-text" style="margin-top:8px;">O ROP substitui o EBIT como ponto de partida. Modelos DCF e de múltiplos precisam ser recalibrados. EV/ROP será o novo múltiplo padrão.</div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--amber);border-left:none;padding:16px;text-align:center;">
+        <div style="font-size:40px;margin-bottom:8px;">📈</div>
+        <div class="card-title">Análise de séries históricas</div>
+        <div class="card-text" style="margin-top:8px;">A reapresentação retrospectiva obrigatória garante que 2026 seja comparável com 2027. Mas séries mais longas precisarão de ajuste manual pelo analista.</div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--teal);border-left:none;padding:16px;text-align:center;">
+        <div style="font-size:40px;margin-bottom:8px;">🔍</div>
+        <div class="card-title">Qualidade do lucro</div>
+        <div class="card-text" style="margin-top:8px;">O ROP inclui impairment e reestruturação — o analista precisa decidir se ajusta ou não. A transparência aumenta, mas a análise fica mais exigente.</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;" class="ani-up d2">
+      <div class="card amber" style="padding:14px;">
+        <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--white);margin-bottom:8px;">Indicadores afetados</div>
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <div style="display:flex;justify-content:space-between;font-size:12.5px;"><span style="color:var(--gray2);">Margem operacional</span><span style="color:var(--amber);">Usa ROP no numerador</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:12.5px;"><span style="color:var(--gray2);">ROIC</span><span style="color:var(--amber);">Numerador muda com ROP</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:12.5px;"><span style="color:var(--gray2);">EV/EBIT</span><span style="color:var(--amber);">Passa a ser EV/ROP</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:12.5px;"><span style="color:var(--gray2);">Cobertura de juros</span><span style="color:var(--amber);">Denominador = cat. Financ.</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:12.5px;"><span style="color:var(--gray2);">Covenants baseados em EBITDA</span><span style="color:var(--red);">Revisão contratual necessária</span></div>
+        </div>
+      </div>
+      <div class="card teal" style="padding:14px;">
+        <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--white);margin-bottom:8px;">O que melhora para o analista</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div class="card-text">✓ Comparabilidade real entre empresas do mesmo setor — ROP calculado com a mesma composição</div>
+          <div class="card-text">✓ Transparência sobre variações cambiais por origem — operacional vs. financeira</div>
+          <div class="card-text">✓ MPMs auditadas com reconciliação obrigatória — menos risco de métricas enganosas</div>
+          <div class="card-text">✓ Equivalência patrimonial segregada — avaliação separada do negócio principal e dos investimentos</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 18 ENCERRAMENTO -->
+<div class="slide enc no-pad" id="s18">
+  <div class="bar"></div>
+  <div style="position:absolute;border-radius:50%;pointer-events:none;filter:blur(80px);width:600px;height:400px;background:rgba(139,92,246,0.06);top:-100px;right:-100px;"></div>
+  <div class="cnt">
+    <div class="eyebrow">Aula 03 — Pontos-chave</div>
+    <div class="title">O que levar<br>desta aula</div>
+    <div class="enc-items">
+      <div class="enc-item"><div class="enc-dot"></div><span>O conceito de atividade principal é o julgamento central do IFRS 18 — tudo parte da pergunta: esse item decorre das atividades que são centrais para como a entidade gera retorno?</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>Itens incomuns como impairment, reestruturação e indenizações de seguro seguem a categoria do ativo que os originou — não existem mais "itens extraordinários" separados na DRE</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>Entidades com múltiplas atividades principais (ex.: industrial + vendor finance) classificam os itens de ambas na categoria Operacional — por determinação normativa, não por escolha</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>O resultado de hedge vai sempre para a mesma categoria do item protegido — hedge de receita é Operacional, hedge de dívida é Financiamento</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>O ROP (Resultado das Operações Principais) é mais restrito que o EBIT clássico — exclui equivalência patrimonial e juros recebidos, que vão para a categoria Investimento</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>Para auditores: o IFRS 18 cria critérios objetivos que fortalecem a capacidade de questionar classificações — pela primeira vez há um referencial normativo claro para a posição dos itens na DRE</span></div>
+    </div>
+    <div class="enc-next">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      Próximo: Aula 4 — Medidas de Desempenho Gerencial (MPMs)
+    </div>
+  </div>
+</div>
+
+</div><!-- #slides -->
+
+<div id="nav-trigger"></div>
+<div id="nav">
+  <button class="nav-btn" id="btn-prev" onclick="go(-1)" disabled>&#8592;</button>
+  <div id="progress-dots"></div>
+  <span id="slide-counter">1 / 18</span>
+  <button class="nav-btn" id="btn-next" onclick="go(1)">&#8594;</button>
+</div>
+
+<script src="auth.js"></script>
+<script>
+window.CourseAuth.requireCourseAccess('ifrs18', { fallbackUrl: 'contabil.html' });
+
+const isMobileView = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+
+if (isMobileView) {
+  const navTriggerEl = document.getElementById('nav-trigger');
+  const navEl = document.getElementById('nav');
+  const hintEl = document.getElementById('kb-hint');
+  const homeBtnEl = document.getElementById('home-btn');
+
+  if (navTriggerEl) navTriggerEl.style.display = 'none';
+  if (navEl) navEl.style.display = 'none';
+  if (hintEl) hintEl.style.display = 'none';
+  if (homeBtnEl) homeBtnEl.style.display = 'none';
+
+  const slidesWrap = document.getElementById('slides');
+  if (slidesWrap) {
+    slidesWrap.style.width = '100%';
+    slidesWrap.style.height = 'auto';
+    slidesWrap.style.position = 'static';
+  }
+
+  document.querySelectorAll('.slide').forEach(s => s.classList.add('active'));
+  document.documentElement.style.height = 'auto';
+  document.body.style.height = 'auto';
+  document.documentElement.style.overflowX = 'hidden';
+  document.body.style.overflowX = 'hidden';
+  document.documentElement.style.overflowY = 'auto';
+  document.body.style.overflowY = 'auto';
+} else {
+const TOTAL = 18;
+let current = 1, busy = false;
+const dotsEl = document.getElementById('progress-dots');
+for (let i = 1; i <= TOTAL; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 1 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
+function showSlide(n) {
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  const old = document.getElementById('s' + n);
+  const clone = old.cloneNode(true);
+  old.parentNode.replaceChild(clone, old);
+  clone.classList.add('active');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i + 1 === n));
+  document.getElementById('slide-counter').textContent = n + ' / ' + TOTAL;
+  document.getElementById('btn-prev').disabled = n === 1;
+  document.getElementById('btn-next').disabled = n === TOTAL;
+}
+function go(dir) {
+  if (busy) return;
+  const n = current + dir;
+  if (n < 1 || n > TOTAL) return;
+  busy = true; current = n;
+  showSlide(current);
+  setTimeout(() => { busy = false; }, 350);
+}
+function goTo(n) {
+  if (n === current || busy) return;
+  busy = true; current = n;
+  showSlide(current);
+  setTimeout(() => { busy = false; }, 350);
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+});
+showSlide(1);
+
+const navTrigger = document.getElementById('nav-trigger');
+const nav = document.getElementById('nav');
+const kbHint = document.getElementById('kb-hint');
+let hideTimer;
+function showNav() { clearTimeout(hideTimer); nav.classList.add('visible'); kbHint.classList.add('visible'); }
+function scheduleHide() { hideTimer = setTimeout(() => { nav.classList.remove('visible'); kbHint.classList.remove('visible'); }, 2000); }
+navTrigger.addEventListener('mouseenter', showNav);
+navTrigger.addEventListener('mouseleave', scheduleHide);
+nav.addEventListener('mouseenter', showNav);
+nav.addEventListener('mouseleave', scheduleHide);
+kbHint.addEventListener('mouseenter', showNav);
+showNav();
+setTimeout(() => { scheduleHide(); }, 3000);
+}
+</script>
+</body>
+</html>
+
+
+

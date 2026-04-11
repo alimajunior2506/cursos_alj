@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cursos Contábeis — ALJ Cursos</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--dark:#081929;--navy:#0D2137;--card:#112840;--teal:#00A99D;--amber:#F5A623;--white:#FFFFFF;--gray:#C8D6E0;--gray2:#7A9AB0;}
+html{scroll-behavior:smooth;}
+body{background:var(--dark);font-family:'DM Sans',sans-serif;color:var(--white);overflow-x:hidden;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeLeft{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:translateX(0)}}
+@keyframes glowPulse{0%,100%{opacity:0.06}50%{opacity:0.14}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s cubic-bezier(.22,1,.36,1),transform 0.6s cubic-bezier(.22,1,.36,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(24px,4vw,64px);height:64px;background:rgba(8,25,41,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(200,214,224,0.07);}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo-mark{width:34px;height:34px;background:var(--teal);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--dark);}
+.nav-logo-text{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--white);}
+.nav-logo-text span{color:var(--teal);}
+.nav-back{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gray2);text-decoration:none;transition:color 0.2s;}
+.nav-back:hover{color:var(--white);}
+
+/* HERO CATEGORIA */
+.cat-hero{
+  padding:120px clamp(24px,6vw,100px) 72px;
+  position:relative;overflow:hidden;
+  background:var(--navy);
+  border-bottom:1px solid rgba(200,214,224,0.07);
+}
+.cat-hero .glow{position:absolute;border-radius:50%;filter:blur(100px);animation:glowPulse 6s ease infinite;pointer-events:none;}
+.cat-hero .g1{width:600px;height:400px;background:rgba(0,169,157,0.18);top:-150px;left:-100px;}
+.cat-eyebrow{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:16px;animation:fadeLeft .6s ease .1s both;}
+.cat-eyebrow::before{content:'';width:20px;height:2px;background:var(--teal);}
+.cat-hero h1{font-family:'Syne',sans-serif;font-size:clamp(32px,5vw,68px);font-weight:800;letter-spacing:-2px;color:var(--white);margin-bottom:16px;animation:fadeUp .7s cubic-bezier(.22,1,.36,1) .25s both;}
+.cat-hero p{font-size:clamp(14px,1.6vw,18px);color:var(--gray2);line-height:1.65;max-width:620px;animation:fadeUp .6s cubic-bezier(.22,1,.36,1) .4s both;}
+
+/* CURSOS GRID */
+main{padding:clamp(48px,6vh,88px) clamp(24px,6vw,100px);}
+.courses-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:36px;}
+.courses-label{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--white);}
+.courses-count{font-size:13px;color:var(--gray2);}
+.courses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;}
+
+.course-card{
+  background:var(--card);border:1px solid rgba(200,214,224,0.07);border-radius:14px;
+  overflow:hidden;text-decoration:none;color:inherit;
+  display:flex;flex-direction:column;
+  transition:all 0.35s cubic-bezier(.22,1,.36,1);
+  position:relative;
+}
+.course-card:hover{transform:translateY(-4px);border-color:rgba(0,169,157,0.3);box-shadow:0 20px 48px rgba(0,0,0,0.3);}
+.course-card-thumb{
+  height:160px;background:linear-gradient(135deg,#081929,#0D2137);
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.course-card-thumb::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 50% 50%,rgba(0,169,157,0.12) 0%,transparent 70%);}
+.course-thumb-num{font-family:'Syne',sans-serif;font-size:72px;font-weight:800;color:rgba(0,169,157,0.12);letter-spacing:-4px;}
+.course-thumb-badge{position:absolute;top:14px;right:14px;background:var(--teal);color:var(--dark);font-size:10px;font-weight:700;letter-spacing:1px;padding:4px 10px;border-radius:100px;}
+.course-card-body{padding:22px;display:flex;flex-direction:column;gap:10px;flex:1;}
+.course-card-tag{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);}
+.course-card-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--white);line-height:1.2;}
+.course-card-desc{font-size:13px;color:var(--gray2);line-height:1.6;flex:1;}
+.course-card-meta{display:flex;flex-wrap:wrap;gap:8px;padding-top:12px;border-top:1px solid rgba(200,214,224,0.07);}
+.course-meta-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--gray2);}
+.course-card-cta{
+  margin:0 22px 22px;
+  background:rgba(0,169,157,0.1);border:1px solid rgba(0,169,157,0.2);border-radius:8px;
+  padding:12px;text-align:center;font-size:13px;font-weight:600;color:var(--teal);
+  transition:all 0.25s;
+}
+.course-card:hover .course-card-cta{background:var(--teal);color:var(--dark);border-color:var(--teal);}
+
+/* COMING SOON */
+.coming-soon{
+  background:rgba(200,214,224,0.03);border:1px dashed rgba(200,214,224,0.12);border-radius:14px;
+  padding:32px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;gap:12px;min-height:200px;
+}
+.coming-icon{font-size:32px;}
+.coming-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--gray2);}
+.coming-text{font-size:13px;color:rgba(122,154,176,0.6);}
+
+footer{background:var(--navy);border-top:1px solid rgba(200,214,224,0.07);padding:clamp(28px,4vh,44px) clamp(24px,6vw,100px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.footer-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.footer-mark{width:28px;height:28px;background:var(--teal);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:var(--dark);}
+.footer-brand{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--white);}
+.footer-brand span{color:var(--teal);}
+.footer-copy{font-size:12px;color:var(--gray2);}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="home.html" class="nav-logo">
+    <div class="nav-logo-mark">A</div>
+    <span class="nav-logo-text">ALJ <span>Cursos</span></span>
+  </a>
+  <a href="home.html" class="nav-back">← Voltar ao início</a>
+</nav>
+
+<div class="cat-hero">
+  <div class="glow g1"></div>
+  <div class="cat-eyebrow">Área de conhecimento</div>
+  <h1>Cursos Contábeis</h1>
+  <p>Normas IFRS, CPCs, demonstrações financeiras, auditoria e práticas contábeis avançadas. Conteúdo desenvolvido por especialistas que atuam diretamente no mercado.</p>
+</div>
+
+<main>
+  <div class="courses-header">
+    <span class="courses-label">Cursos disponíveis</span>
+    <span class="courses-count">1 curso disponível</span>
+  </div>
+  <div class="courses-grid">
+
+    <!-- CURSO IFRS 18 -->
+    <a href="index-ifrs-19.html" class="course-card reveal">
+      <div class="course-card-thumb">
+        <div class="course-thumb-num">18</div>
+        <span class="course-thumb-badge">Disponível</span>
+      </div>
+      <div class="course-card-body">
+        <span class="course-card-tag">IFRS · Demonstrações Financeiras</span>
+        <div class="course-card-title">IFRS 18 — O que muda na apresentação das demonstrações financeiras a partir de 2027</div>
+        <p class="course-card-desc">O IFRS 18 substitui o IAS 1 e representa a maior mudança na apresentação das demonstrações financeiras em duas décadas. Entenda o impacto prático na DRE com as 5 categorias obrigatórias, no Balanço Patrimonial, nas Notas Explicativas e na transição retrospectiva — com casos práticos completos incluindo o case Embalagens Lira S.A.</p>
+        <div class="course-card-meta">
+          
+          
+          <span class="course-meta-item">📅 Vigência: jan/2027</span>
+          <span class="course-meta-item">🎯 Contadores · Auditores</span>
+        </div>
+      </div>
+      <div class="course-card-cta">Acessar o curso →</div>
+    </a>
+
+    <!-- PRÓXIMO CURSO PLACEHOLDER -->
+    <div class="coming-soon reveal">
+      <div class="coming-icon">🔜</div>
+      <div class="coming-title">Novos cursos em desenvolvimento</div>
+      <p class="coming-text">CPC 48 · IFRS 9 · Consolidação e combinações de negócios · Ativos intangíveis</p>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <a href="home.html" class="footer-logo">
+    <div class="footer-mark">A</div>
+    <span class="footer-brand">ALJ <span>Cursos</span></span>
+  </a>
+  <span class="footer-copy">© 2026 ALJ Cursos. Todos os direitos reservados.</span>
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e,i) => {
+    if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'),i*100); obs.unobserve(e.target); }
+  });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

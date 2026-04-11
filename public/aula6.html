@@ -1,0 +1,1227 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>IFRS 18 — Aula 6: Comparativos e Transição</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --navy:#0D2137; --dark:#081929; --card:#112840;
+  --teal:#00A99D; --amber:#F5A623; --white:#FFFFFF;
+  --gray:#C8D6E0; --gray2:#7A9AB0; --red:#C0392B; --green:#27AE60;
+  --purple:#8B5CF6; --blue:#3B82F6;
+}
+html,body { width:100%; height:100%; overflow:hidden; background:var(--dark); font-family:'DM Sans',sans-serif; color:var(--white); }
+#slides { width:100%; height:100%; position:relative; }
+.slide {
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  opacity:0; pointer-events:none; overflow:hidden;
+  padding-top:clamp(44px,5.6vh,56px); padding-bottom:12px;
+}
+.slide.active { opacity:1; pointer-events:all; }
+.no-pad { padding-top:0 !important; padding-bottom:0 !important; }
+
+/* NAV */
+#nav-trigger { position:fixed; bottom:0; left:0; right:0; height:80px; z-index:999; }
+#nav { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(100px); z-index:1000; display:flex; align-items:center; gap:14px; opacity:0; transition:opacity 0.3s ease,transform 0.3s ease; pointer-events:none; }
+#nav.visible { opacity:1; transform:translateX(-50%) translateY(0); pointer-events:all; }
+.nav-btn { width:clamp(36px,4.2vw,42px); height:clamp(36px,4.2vw,42px); border-radius:50%; border:1px solid rgba(0,169,157,0.35); background:rgba(17,40,64,0.92); color:var(--teal); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; backdrop-filter:blur(10px); }
+.nav-btn:hover { background:rgba(0,169,157,0.18); border-color:var(--teal); }
+.nav-btn:disabled { opacity:0.25; cursor:default; }
+#progress-dots { display:flex; gap:4px; align-items:center; flex-wrap:wrap; max-width:320px; justify-content:center; }
+.dot { width:5px; height:5px; border-radius:50%; background:var(--gray2); transition:all 0.35s; cursor:pointer; flex-shrink:0; }
+.dot.active { background:var(--teal); width:18px; border-radius:3px; }
+#slide-counter { font-family:'Syne',sans-serif; font-size:12px; font-weight:700; color:var(--gray2); min-width:58px; text-align:center; }
+#home-btn { position:fixed; top:10px; left:12px; z-index:2000; background:rgba(17,40,64,0.92); border:1px solid rgba(0,169,157,0.25); border-radius:7px; padding:7px 14px; font-size:clamp(10px,1.2vw,12px); font-weight:500; color:var(--teal); text-decoration:none; display:flex; align-items:center; gap:6px; backdrop-filter:blur(10px); transition:all 0.2s; }
+#home-btn:hover { background:rgba(0,169,157,0.14); }
+#kb-hint { position:fixed; bottom:28px; right:28px; z-index:1000; font-size:11px; color:var(--gray2); display:flex; align-items:center; gap:6px; opacity:0; transition:opacity 0.3s ease; pointer-events:none; }
+#kb-hint.visible { opacity:0.6; pointer-events:all; }
+.kb { border:1px solid var(--gray2); border-radius:3px; padding:2px 6px; font-size:10px; }
+
+/* ANIMAÇÕES */
+@keyframes fadeUp    { from{opacity:0;transform:translateY(28px)}  to{opacity:1;transform:translateY(0)} }
+@keyframes fadeLeft  { from{opacity:0;transform:translateX(-28px)} to{opacity:1;transform:translateX(0)} }
+@keyframes fadeRight { from{opacity:0;transform:translateX(28px)}  to{opacity:1;transform:translateX(0)} }
+@keyframes scaleIn   { from{opacity:0;transform:scale(0.88)}       to{opacity:1;transform:scale(1)} }
+@keyframes slideBar  { from{transform:scaleY(0)} to{transform:scaleY(1)} }
+@keyframes glowPulse { 0%,100%{opacity:0.07} 50%{opacity:0.13} }
+@keyframes drawLine  { from{width:0} to{width:100%} }
+
+/* HEADER */
+.hdr { background:var(--card); padding:clamp(12px,1.8vh,18px) clamp(24px,4vw,48px) clamp(12px,1.8vh,18px) clamp(20px,3vw,36px); display:flex; align-items:center; gap:12px; border-bottom:1px solid rgba(200,214,224,0.07); opacity:0; flex-shrink:0; }
+.slide.active .hdr { animation:fadeUp 0.5s ease 0.1s forwards; }
+.h-tag { font-family:'Syne',sans-serif; font-size:clamp(9px,1vw,11px); font-weight:700; letter-spacing:2px; color:var(--teal); text-transform:uppercase; white-space:nowrap; }
+.h-tag.amber{color:var(--amber);} .h-tag.green{color:var(--green);} .h-tag.red{color:var(--red);} .h-tag.purple{color:var(--purple);} .h-tag.blue{color:var(--blue);}
+.h-sep { width:1px; height:16px; background:rgba(200,214,224,0.18); flex-shrink:0; }
+.h-title { font-family:'Syne',sans-serif; font-size:clamp(14px,1.8vw,20px); font-weight:700; color:var(--white); }
+.h-time { margin-left:auto; font-size:11px; color:var(--gray2); white-space:nowrap; }
+
+/* BODY */
+.body { flex:1; padding:clamp(12px,1.8vh,20px) clamp(20px,4vw,48px) clamp(10px,1.4vh,16px) clamp(18px,3vw,36px); display:flex; flex-direction:column; overflow:hidden; gap:8px; min-height:0; }
+.body.center { justify-content:center; }
+.body.g2 { display:grid; grid-template-columns:1fr 1fr; gap:clamp(10px,1.5vw,20px); align-items:start; overflow:hidden; }
+.body.g3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:clamp(8px,1.2vw,14px); align-items:start; overflow:hidden; }
+
+/* CARDS */
+.card { background:var(--card); border-radius:10px; padding:clamp(10px,1.2vh,16px) clamp(12px,1.4vw,18px); border:1px solid rgba(200,214,224,0.07); min-height:0; }
+.card.teal  { border-left:3px solid var(--teal); }
+.card.amber { border-left:3px solid var(--amber); }
+.card.green { border-left:3px solid var(--green); }
+.card.red   { border-left:3px solid var(--red); }
+.card.purple{ border-left:3px solid var(--purple); }
+.card.blue  { border-left:3px solid var(--blue); }
+.card-title { font-family:'Syne',sans-serif; font-size:clamp(11px,1.3vw,14px); font-weight:700; color:var(--white); margin-bottom:5px; }
+.card-text  { font-size:clamp(10px,1.15vw,12.5px); color:var(--gray2); line-height:1.55; }
+.card-tag { display:inline-block; font-size:clamp(8px,0.9vw,10px); font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:2px 7px; border-radius:3px; margin-bottom:6px; }
+.card-tag.teal  { background:rgba(0,169,157,0.15); color:var(--teal); }
+.card-tag.amber { background:rgba(245,166,35,0.15); color:var(--amber); }
+.card-tag.green { background:rgba(39,174,96,0.15); color:var(--green); }
+.card-tag.red   { background:rgba(192,57,43,0.15); color:var(--red); }
+.card-tag.purple{ background:rgba(139,92,246,0.15); color:var(--purple); }
+.card-tag.blue  { background:rgba(59,130,246,0.15); color:var(--blue); }
+
+/* ANIMAÇÕES */
+.slide.active .d1  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.20s forwards; }
+.slide.active .d2  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.32s forwards; }
+.slide.active .d3  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.44s forwards; }
+.slide.active .d4  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.56s forwards; }
+.slide.active .d5  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.68s forwards; }
+.slide.active .d6  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.80s forwards; }
+.slide.active .d7  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.92s forwards; }
+.slide.active .dl1 { animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.20s forwards; }
+.slide.active .dl2 { animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.33s forwards; }
+.slide.active .dl3 { animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.46s forwards; }
+.slide.active .dl4 { animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.59s forwards; }
+.slide.active .dl5 { animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.72s forwards; }
+.slide.active .dr1 { animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.20s forwards; }
+.slide.active .dr2 { animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.33s forwards; }
+.slide.active .dr3 { animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.46s forwards; }
+.slide.active .dr4 { animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.59s forwards; }
+.slide.active .dr5 { animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.72s forwards; }
+.slide.active .sc1 { animation:scaleIn  0.5s cubic-bezier(0.22,1,0.36,1) 0.20s forwards; }
+.slide.active .sc2 { animation:scaleIn  0.5s cubic-bezier(0.22,1,0.36,1) 0.35s forwards; }
+.ani-up   { opacity:0; transform:translateY(22px); }
+.ani-left { opacity:0; transform:translateX(-22px); }
+.ani-right{ opacity:0; transform:translateX(22px); }
+
+/* CALLOUT */
+.callout { border-radius:8px; padding:clamp(9px,1.1vh,12px) clamp(12px,1.4vw,18px); font-size:clamp(10px,1.2vw,13px); font-weight:500; line-height:1.5; display:flex; align-items:flex-start; gap:9px; flex-shrink:0; }
+.callout.teal  { background:rgba(0,169,157,0.1); border:1px solid rgba(0,169,157,0.25); color:var(--white); border-left:3px solid var(--teal); }
+.callout.amber { background:rgba(245,166,35,0.1); border:1px solid rgba(245,166,35,0.25); color:var(--amber); border-left:3px solid var(--amber); }
+.callout.green { background:rgba(39,174,96,0.1);  border:1px solid rgba(39,174,96,0.25);  color:var(--white); border-left:3px solid var(--green); }
+.callout.red   { background:rgba(192,57,43,0.1);  border:1px solid rgba(192,57,43,0.25);  color:var(--white); border-left:3px solid var(--red); }
+.callout.purple{ background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.25); color:var(--white); border-left:3px solid var(--purple); }
+
+/* TABELA */
+.tbl { width:100%; border-collapse:collapse; font-size:clamp(9px,1.1vw,12.5px); }
+.tbl tr td { padding:clamp(4px,0.6vh,7px) clamp(7px,0.9vw,10px); border-bottom:1px solid rgba(200,214,224,0.06); }
+.tbl .cat-hdr td { background:rgba(0,169,157,0.12); color:var(--teal); font-family:'Syne',sans-serif; font-weight:700; font-size:clamp(8px,0.9vw,11px); letter-spacing:1.2px; text-transform:uppercase; }
+.tbl .cat-hdr.amber td { background:rgba(245,166,35,0.1); color:var(--amber); }
+.tbl .cat-hdr.red td   { background:rgba(192,57,43,0.1);  color:var(--red); }
+.tbl .cat-hdr.purple td{ background:rgba(139,92,246,0.1); color:var(--purple); }
+.tbl .cat-hdr.green td { background:rgba(39,174,96,0.1);  color:var(--green); }
+.tbl .item td  { color:var(--gray2); }
+.tbl .item td:last-child { text-align:right; color:var(--white); }
+.tbl .item.neg td:last-child { color:#F87171; }
+.tbl .item.hl td { color:var(--amber); }
+.tbl .item.hl td:last-child { color:var(--amber); }
+.tbl .item.changed td { color:var(--teal); }
+.tbl .item.changed td:last-child { color:var(--teal); }
+.tbl .sub td   { color:var(--white); font-weight:700; background:rgba(200,214,224,0.04); }
+.tbl .sub td:last-child { color:var(--teal); text-align:right; }
+.tbl .sub.amber td:last-child { color:var(--amber); }
+.tbl .sub.red td:last-child { color:var(--red); }
+.tbl .tot td   { color:var(--white); font-family:'Syne',sans-serif; font-weight:800; background:rgba(0,169,157,0.08); }
+.tbl .tot td:last-child { color:var(--teal); text-align:right; }
+.tbl .tot.amber td:last-child { color:var(--amber); }
+.tbl .sect td  { color:var(--gray2); font-size:10px; font-style:italic; padding-top:6px; }
+.tbl .ind td:first-child { padding-left:clamp(14px,2vw,24px); }
+.tbl th { padding:clamp(4px,0.6vh,7px) clamp(7px,0.9vw,10px); text-align:right; font-size:clamp(9px,1vw,11px); color:var(--gray2); font-weight:500; background:rgba(200,214,224,0.04); }
+.tbl th:first-child { text-align:left; }
+
+/* BEFORE/AFTER */
+.ad-row { display:grid; grid-template-columns:1fr 32px 1fr; gap:7px; align-items:center; }
+.ad-item { padding:clamp(8px,1vh,11px) clamp(10px,1.2vw,14px); border-radius:7px; font-size:clamp(10px,1.1vw,12.5px); color:var(--white); line-height:1.4; }
+.ad-item.red   { background:rgba(192,57,43,0.12); border:1px solid rgba(192,57,43,0.25); }
+.ad-item.green { background:rgba(39,174,96,0.10);  border:1px solid rgba(39,174,96,0.25); }
+.ad-arrow { display:flex; align-items:center; justify-content:center; }
+.circ { width:26px; height:26px; background:var(--amber); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:var(--white); flex-shrink:0; }
+
+/* BADGE */
+.badge { display:inline-flex; align-items:center; gap:5px; padding:3px 9px; border-radius:4px; font-size:clamp(8px,0.9vw,10px); font-weight:700; letter-spacing:1px; text-transform:uppercase; }
+.badge.teal  { background:rgba(0,169,157,0.12); color:var(--teal);   border:1px solid rgba(0,169,157,0.25); }
+.badge.amber { background:rgba(245,166,35,0.12); color:var(--amber);  border:1px solid rgba(245,166,35,0.25); }
+.badge.green { background:rgba(39,174,96,0.12);  color:var(--green);  border:1px solid rgba(39,174,96,0.25); }
+.badge.red   { background:rgba(192,57,43,0.12);  color:var(--red);    border:1px solid rgba(192,57,43,0.25); }
+.badge.purple{ background:rgba(139,92,246,0.12); color:var(--purple); border:1px solid rgba(139,92,246,0.25); }
+
+/* CAPA */
+.capa { background:var(--dark); justify-content:flex-end; }
+.capa .glow { position:absolute; border-radius:50%; pointer-events:none; filter:blur(90px); animation:glowPulse 5s ease infinite; }
+.capa .g1 { width:700px;height:500px;background:rgba(0,169,157,1);top:-200px;left:-150px; }
+.capa .g2 { width:500px;height:400px;background:rgba(245,166,35,1);bottom:-100px;right:-100px;animation-delay:2.5s; }
+.capa .bar { position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--teal);transform:scaleY(0);transform-origin:top; }
+.capa.active .bar { animation:slideBar 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s forwards; }
+.capa .cnt { padding:0 clamp(32px,5vw,64px) clamp(40px,7vh,72px) clamp(28px,4vw,52px); position:relative; z-index:1; }
+.capa .eyebrow { font-size:clamp(9px,1vw,11px);font-weight:500;letter-spacing:3px;color:var(--teal);text-transform:uppercase;display:flex;align-items:center;gap:10px;margin-bottom:18px;opacity:0; }
+.capa .eyebrow::before { content:'';width:22px;height:2px;background:var(--teal); }
+.capa.active .eyebrow { animation:fadeLeft 0.6s ease 0.35s forwards; }
+.capa .t1 { font-family:'Syne',sans-serif;font-size:clamp(18px,2.4vw,30px);font-weight:400;color:var(--gray2);display:block;opacity:0; }
+.capa .t2 { font-family:'Syne',sans-serif;font-size:clamp(40px,6vw,80px);font-weight:800;letter-spacing:-3px;color:var(--teal);display:block;opacity:0;line-height:1; }
+.capa .t3 { font-family:'Syne',sans-serif;font-size:clamp(20px,3vw,44px);font-weight:800;letter-spacing:-2px;color:var(--white);display:block;opacity:0;line-height:1.1; }
+.capa .t4 { font-family:'Syne',sans-serif;font-size:clamp(12px,1.7vw,22px);font-weight:500;color:var(--amber);display:block;opacity:0;margin-top:10px; }
+.capa.active .t1 { animation:fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.45s forwards; }
+.capa.active .t2 { animation:fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.58s forwards; }
+.capa.active .t3 { animation:fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.72s forwards; }
+.capa.active .t4 { animation:fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.88s forwards; }
+.capa .meta { display:flex;flex-wrap:wrap;gap:clamp(20px,3vw,36px);padding-top:20px;border-top:1px solid rgba(200,214,224,0.1);margin-top:14px;opacity:0; }
+.capa.active .meta { animation:fadeUp 0.6s ease 1.05s forwards; }
+.meta-item { display:flex;flex-direction:column;gap:3px; }
+.meta-label { font-size:clamp(8px,0.9vw,10px);letter-spacing:2px;color:var(--gray2);text-transform:uppercase; }
+.meta-val { font-family:'Syne',sans-serif;font-size:clamp(12px,1.4vw,15px);font-weight:700;color:var(--white); }
+.meta-val span { color:var(--amber); }
+.bg-num { position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-family:'Syne',sans-serif;font-size:clamp(160px,20vw,300px);font-weight:800;color:rgba(0,169,157,0.03);line-height:1;user-select:none;letter-spacing:-10px;pointer-events:none;z-index:0; }
+
+/* TIMELINE */
+.tl-wrap { width:100%; }
+.tl-track { position:relative; height:clamp(40px,5vh,56px); margin:8px 0; display:flex; align-items:center; }
+.tl-line { position:absolute; left:0; top:50%; transform:translateY(-50%); height:4px; border-radius:2px; width:0; }
+.tl-line.draw { animation:drawLine 1.2s cubic-bezier(0.22,1,0.36,1) 0.4s forwards; }
+.tl-dots { position:absolute; left:0; right:0; top:50%; transform:translateY(-50%); display:flex; justify-content:space-between; padding:0 8px; }
+.tl-dot { width:18px; height:18px; border-radius:50%; border:3px solid var(--dark); opacity:0; flex-shrink:0; }
+.tl-dot.gray{background:var(--gray2);} .tl-dot.amber{background:var(--amber);} .tl-dot.teal{background:var(--teal);} .tl-dot.green{background:var(--green);} .tl-dot.red{background:var(--red);}
+.slide.active .tl-dot:nth-child(1){animation:scaleIn 0.35s ease 0.6s forwards;}
+.slide.active .tl-dot:nth-child(2){animation:scaleIn 0.35s ease 0.8s forwards;}
+.slide.active .tl-dot:nth-child(3){animation:scaleIn 0.35s ease 1.0s forwards;}
+.slide.active .tl-dot:nth-child(4){animation:scaleIn 0.35s ease 1.2s forwards;}
+.slide.active .tl-dot:nth-child(5){animation:scaleIn 0.35s ease 1.4s forwards;}
+.tl-labels { display:flex; justify-content:space-between; padding:0 8px; }
+.tl-lbl { width:clamp(80px,10vw,120px); text-align:center; }
+.tl-year { font-family:'Syne',sans-serif; font-size:clamp(11px,1.3vw,15px); font-weight:700; }
+.tl-desc { font-size:clamp(9px,1vw,12px); color:var(--gray2); line-height:1.35; margin-top:2px; }
+.tl-year.gray{color:var(--gray2);} .tl-year.amber{color:var(--amber);} .tl-year.teal{color:var(--teal);} .tl-year.green{color:var(--green);} .tl-year.red{color:var(--red);}
+
+/* ENCERRAMENTO ESPECIAL */
+.enc-final { background:var(--dark); justify-content:flex-end; }
+.enc-final .glow { position:absolute; border-radius:50%; pointer-events:none; filter:blur(90px); animation:glowPulse 5s ease infinite; }
+.enc-final .g1 { width:600px;height:400px;background:rgba(0,169,157,0.08);top:-100px;right:-100px; }
+.enc-final .g2 { width:400px;height:400px;background:rgba(245,166,35,0.05);bottom:-100px;left:-100px;animation-delay:2.5s; }
+.enc-final .bar { position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--amber);transform:scaleY(0);transform-origin:top; }
+.enc-final.active .bar { animation:slideBar 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s forwards; }
+.enc-final .cnt { padding:0 clamp(32px,5vw,64px) clamp(36px,6vh,64px) clamp(28px,4vw,52px); position:relative; z-index:1; }
+.enc-final .eyebrow { font-size:clamp(9px,1vw,11px);font-weight:500;letter-spacing:3px;color:var(--amber);text-transform:uppercase;margin-bottom:10px;opacity:0; }
+.enc-final.active .eyebrow { animation:fadeUp 0.5s ease 0.2s forwards; }
+.enc-final .title { font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,52px);font-weight:800;letter-spacing:-2px;color:var(--white);margin-bottom:6px;opacity:0; }
+.enc-final.active .title { animation:fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.35s forwards; }
+.enc-final .subtitle { font-size:clamp(12px,1.4vw,16px);color:var(--gray2);margin-bottom:22px;opacity:0; }
+.enc-final.active .subtitle { animation:fadeUp 0.5s ease 0.5s forwards; }
+.enc-items { display:flex;flex-direction:column;gap:clamp(7px,1vh,11px); }
+.enc-item { display:flex;align-items:flex-start;gap:12px;font-size:clamp(11px,1.3vw,13.5px);color:var(--white);line-height:1.5;opacity:0;transform:translateX(-20px); }
+.enc-dot { width:9px;height:9px;flex-shrink:0;border-radius:50%;background:var(--amber);margin-top:5px; }
+.enc-final.active .enc-item:nth-child(1){animation:fadeLeft 0.4s ease 0.60s forwards;}
+.enc-final.active .enc-item:nth-child(2){animation:fadeLeft 0.4s ease 0.72s forwards;}
+.enc-final.active .enc-item:nth-child(3){animation:fadeLeft 0.4s ease 0.84s forwards;}
+.enc-final.active .enc-item:nth-child(4){animation:fadeLeft 0.4s ease 0.96s forwards;}
+.enc-final.active .enc-item:nth-child(5){animation:fadeLeft 0.4s ease 1.08s forwards;}
+.enc-final.active .enc-item:nth-child(6){animation:fadeLeft 0.4s ease 1.20s forwards;}
+.enc-next { margin-top:18px;background:var(--card);border:1px solid rgba(245,166,35,0.28);border-radius:9px;padding:12px 18px;display:flex;align-items:center;gap:11px;font-size:clamp(11px,1.2vw,13px);color:var(--amber);font-weight:500;opacity:0;transform:translateY(12px); }
+.enc-final.active .enc-next { animation:fadeUp 0.5s ease 1.38s forwards; }
+
+/* REF SLIDES */
+.ref-slide { background:var(--navy); }
+.ref-slide .ref-bar { position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,var(--teal) 0%,rgba(0,169,157,0.3) 100%); }
+.ref-slide .ref-bg-par { position:absolute;right:20px;bottom:-16px;font-family:'Syne',sans-serif;font-size:clamp(100px,14vw,200px);font-weight:800;color:rgba(0,169,157,0.03);line-height:1;user-select:none;pointer-events:none;z-index:0; }
+.ref-slide .ref-conn { position:absolute;left:50%;top:70px;bottom:60px;width:1px;background:linear-gradient(180deg,transparent,rgba(0,169,157,0.12) 20%,rgba(0,169,157,0.12) 80%,transparent);transform:translateX(-10px);z-index:0; }
+.ref-hdr { background:var(--card);padding:clamp(12px,1.6vh,16px) clamp(24px,3.5vw,44px) clamp(12px,1.6vh,16px) clamp(20px,3vw,36px);display:flex;align-items:center;gap:11px;border-bottom:1px solid rgba(200,214,224,0.07);flex-shrink:0;opacity:0;position:relative;z-index:1; }
+.slide.active .ref-hdr { animation:fadeUp 0.5s ease 0.1s forwards; }
+.ref-badge { display:flex;align-items:center;gap:7px;background:rgba(0,169,157,0.1);border:1px solid rgba(0,169,157,0.25);border-radius:5px;padding:4px 10px; }
+.ref-badge-text { font-family:'Courier New',monospace;font-size:clamp(9px,0.95vw,10px);font-weight:500;color:var(--teal);letter-spacing:1px; }
+.ref-norm-ref { margin-left:auto;font-family:'Courier New',monospace;font-size:clamp(9px,1vw,11px);color:var(--gray2);background:rgba(200,214,224,0.05);border:1px solid rgba(200,214,224,0.12);border-radius:4px;padding:3px 9px;white-space:nowrap; }
+.ref-body { flex:1;padding:clamp(10px,1.5vh,14px) clamp(20px,3.5vw,40px) clamp(10px,1.4vh,12px) clamp(18px,3vw,36px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.5vw,14px);position:relative;z-index:1;min-height:0; }
+.ref-col { display:flex;flex-direction:column;gap:clamp(6px,0.9vh,8px);min-height:0; }
+.ref-col-label { display:flex;align-items:center;gap:7px;flex-shrink:0; }
+.ref-col-lang { font-family:'Syne',sans-serif;font-size:clamp(9px,0.95vw,10px);font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray2); }
+.ref-col-lang span { color:var(--amber); }
+.ref-par { background:#0D2035;border:1px solid rgba(200,214,224,0.08);border-radius:9px;overflow:hidden;flex:1;display:flex;flex-direction:column;min-height:0; }
+.ref-par.pt { background:rgba(0,169,157,0.04);border-color:rgba(0,169,157,0.15); }
+.ref-par-hdr { display:flex;align-items:center;gap:8px;padding:clamp(6px,0.8vh,9px) clamp(10px,1.3vw,14px);background:rgba(0,169,157,0.06);border-bottom:1px solid rgba(200,214,224,0.07);flex-shrink:0; }
+.ref-par.pt .ref-par-hdr { background:rgba(0,169,157,0.1);border-bottom-color:rgba(0,169,157,0.15); }
+.ref-par-num { font-family:'Courier New',monospace;font-size:clamp(9px,1vw,11px);color:var(--teal);background:rgba(0,169,157,0.12);border:1px solid rgba(0,169,157,0.2);border-radius:4px;padding:2px 6px;white-space:nowrap; }
+.ref-par.pt .ref-par-num { color:var(--amber);background:rgba(245,166,35,0.1);border-color:rgba(245,166,35,0.2); }
+.ref-par-lbl { font-size:clamp(9px,1vw,11px);color:var(--gray2);font-style:italic; }
+.ref-par.pt .ref-par-lbl { color:var(--teal);font-style:normal; }
+.ref-par-text { padding:clamp(8px,1vh,12px) clamp(10px,1.2vw,14px);font-size:clamp(10px,1.1vw,12px);color:var(--gray);line-height:1.72;font-style:italic;flex:1;overflow:auto; }
+.ref-par.pt .ref-par-text { color:var(--white);font-style:normal; }
+.ref-par-text strong { color:var(--white);font-style:normal;font-weight:500; }
+.ref-par-text .hl { color:var(--teal);font-style:normal;font-weight:500; }
+.ref-par.pt .ref-par-text .hl { color:var(--amber); }
+.ref-fn { grid-column:1/-1;display:flex;align-items:center;gap:8px;background:rgba(245,166,35,0.05);border:1px solid rgba(245,166,35,0.14);border-left:3px solid var(--amber);border-radius:6px;padding:clamp(7px,0.9vh,10px) clamp(10px,1.3vw,14px);font-size:clamp(9px,1vw,11px);color:var(--gray2);line-height:1.5;flex-shrink:0; }
+.ref-fn strong { color:var(--amber); }
+.ref-col.ani-ref { opacity:0;transform:translateY(18px); }
+.slide.active .ref-col.ani-ref:nth-child(1) { animation:fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.25s forwards; }
+.slide.active .ref-col.ani-ref:nth-child(2) { animation:fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.42s forwards; }
+.ref-fn.ani-fn { opacity:0;transform:translateY(12px); }
+.slide.active .ref-fn.ani-fn { animation:fadeUp 0.5s ease 0.6s forwards; }
+
+/* RESPONSIVIDADE MOBILE */
+@media (max-width:1024px) {
+  html, body {
+    width:100% !important;
+    height:auto !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+  }
+
+  #slides {
+    width:100% !important;
+    height:auto !important;
+    position:static !important;
+  }
+
+  .slide {
+    position:static !important;
+    inset:auto !important;
+    opacity:1 !important;
+    pointer-events:all !important;
+    overflow:visible !important;
+    min-height:auto !important;
+    margin-bottom:20px !important;
+    padding:40px 16px !important;
+    display:flex !important;
+    flex-direction:column !important;
+  }
+
+  .slide.active { opacity:1 !important; }
+  .slide .body { overflow:visible !important; }
+  .body.g2, .body.g3, .ref-body { grid-template-columns:1fr !important; }
+  .ref-body { display:flex !important; flex-direction:column !important; }
+  .ref-conn, .ref-bg-par { display:none !important; }
+  #nav-trigger, #nav, #kb-hint, #home-btn { display:none !important; }
+}
+</style>
+</head>
+<body>
+
+<a href="index-ifrs-19.html" id="home-btn">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+  Índice do curso
+</a>
+<div id="kb-hint"><span class="kb">←</span><span class="kb">→</span> ou <span class="kb">Espaço</span></div>
+
+<div id="slides">
+
+<!-- ═══ SLIDE 1 — CAPA ═══ -->
+<div class="slide capa no-pad" id="s1">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div class="bar"></div>
+  <div class="bg-num">6</div>
+  <div class="cnt">
+    <div class="eyebrow">Aula 06 — Comparativos e Transição</div>
+    <span class="t1">IFRS 18</span>
+    <span class="t2">Aula 6</span>
+    <span class="t3">Comparativos e Transição:<br>a abordagem retrospectiva</span>
+    <span class="t4">Como reapresentar, o que muda e os desafios práticos da implementação</span>
+    <div class="meta">
+      <div class="meta-item"><span class="meta-label">Slides</span><span class="meta-val">28 <span>slides</span></span></div>
+      <div class="meta-item"><span class="meta-label">Duração estimada</span><span class="meta-val">~75 <span>min</span></span></div>
+      <div class="meta-item"><span class="meta-label">Foco</span><span class="meta-val">Transição <span>+ Exemplos</span></span></div>
+      <div class="meta-item"><span class="meta-label">Método</span><span class="meta-val">Antes <span>× Depois</span></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 2 — AGENDA ═══ -->
+<div class="slide" id="s2">
+  <div class="hdr"><span class="h-tag">Aula 06</span><div class="h-sep"></div><span class="h-title">Agenda</span><span class="h-time">⏱ ~75 min</span></div>
+  <div class="body g2" style="gap:10px;">
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div class="card teal ani-up d1"><div class="card-tag teal">01 — 05 min</div><div class="card-title">Abordagem retrospectiva plena</div><div class="card-text">O que significa, o que exige e por que o IASB escolheu essa abordagem</div></div>
+      <div class="card teal ani-up d2"><div class="card-tag teal">02 — 05 min</div><div class="card-title">O que precisa ser reapresentado</div><div class="card-text">DRE, Balanço, Notas — o que muda em cada demonstrativo comparativo</div></div>
+      <div class="card teal ani-up d3"><div class="card-tag teal">03 — 05 min</div><div class="card-title">A data de transição e os períodos</div><div class="card-text">Linha do tempo da transição e o que se aplica a cada período</div></div>
+      <div class="card amber ani-up d4"><div class="card-tag amber">04 — 05 min</div><div class="card-title">Exceções e simplificações permitidas</div><div class="card-text">Quando a reapresentação é impraticável e quais alívios o IFRS 18 permite</div></div>
+      <div class="card amber ani-up d5"><div class="card-tag amber">05 — 07 min</div><div class="card-title">Caso prático — DRE comparativa completa</div><div class="card-text">Reapresentação da DRE de 2026 no formato IFRS 18 — antes × depois numérico</div></div>
+      <div class="card amber ani-up d6"><div class="card-tag amber">06 — 07 min</div><div class="card-title">Caso prático — Balanço comparativo</div><div class="card-text">Reapresentação do Balanço de 2026 com desagregação obrigatória</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div class="card green ani-up d1"><div class="card-tag green">07 — 05 min</div><div class="card-title">Notas dos períodos comparativos</div><div class="card-text">O que muda nas notas explicativas ao reapresentar períodos anteriores</div></div>
+      <div class="card green ani-up d2"><div class="card-tag green">08 — 06 min</div><div class="card-title">Comunicação com o mercado</div><div class="card-text">Como informar investidores e analistas sobre as mudanças antes de 2027</div></div>
+      <div class="card green ani-up d3"><div class="card-tag green">09 — 06 min</div><div class="card-title">Desafios práticos por tipo de empresa</div><div class="card-text">O que é mais complexo para industriais, holdings, bancos e empresas de capital aberto</div></div>
+      <div class="card ani-up d4" style="border-left:3px solid var(--purple)"><div class="card-tag purple">10 — 06 min</div><div class="card-title">Pontos de atenção — 3 perspectivas</div><div class="card-text">Para auditores, analistas e gestores contábeis — o que cada perfil precisa observar</div></div>
+      <div class="card ani-up d5" style="border-left:3px solid var(--amber)"><div class="card-tag amber">11 — 06 min</div><div class="card-title">Cronograma de preparação 2025–2027</div><div class="card-text">Plano prático por etapas para empresa estar pronta na data de vigência</div></div>
+      <div class="card ani-up d6" style="border-left:3px solid var(--gray2)"><div class="card-tag" style="background:rgba(200,214,224,0.08);color:var(--gray2);">12 — 02 min</div><div class="card-title">O que fica desta aula</div><div class="card-text">Síntese dos pontos mais importantes da transição para o IFRS 18</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 3 — ABORDAGEM RETROSPECTIVA ═══ -->
+<div class="slide" id="s3">
+  <div class="hdr"><span class="h-tag">6.1</span><div class="h-sep"></div><span class="h-title">Abordagem retrospectiva plena — o que significa</span></div>
+  <div class="body" style="gap:9px;">
+    <div class="callout teal ani-up d1">
+      <span>📌</span>
+      <span><strong>Definição:</strong> A abordagem retrospectiva plena exige que a entidade reapresente todas as demonstrações financeiras comparativas como se o IFRS 18 sempre tivesse estado em vigor. Não se trata de divulgar as mudanças em nota — é reapresentar os próprios demonstrativos no novo formato.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--teal);letter-spacing:1px;margin-bottom:2px;">O QUE A ABORDAGEM EXIGE</div>
+        <div class="card teal ani-up dl1" style="padding:10px 13px;"><div class="card-text">✓ Reapresentação da DRE comparativa (2026) no formato das 5 categorias e 3 subtotais obrigatórios</div></div>
+        <div class="card teal ani-up dl2" style="padding:10px 13px;"><div class="card-text">✓ Reapresentação do Balanço comparativo (31/dez/2026) com a nova desagregação obrigatória</div></div>
+        <div class="card teal ani-up dl3" style="padding:10px 13px;"><div class="card-text">✓ Reapresentação das notas explicativas do período comparativo com as novas divulgações</div></div>
+        <div class="card teal ani-up dl4" style="padding:10px 13px;"><div class="card-text">✓ Ajuste das MPMs divulgadas em 2026 para atender aos requisitos de reconciliação do IFRS 18</div></div>
+        <div class="callout amber ani-up dl5">
+          <span>⚠</span>
+          <span><strong>Consequência prática:</strong> A empresa precisa ter, em 31/dez/2026, os dados contábeis registrados com granularidade suficiente para reapresentar 2026 no formato IFRS 18. Isso significa começar a adaptar os sistemas em 2025 ou no início de 2026 — não em 2027.</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--amber);letter-spacing:1px;margin-bottom:2px;">POR QUE O IASB ESCOLHEU ESSA ABORDAGEM</div>
+        <div class="card amber ani-up dr1" style="padding:10px 13px;"><div class="card-text"><strong style="color:var(--white);">Comparabilidade genuína:</strong> O objetivo do IFRS 18 é melhorar a comparabilidade. Uma abordagem prospectiva (sem reapresentar comparativos) criaria ruptura na série histórica — exatamente o que a norma busca evitar.</div></div>
+        <div class="card amber ani-up dr2" style="padding:10px 13px;"><div class="card-text"><strong style="color:var(--white);">Consistência do primeiro ano:</strong> Sem reapresentação, o usuário receberia em 2027 uma DRE no formato IFRS 18 sem ter como comparar com 2026. A análise de tendência e evolução seria impossível.</div></div>
+        <div class="card amber ani-up dr3" style="padding:10px 13px;"><div class="card-text"><strong style="color:var(--white);">Precedente do IFRS 15 e 16:</strong> Tanto o IFRS 15 (receitas) quanto o IFRS 16 (arrendamentos) também exigiram reapresentação retrospectiva. A abordagem é consistente com o histórico recente de transições de normas.</div></div>
+        <div class="ad-row ani-up dr4">
+          <div class="ad-item red"><div style="font-size:9px;font-weight:700;color:var(--red);margin-bottom:3px;">SEM REAPRESENTAÇÃO</div>Usuário vê 2027 em IFRS 18 e 2026 em IAS 1 — formatos diferentes, comparação impossível</div>
+          <div class="ad-arrow"><div class="circ">→</div></div>
+          <div class="ad-item green"><div style="font-size:9px;font-weight:700;color:var(--green);margin-bottom:3px;">COM REAPRESENTAÇÃO</div>Usuário vê 2027 e 2026 ambos em IFRS 18 — comparação real, tendência visível</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 4 — REF §C1–C3 ═══ -->
+<div class="slide ref-slide" id="s4">
+  <div class="ref-bar"></div><div class="ref-bg-par">§C1</div><div class="ref-conn"></div>
+  <div class="ref-hdr">
+    <div class="ref-badge"><span>📜</span><span class="ref-badge-text">O que diz a norma</span></div>
+    <div class="h-sep"></div>
+    <span class="h-title">Transição — data de vigência e reapresentação</span>
+    <span class="ref-norm-ref">IFRS 18 · §C1–C3</span>
+  </div>
+  <div class="ref-body">
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇬🇧</span><span class="ref-col-lang">Original · <span>English</span></span></div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ C1</span><span class="ref-par-lbl">Effective date</span></div>
+        <div class="ref-par-text">"An entity shall apply this Standard for <strong>annual reporting periods beginning on or after 1 January 2027</strong>. <span class="hl">Earlier application is permitted.</span> If an entity applies this Standard earlier, it shall disclose that fact. An entity shall apply this Standard to <strong>all financial years presented</strong>."</div>
+      </div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ C3</span><span class="ref-par-lbl">Transition — retrospective application</span></div>
+        <div class="ref-par-text">"An entity shall apply this Standard <strong>retrospectively</strong> in accordance with IAS 8 [...] An entity that applies this Standard for the first time shall <span class="hl">restate the comparative information</span> for the prior period presented. If restatement is impracticable, the entity shall disclose that fact and the reason."</div>
+      </div>
+    </div>
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇧🇷</span><span class="ref-col-lang">Tradução · <span>Português</span></span></div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ C1</span><span class="ref-par-lbl">Data de vigência</span></div>
+        <div class="ref-par-text">"Uma entidade deve aplicar esta norma para <strong>períodos de relatório anuais que comecem em ou após 1º de janeiro de 2027</strong>. <span class="hl">A aplicação antecipada é permitida.</span> Se uma entidade aplicar esta norma antes, deve divulgar esse fato. A entidade deve aplicar esta norma a <strong>todos os anos financeiros apresentados</strong>."</div>
+      </div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ C3</span><span class="ref-par-lbl">Transição — aplicação retrospectiva</span></div>
+        <div class="ref-par-text">"Uma entidade deve aplicar esta norma <strong>retrospectivamente</strong> de acordo com o IAS 8 [...] Uma entidade que aplica esta norma pela primeira vez deve <span class="hl">reapresentar as informações comparativas</span> do período anterior apresentado. Se a reapresentação for impraticável, a entidade deve divulgar esse fato e o motivo."</div>
+      </div>
+    </div>
+    <div class="ref-fn ani-fn"><span>⚠</span><span><strong>Nota:</strong> Tradução livre para fins didáticos. Texto oficial em inglês publicado pelo IASB em abril de 2024.</span></div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 5 — O QUE REAPRESENTAR ═══ -->
+<div class="slide" id="s5">
+  <div class="hdr"><span class="h-tag">6.2</span><div class="h-sep"></div><span class="h-title">O que precisa ser reapresentado</span></div>
+  <div class="body" style="gap:9px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;">
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="background:rgba(0,169,157,0.1);border-radius:7px;padding:9px;text-align:center;font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--teal);">📊 DRE COMPARATIVA</div>
+        <div class="card teal ani-up d1" style="padding:10px 12px;"><div class="card-text">✓ Reclassificação de todos os itens nas 5 categorias obrigatórias</div></div>
+        <div class="card teal ani-up d2" style="padding:10px 12px;"><div class="card-text">✓ Apresentação dos 3 subtotais obrigatórios (ROP, Resultado antes do financ. e IR, Resultado do período)</div></div>
+        <div class="card teal ani-up d3" style="padding:10px 12px;"><div class="card-text">✓ Segregação das variações cambiais por origem (operacional, investimento, financiamento)</div></div>
+        <div class="card teal ani-up d4" style="padding:10px 12px;"><div class="card-text">✓ Reclassificação da equivalência patrimonial para categoria Investimento (regra geral)</div></div>
+        <div class="card teal ani-up d5" style="padding:10px 12px;"><div class="card-text">✓ Resultado de hedges reclassificado para a categoria do item protegido</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="background:rgba(59,130,246,0.1);border-radius:7px;padding:9px;text-align:center;font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--blue);">🏦 BALANÇO COMPARATIVO</div>
+        <div class="card ani-up d1" style="padding:10px 12px;border-left:3px solid var(--blue);"><div class="card-text">✓ Desagregação de "Outros ativos" e "Outros passivos" em linhas com naturezas distintas</div></div>
+        <div class="card ani-up d2" style="padding:10px 12px;border-left:3px solid var(--blue);"><div class="card-text">✓ Separação de ativos operacionais, de investimento e de caixa</div></div>
+        <div class="card ani-up d3" style="padding:10px 12px;border-left:3px solid var(--blue);"><div class="card-text">✓ Separação de passivos operacionais e passivos de financiamento</div></div>
+        <div class="card ani-up d4" style="padding:10px 12px;border-left:3px solid var(--blue);"><div class="card-text">✓ Revisão de passivos com covenants — classificação corrente ou não corrente</div></div>
+        <div class="card ani-up d5" style="padding:10px 12px;border-left:3px solid var(--blue);"><div class="card-text">✓ Participações por equivalência patrimonial separadas de outros investimentos</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="background:rgba(39,174,96,0.1);border-radius:7px;padding:9px;text-align:center;font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--green);">📝 NOTAS EXPLICATIVAS</div>
+        <div class="card green ani-up d1" style="padding:10px 12px;"><div class="card-text">✓ Políticas contábeis atualizadas para refletir o IFRS 18 e os novos critérios de classificação</div></div>
+        <div class="card green ani-up d2" style="padding:10px 12px;"><div class="card-text">✓ Nota de transição obrigatória explicando o impacto de cada reclassificação relevante</div></div>
+        <div class="card green ani-up d3" style="padding:10px 12px;"><div class="card-text">✓ MPMs do período comparativo reconciliadas conforme §117–125</div></div>
+        <div class="card green ani-up d4" style="padding:10px 12px;"><div class="card-text">✓ Julgamentos sobre atividade principal documentados para o período comparativo</div></div>
+        <div class="callout amber ani-up d5">
+          <span>⚠</span>
+          <span><strong>O que NÃO precisa ser reapresentado:</strong> Períodos anteriores a 2026. A reapresentação retrospectiva obrigatória cobre apenas o período comparativo imediatamente anterior (2026). Séries históricas mais longas são voluntárias.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 6 — LINHA DO TEMPO DA TRANSIÇÃO ═══ -->
+<div class="slide" id="s6">
+  <div class="hdr"><span class="h-tag">6.3</span><div class="h-sep"></div><span class="h-title">A data de transição e os períodos — linha do tempo</span></div>
+  <div class="body center" style="gap:16px;">
+    <div class="tl-wrap ani-up d1">
+      <div style="display:flex;justify-content:space-between;padding:0 8px;margin-bottom:6px;">
+        <div class="tl-lbl"><div class="tl-year gray">2025</div><div class="tl-desc">Diagnóstico<br>e preparação</div></div>
+        <div class="tl-lbl"><div class="tl-year amber">01/jan/2026</div><div class="tl-desc">Início do período<br>comparativo</div></div>
+        <div class="tl-lbl"><div class="tl-year amber">31/dez/2026</div><div class="tl-desc">Fechamento do<br>comparativo</div></div>
+        <div class="tl-lbl"><div class="tl-year green">01/jan/2027</div><div class="tl-desc">Vigência<br>obrigatória</div></div>
+        <div class="tl-lbl"><div class="tl-year green">31/dez/2027</div><div class="tl-desc">Primeira DRE<br>em IFRS 18</div></div>
+      </div>
+      <div class="tl-track">
+        <div class="tl-line draw" style="background:linear-gradient(90deg,var(--gray2) 0%,var(--amber) 50%,var(--green) 100%);"></div>
+        <div class="tl-dots">
+          <div class="tl-dot gray"></div>
+          <div class="tl-dot amber"></div>
+          <div class="tl-dot amber"></div>
+          <div class="tl-dot green"></div>
+          <div class="tl-dot green"></div>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;" class="ani-up d2">
+      <div class="card" style="border-top:3px solid var(--gray2);border-left:none;padding:14px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(11px,1.2vw,13px);font-weight:700;color:var(--gray2);margin-bottom:8px;">2025 — Preparação</div>
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <div class="card-text">→ Diagnóstico dos impactos por item de DRE e Balanço</div>
+          <div class="card-text">→ Mapeamento das variações cambiais por origem</div>
+          <div class="card-text">→ Avaliação dos sistemas contábeis e planos de contas</div>
+          <div class="card-text">→ Treinamento das equipes de contabilidade</div>
+        </div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--amber);border-left:none;padding:14px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(11px,1.2vw,13px);font-weight:700;color:var(--amber);margin-bottom:8px;">2026 — Período comparativo</div>
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <div class="card-text">→ Todos os registros contábeis de 2026 precisam ter granularidade para reapresentação</div>
+          <div class="card-text">→ Variações cambiais registradas por origem desde janeiro</div>
+          <div class="card-text">→ MPMs divulgadas ao mercado já em formato compatível com IFRS 18</div>
+          <div class="card-text">→ Balanço de 31/dez/2026 precisa ser reapresentável</div>
+        </div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--green);border-left:none;padding:14px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(11px,1.2vw,13px);font-weight:700;color:var(--green);margin-bottom:8px;">2027 — Primeiro exercício IFRS 18</div>
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <div class="card-text">→ DRE 2027 no formato das 5 categorias obrigatórias</div>
+          <div class="card-text">→ DRE comparativa 2026 reapresentada no mesmo formato</div>
+          <div class="card-text">→ Balanço comparativo 31/dez/2026 reapresentado</div>
+          <div class="card-text">→ Nota de transição com reconciliação dos impactos</div>
+        </div>
+      </div>
+    </div>
+    <div class="callout teal ani-up d3">
+      <span>💡</span>
+      <span><strong>Adoção antecipada:</strong> Empresas que adotarem o IFRS 18 em 2025 ou 2026 precisarão reapresentar os comparativos do período anterior à adoção. Para quem adotar em 2025, isso significa reapresentar 2024. A adoção antecipada pode ser estratégica para empresas que querem ganhar experiência antes da vigência obrigatória.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 7 — EXCEÇÕES E SIMPLIFICAÇÕES ═══ -->
+<div class="slide" id="s7">
+  <div class="hdr"><span class="h-tag amber">6.4</span><div class="h-sep"></div><span class="h-title">Exceções e simplificações permitidas pelo IFRS 18</span></div>
+  <div class="body" style="gap:9px;">
+    <div class="callout teal ani-up d1">
+      <span>📌</span>
+      <span><strong>Princípio do IAS 8:</strong> A reapresentação retrospectiva não é exigida quando for impraticável — ou seja, quando a entidade não consegue aplicar o requisito após todos os esforços razoáveis. O ônus de demonstrar a impraticabilidade é da entidade.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--green);letter-spacing:1px;margin-bottom:2px;">SIMPLIFICAÇÕES PERMITIDAS</div>
+        <div class="card green ani-up dl1" style="padding:11px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:4px;">Variações cambiais — simplificação prática</div>
+          <div class="card-text">Se a entidade não tem os dados necessários para segregar variações cambiais por origem no período comparativo, pode apresentar o total em uma linha com nota explicando a limitação.</div>
+        </div>
+        <div class="card green ani-up dl2" style="padding:11px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:4px;">MPMs — reconciliação do comparativo</div>
+          <div class="card-text">Se a entidade não tem dados suficientes para preparar a reconciliação completa das MPMs para o período comparativo, pode apresentar a reconciliação apenas para o período corrente com nota sobre a limitação.</div>
+        </div>
+        <div class="card green ani-up dl3" style="padding:11px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:4px;">Desagregação do Balanço — impraticabilidade</div>
+          <div class="card-text">Se a entidade não consegue desagregar "Outros ativos" do período comparativo por falta de dados históricos, pode apresentar a linha agregada com explicação em nota sobre o que ela contém.</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:2px;">O QUE NÃO É SIMPLIFICAÇÃO VÁLIDA</div>
+        <div class="card red ani-up dr1" style="padding:11px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:4px;">Inconveniência não é impraticabilidade</div>
+          <div class="card-text">O fato de a reapresentação ser trabalhosa ou cara não a torna impraticável. A entidade precisa demonstrar que não consegue obter os dados após esforços razoáveis.</div>
+        </div>
+        <div class="card red ani-up dr2" style="padding:11px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:4px;">Reclassificação de categorias principais</div>
+          <div class="card-text">A reclassificação da equivalência patrimonial para a categoria Investimento e a separação das 5 categorias na DRE não têm simplificação — são exigidas sem exceção.</div>
+        </div>
+        <div class="card red ani-up dr3" style="padding:11px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:4px;">Subtotais obrigatórios</div>
+          <div class="card-text">Os 3 subtotais (ROP, Resultado antes do financiamento e IR, Resultado do período) são obrigatórios no comparativo sem exceção — não há simplificação disponível.</div>
+        </div>
+        <div class="callout amber ani-up dr4">
+          <span>⚠</span>
+          <span><strong>Risco de auditoria:</strong> Alegar impraticabilidade sem documentação é um risco de auditoria significativo. A entidade precisa demonstrar quais esforços foram realizados e por que a reapresentação ainda assim não foi possível.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 8 — REF §C4–C6 ═══ -->
+<div class="slide ref-slide" id="s8">
+  <div class="ref-bar"></div><div class="ref-bg-par">§C4</div><div class="ref-conn"></div>
+  <div class="ref-hdr">
+    <div class="ref-badge"><span>📜</span><span class="ref-badge-text">O que diz a norma</span></div>
+    <div class="h-sep"></div>
+    <span class="h-title">Transição — exceções e impraticabilidade</span>
+    <span class="ref-norm-ref">IFRS 18 · §C4–C6</span>
+  </div>
+  <div class="ref-body">
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇬🇧</span><span class="ref-col-lang">Original · <span>English</span></span></div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ C4</span><span class="ref-par-lbl">Transition — impracticability</span></div>
+        <div class="ref-par-text">"If it is <strong>impracticable</strong> to apply a requirement of this Standard retrospectively, an entity shall apply the requirement from the <span class="hl">earliest date at which it is practicable to do so</span> and disclose: (a) that it has not restated the comparative information; and (b) why restatement is impracticable."</div>
+      </div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ C6</span><span class="ref-par-lbl">Foreign exchange differences — transition relief</span></div>
+        <div class="ref-par-text">"For the <strong>comparative period only</strong>, if an entity cannot determine the category in which to classify foreign exchange differences [...] the entity may present those foreign exchange differences <span class="hl">in a single line item</span> in the statement of profit or loss and disclose that it has applied this transition relief and the reason."</div>
+      </div>
+    </div>
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇧🇷</span><span class="ref-col-lang">Tradução · <span>Português</span></span></div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ C4</span><span class="ref-par-lbl">Transição — impraticabilidade</span></div>
+        <div class="ref-par-text">"Se for <strong>impraticável</strong> aplicar um requisito desta norma retrospectivamente, a entidade deve aplicar o requisito a partir da <span class="hl">data mais antiga em que for praticável fazê-lo</span> e divulgar: (a) que não reapresentou as informações comparativas; e (b) por que a reapresentação é impraticável."</div>
+      </div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ C6</span><span class="ref-par-lbl">Variações cambiais — alívio de transição</span></div>
+        <div class="ref-par-text">"<strong>Apenas para o período comparativo</strong>, se uma entidade não conseguir determinar a categoria na qual classificar as diferenças de câmbio [...] a entidade pode apresentar essas diferenças <span class="hl">em uma única linha</span> na demonstração do resultado e divulgar que aplicou este alívio de transição e o motivo."</div>
+      </div>
+    </div>
+    <div class="ref-fn ani-fn"><span>⚠</span><span><strong>Nota:</strong> Tradução livre para fins didáticos. Texto oficial em inglês publicado pelo IASB em abril de 2024.</span></div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 9 — CASO PRÁTICO DRE COMPARATIVA ═══ -->
+<div class="slide" id="s9">
+  <div class="hdr"><span class="h-tag" style="color:var(--blue)">Caso Prático 1</span><div class="h-sep"></div><span class="h-title">Reapresentação da DRE 2026 — antes × depois completo</span></div>
+  <div class="body g2" style="gap:14px;">
+    <div class="ani-up d1">
+      <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--red);margin-bottom:6px;text-align:center;padding:5px;background:rgba(192,57,43,0.1);border-radius:5px;">DRE 2026 — Formato IAS 1 original  (R$ MM)</div>
+      <table class="tbl">
+        <tr class="item"><td>Receita líquida</td><td>1.480</td></tr>
+        <tr class="item neg"><td>Custo dos produtos vendidos</td><td>(890)</td></tr>
+        <tr class="sub"><td>Lucro bruto</td><td>590</td></tr>
+        <tr class="item neg"><td>Despesas comerciais</td><td>(148)</td></tr>
+        <tr class="item neg"><td>Despesas administrativas</td><td>(112)</td></tr>
+        <tr class="item neg"><td>Outras despesas operacionais</td><td>(45)</td></tr>
+        <tr class="item hl"><td>Resultado de equivalência patrimonial</td><td>68</td></tr>
+        <tr class="sub"><td>EBIT / Resultado operacional</td><td>353</td></tr>
+        <tr class="item hl"><td>Receitas financeiras</td><td>42</td></tr>
+        <tr class="item hl"><td>Despesas financeiras</td><td>(98)</td></tr>
+        <tr class="item hl"><td>Variações cambiais líquidas</td><td>(24)</td></tr>
+        <tr class="sub"><td>Resultado antes do IR</td><td>273</td></tr>
+        <tr class="item neg"><td>IR e CSLL</td><td>(93)</td></tr>
+        <tr class="tot"><td>Resultado do período</td><td>180</td></tr>
+      </table>
+      <div style="margin-top:6px;padding:7px 10px;background:rgba(192,57,43,0.08);border-radius:5px;font-size:clamp(9px,1vw,11px);color:var(--amber);">
+        Variações cambiais líquidas de (24): inclui +18 operacional, +5 investimento, (47) financiamento.<br>
+        Equiv. patrimonial de 68 dentro do "resultado operacional".
+      </div>
+    </div>
+    <div class="ani-up d2">
+      <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--teal);margin-bottom:6px;text-align:center;padding:5px;background:rgba(0,169,157,0.1);border-radius:5px;">DRE 2026 — Reapresentada em IFRS 18  (R$ MM)</div>
+      <table class="tbl">
+        <tr class="cat-hdr"><td colspan="2">① CATEGORIA OPERACIONAL</td></tr>
+        <tr class="item"><td>Receita líquida</td><td>1.480</td></tr>
+        <tr class="item neg"><td>Custo dos produtos vendidos</td><td>(890)</td></tr>
+        <tr class="item neg"><td>Despesas comerciais</td><td>(148)</td></tr>
+        <tr class="item neg"><td>Despesas administrativas</td><td>(112)</td></tr>
+        <tr class="item neg"><td>Outras despesas operacionais</td><td>(45)</td></tr>
+        <tr class="item changed"><td>Var. cambial s/ recebíveis de exportação</td><td>18</td></tr>
+        <tr class="sub"><td>⭐ Resultado das Operações Principais</td><td>303</td></tr>
+        <tr class="cat-hdr"><td colspan="2">② CATEGORIA INVESTIMENTO</td></tr>
+        <tr class="item changed"><td>Resultado de equivalência patrimonial</td><td>68</td></tr>
+        <tr class="item"><td>Juros recebidos — aplicações financeiras</td><td>42</td></tr>
+        <tr class="item changed"><td>Var. cambial s/ aplicações em moeda estrangeira</td><td>5</td></tr>
+        <tr class="sub"><td>Resultado antes do financiamento e IR</td><td>418</td></tr>
+        <tr class="cat-hdr amber"><td colspan="2">③ CATEGORIA FINANCIAMENTO</td></tr>
+        <tr class="item neg"><td>Despesas de juros sobre dívidas</td><td>(98)</td></tr>
+        <tr class="item changed neg"><td>Var. cambial s/ dívidas em moeda estrangeira</td><td>(47)</td></tr>
+        <tr class="sub amber"><td>Resultado antes do IR</td><td>273</td></tr>
+        <tr class="cat-hdr purple"><td colspan="2">④ CATEGORIA IR E CSLL</td></tr>
+        <tr class="item neg"><td>IR e CSLL</td><td>(93)</td></tr>
+        <tr class="tot"><td>Resultado do período</td><td>180</td></tr>
+      </table>
+      <div style="margin-top:6px;padding:7px 10px;background:rgba(0,169,157,0.08);border-radius:5px;font-size:clamp(9px,1vw,11px);color:var(--teal);">
+        ✓ Resultado líquido idêntico: R$ 180 MM<br>
+        ✓ ROP de R$ 303 MM — sem equiv. patrimonial, sem itens financeiros<br>
+        <span style="color:var(--amber);">Itens em destaque teal = reclassificados</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 10 — ANÁLISE DO CASO DRE ═══ -->
+<div class="slide" id="s10">
+  <div class="hdr"><span class="h-tag" style="color:var(--blue)">Caso Prático 1</span><div class="h-sep"></div><span class="h-title">Análise das reclassificações — o que mudou e por quê</span></div>
+  <div class="body" style="gap:9px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--teal);letter-spacing:1px;margin-bottom:2px;">AS 4 RECLASSIFICAÇÕES DO CASO</div>
+        <div class="card teal ani-up dl1" style="padding:11px 13px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <div style="font-size:11px;font-weight:700;color:var(--white);">① Equivalência patrimonial</div>
+            <span class="badge amber">Operacional → Investimento</span>
+          </div>
+          <div class="card-text">R$ 68 MM saiu do "EBIT" e foi para a categoria Investimento. O ROP caiu de 353 para 303 — exatamente por essa reclassificação. O analista agora vê que R$ 68 MM do resultado dependiam de uma coligada, não das operações principais.</div>
+        </div>
+        <div class="card teal ani-up dl2" style="padding:11px 13px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <div style="font-size:11px;font-weight:700;color:var(--white);">② Var. cambial — recebíveis</div>
+            <span class="badge teal">Financeiro → Operacional</span>
+          </div>
+          <div class="card-text">R$ 18 MM de ganho cambial sobre exportações saiu do "resultado financeiro" e foi para o Operacional. Segue a natureza do ativo que originou a variação.</div>
+        </div>
+        <div class="card teal ani-up dl3" style="padding:11px 13px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <div style="font-size:11px;font-weight:700;color:var(--white);">③ Var. cambial — aplicações</div>
+            <span class="badge" style="background:rgba(59,130,246,0.12);color:var(--blue);border:1px solid rgba(59,130,246,0.25);">Financeiro → Investimento</span>
+          </div>
+          <div class="card-text">R$ 5 MM de ganho cambial sobre aplicações em moeda estrangeira foi para Investimento — o ativo (aplicação) gera retorno independentemente das operações.</div>
+        </div>
+        <div class="card teal ani-up dl4" style="padding:11px 13px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <div style="font-size:11px;font-weight:700;color:var(--white);">④ Var. cambial — dívidas</div>
+            <span class="badge amber">Financeiro → Financiamento</span>
+          </div>
+          <div class="card-text">R$ 47 MM de perda cambial sobre dívidas em USD permanece no resultado financeiro, mas agora claramente identificada como categoria Financiamento — custo do passivo de captação.</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--amber);letter-spacing:1px;margin-bottom:2px;">IMPACTO NOS INDICADORES 2026</div>
+        <table class="tbl ani-up dr1">
+          <tr style="background:rgba(200,214,224,0.05);">
+            <th style="text-align:left;">Indicador</th>
+            <th>IAS 1</th>
+            <th>IFRS 18</th>
+          </tr>
+          <tr class="item"><td>EBIT / ROP (R$ MM)</td><td style="text-align:right;color:var(--red);">353</td><td style="text-align:right;color:var(--teal);">303</td></tr>
+          <tr class="item"><td>Margem operacional</td><td style="text-align:right;color:var(--red);">23,8%</td><td style="text-align:right;color:var(--teal);">20,5%</td></tr>
+          <tr class="item"><td>Resultado antes do IR (R$ MM)</td><td style="text-align:right;">273</td><td style="text-align:right;">273</td></tr>
+          <tr class="item"><td>Resultado do período (R$ MM)</td><td style="text-align:right;">180</td><td style="text-align:right;">180</td></tr>
+          <tr class="item"><td>Var. cambial operacional</td><td style="text-align:right;color:var(--gray2);">—</td><td style="text-align:right;color:var(--teal);">+18</td></tr>
+          <tr class="item"><td>Var. cambial financiamento</td><td style="text-align:right;color:var(--gray2);">—</td><td style="text-align:right;color:var(--red);">(47)</td></tr>
+          <tr class="tot"><td>EV/ROP (EV = R$ 3.600 MM)</td><td style="text-align:right;color:var(--red);">10,2x</td><td style="text-align:right;color:var(--teal);">11,9x</td></tr>
+        </table>
+        <div class="callout amber ani-up dr2" style="margin-top:4px;">
+          <span>⚠</span>
+          <span><strong>Comunicação com investidores:</strong> A empresa precisará explicar proativamente que a queda da margem operacional de 23,8% para 20,5% não reflete deterioração do negócio — reflete a exclusão da equivalência patrimonial da métrica operacional, que passa para Investimento.</span>
+        </div>
+        <div class="callout teal ani-up dr3">
+          <span>💡</span>
+          <span>O resultado líquido de R$ 180 MM e o resultado antes do IR de R$ 273 MM são idênticos nas duas versões — a transição não muda o lucro, apenas a transparência sobre sua origem.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 11 — CASO PRÁTICO BALANÇO ═══ -->
+<div class="slide" id="s11">
+  <div class="hdr"><span class="h-tag" style="color:var(--blue)">Caso Prático 2</span><div class="h-sep"></div><span class="h-title">Reapresentação do Balanço 31/dez/2026 — antes × depois</span></div>
+  <div class="body g2" style="gap:14px;">
+    <div class="ani-up d1">
+      <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--red);margin-bottom:6px;text-align:center;padding:5px;background:rgba(192,57,43,0.1);border-radius:5px;">BALANÇO 31/dez/2026 — Formato IAS 1  (R$ MM)</div>
+      <table class="tbl">
+        <tr class="cat-hdr red"><td colspan="2">ATIVO CIRCULANTE</td></tr>
+        <tr class="item"><td>Caixa e equivalentes</td><td>210</td></tr>
+        <tr class="item"><td>Aplicações financeiras</td><td>185</td></tr>
+        <tr class="item"><td>Clientes</td><td>390</td></tr>
+        <tr class="item"><td>Estoques</td><td>295</td></tr>
+        <tr class="item hl"><td>Outros ativos circulantes</td><td>118</td></tr>
+        <tr class="sub"><td>Total Circulante</td><td>1.198</td></tr>
+        <tr class="cat-hdr red"><td colspan="2">ATIVO NÃO CIRCULANTE</td></tr>
+        <tr class="item"><td>Realizável a longo prazo</td><td>162</td></tr>
+        <tr class="item hl"><td>Investimentos</td><td>520</td></tr>
+        <tr class="item"><td>Imobilizado líquido</td><td>1.040</td></tr>
+        <tr class="item"><td>Intangível</td><td>130</td></tr>
+        <tr class="sub"><td>Total Não Circulante</td><td>1.852</td></tr>
+        <tr class="tot"><td>TOTAL ATIVO</td><td>3.050</td></tr>
+        <tr class="cat-hdr red"><td colspan="2">PASSIVO CIRCULANTE</td></tr>
+        <tr class="item"><td>Fornecedores</td><td>268</td></tr>
+        <tr class="item"><td>Empréstimos c/p</td><td>215</td></tr>
+        <tr class="item hl"><td>Outras obrigações circulantes</td><td>187</td></tr>
+        <tr class="sub"><td>Total Passivo Circulante</td><td>670</td></tr>
+        <tr class="cat-hdr red"><td colspan="2">PASSIVO NÃO CIRCULANTE</td></tr>
+        <tr class="item"><td>Empréstimos l/p</td><td>780</td></tr>
+        <tr class="item hl"><td>Outras obrigações l/p</td><td>210</td></tr>
+        <tr class="sub"><td>Total Passivo Não Circulante</td><td>990</td></tr>
+        <tr class="tot amber"><td>PATRIMÔNIO LÍQUIDO</td><td>1.390</td></tr>
+      </table>
+    </div>
+    <div class="ani-up d2">
+      <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--teal);margin-bottom:6px;text-align:center;padding:5px;background:rgba(0,169,157,0.1);border-radius:5px;">BALANÇO 31/dez/2026 — Reapresentado IFRS 18  (R$ MM)</div>
+      <table class="tbl">
+        <tr class="cat-hdr"><td colspan="2">ATIVO CIRCULANTE</td></tr>
+        <tr class="item"><td>Caixa e equivalentes</td><td>210</td></tr>
+        <tr class="item"><td>At. financeiros — aplicações operacionais (CDB)</td><td>95</td></tr>
+        <tr class="item changed"><td>At. financeiros — reserva estratégica (FRF)</td><td>90</td></tr>
+        <tr class="item"><td>Clientes e contas a receber</td><td>390</td></tr>
+        <tr class="item"><td>Estoques</td><td>295</td></tr>
+        <tr class="item changed"><td>Impostos a recuperar</td><td>72</td></tr>
+        <tr class="item changed"><td>Adiantamentos e outros circulantes</td><td>46</td></tr>
+        <tr class="sub"><td>Total Circulante</td><td>1.198</td></tr>
+        <tr class="cat-hdr"><td colspan="2">ATIVO NÃO CIRCULANTE</td></tr>
+        <tr class="item changed"><td>Depósitos judiciais</td><td>58</td></tr>
+        <tr class="item changed"><td>IR diferido ativo</td><td>104</td></tr>
+        <tr class="item changed"><td>Invest. — equivalência patrimonial</td><td>380</td></tr>
+        <tr class="item changed"><td>Ativos financeiros — ações de terceiros (VJ)</td><td>140</td></tr>
+        <tr class="item"><td>Imobilizado líquido</td><td>1.040</td></tr>
+        <tr class="item"><td>Intangível</td><td>130</td></tr>
+        <tr class="sub"><td>Total Não Circulante</td><td>1.852</td></tr>
+        <tr class="tot"><td>TOTAL ATIVO</td><td>3.050</td></tr>
+        <tr class="cat-hdr"><td colspan="2">PASSIVO CIRCULANTE</td></tr>
+        <tr class="item"><td>Fornecedores</td><td>268</td></tr>
+        <tr class="item"><td>Empréstimos e financiamentos c/p</td><td>215</td></tr>
+        <tr class="item changed"><td>Obrigações trabalhistas e sociais</td><td>98</td></tr>
+        <tr class="item changed"><td>Impostos e contribuições a recolher</td><td>89</td></tr>
+        <tr class="sub"><td>Total Passivo Circulante</td><td>670</td></tr>
+        <tr class="cat-hdr"><td colspan="2">PASSIVO NÃO CIRCULANTE</td></tr>
+        <tr class="item"><td>Empréstimos e financiamentos l/p</td><td>780</td></tr>
+        <tr class="item changed"><td>Provisão para descomissionamento</td><td>118</td></tr>
+        <tr class="item changed"><td>IR diferido passivo</td><td>92</td></tr>
+        <tr class="sub"><td>Total Passivo Não Circulante</td><td>990</td></tr>
+        <tr class="tot amber"><td>PATRIMÔNIO LÍQUIDO</td><td>1.390</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 12 — NOTA DE TRANSIÇÃO ═══ -->
+<div class="slide" id="s12">
+  <div class="hdr"><span class="h-tag green">6.5</span><div class="h-sep"></div><span class="h-title">Notas dos períodos comparativos — a nota de transição obrigatória</span></div>
+  <div class="body" style="gap:9px;">
+    <div class="callout teal ani-up d1">
+      <span>📌</span>
+      <span><strong>Obrigação normativa:</strong> A entidade que adota o IFRS 18 pela primeira vez deve incluir nas notas do primeiro exercício uma reconciliação explicando o impacto de cada reclassificação relevante sobre o período comparativo reapresentado.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="ani-up dl1">
+        <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--teal);margin-bottom:6px;">ESTRUTURA DA NOTA DE TRANSIÇÃO — DRE</div>
+        <div style="background:var(--card);border-radius:8px;padding:14px;border:1px solid rgba(0,169,157,0.15);font-size:clamp(10px,1.1vw,12px);">
+          <div style="font-weight:700;color:var(--white);margin-bottom:10px;">Nota X — Primeira adoção do IFRS 18</div>
+          <div style="font-size:clamp(9px,1vw,11px);color:var(--gray2);margin-bottom:10px;">A Companhia adotou o IFRS 18 para o exercício findo em 31 de dezembro de 2027. As demonstrações financeiras comparativas de 2026 foram reapresentadas. Os principais efeitos são:</div>
+          <table class="tbl">
+            <tr style="background:rgba(200,214,224,0.05);"><th>Efeito</th><th>R$ MM</th><th>De</th><th>Para</th></tr>
+            <tr class="item"><td>Equiv. patrimonial</td><td style="text-align:right;">68</td><td style="font-size:10px;color:var(--red);">Operacional</td><td style="font-size:10px;color:var(--blue);">Investimento</td></tr>
+            <tr class="item"><td>Var. câmbio s/ recebíveis</td><td style="text-align:right;">18</td><td style="font-size:10px;color:var(--amber);">Financeiro</td><td style="font-size:10px;color:var(--teal);">Operacional</td></tr>
+            <tr class="item"><td>Var. câmbio s/ aplicações</td><td style="text-align:right;">5</td><td style="font-size:10px;color:var(--amber);">Financeiro</td><td style="font-size:10px;color:var(--blue);">Investimento</td></tr>
+            <tr class="item"><td>Var. câmbio s/ dívidas</td><td style="text-align:right;">(47)</td><td style="font-size:10px;color:var(--amber);">Financeiro</td><td style="font-size:10px;color:var(--amber);">Financiamento</td></tr>
+            <tr class="sub"><td>Impacto no ROP 2026</td><td style="text-align:right;color:var(--red);">(50)</td><td colspan="2" style="font-size:10px;color:var(--gray2);">ROP: de 353 para 303</td></tr>
+            <tr class="item"><td>Impacto no resultado líquido</td><td style="text-align:right;">—</td><td colspan="2" style="font-size:10px;color:var(--teal);">Sem alteração: 180 MM</td></tr>
+          </table>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div class="card green ani-up dr1" style="padding:11px 13px;">
+          <div class="card-title">O que mais deve constar na nota de transição</div>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px;">
+            <div class="card-text">→ Descrição da política adotada para classificação da atividade principal</div>
+            <div class="card-text">→ Identificação de itens que não puderam ser reapresentados (impraticabilidade) e motivo</div>
+            <div class="card-text">→ Reconciliação das MPMs do período comparativo com os subtotais do IFRS 18</div>
+            <div class="card-text">→ Explicação de reclassificações no Balanço que alteraram a forma de apresentação</div>
+          </div>
+        </div>
+        <div class="card green ani-up dr2" style="padding:11px 13px;">
+          <div class="card-title">Nota de transição do Balanço — estrutura mínima</div>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px;">
+            <div class="card-text">→ Tabela reconciliando "Outros ativos" do IAS 1 com as linhas desagregadas do IFRS 18</div>
+            <div class="card-text">→ Explicação da separação de participações (equiv. patrimonial × outros investimentos)</div>
+            <div class="card-text">→ Se houve reclassificação de passivos corrente/não corrente, explicar o motivo</div>
+          </div>
+        </div>
+        <div class="callout amber ani-up dr3">
+          <span>⚠</span>
+          <span><strong>Para o auditor:</strong> A nota de transição é o documento central de auditoria da primeira adoção. O auditor deve verificar se todas as reclassificações relevantes estão divulgadas e reconciliadas corretamente.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 13 — REF §31–33 ═══ -->
+<div class="slide ref-slide" id="s13">
+  <div class="ref-bar"></div><div class="ref-bg-par">§31</div><div class="ref-conn"></div>
+  <div class="ref-hdr">
+    <div class="ref-badge"><span>📜</span><span class="ref-badge-text">O que diz a norma</span></div>
+    <div class="h-sep"></div>
+    <span class="h-title">Informação comparativa e reclassificação — texto original</span>
+    <span class="ref-norm-ref">IFRS 18 · §31–33</span>
+  </div>
+  <div class="ref-body">
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇬🇧</span><span class="ref-col-lang">Original · <span>English</span></span></div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 31</span><span class="ref-par-lbl">Comparative information — general requirement</span></div>
+        <div class="ref-par-text">"Except when IFRS Accounting Standards permit or require otherwise, an entity shall provide <strong>comparative information</strong> (that is, information for the preceding reporting period) for all amounts reported in the current period's financial statements. An entity shall include comparative information for <span class="hl">narrative and descriptive information</span> if it is necessary for an understanding of the current period's financial statements."</div>
+      </div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 33</span><span class="ref-par-lbl">Reclassification of comparative amounts</span></div>
+        <div class="ref-par-text">"If an entity changes the presentation [...] of items in its financial statements, it shall <strong>reclassify comparative amounts</strong> unless reclassification is impracticable. When an entity reclassifies comparative amounts, it shall disclose: <span class="hl">(a) the nature of the reclassification; (b) the amount of each item or class of items that is reclassified; and (c) the reason for the reclassification.</span>"</div>
+      </div>
+    </div>
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇧🇷</span><span class="ref-col-lang">Tradução · <span>Português</span></span></div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 31</span><span class="ref-par-lbl">Informação comparativa — requisito geral</span></div>
+        <div class="ref-par-text">"Exceto quando as normas IFRS permitirem ou exigirem de outra forma, uma entidade deve fornecer <strong>informações comparativas</strong> (ou seja, informações do período de relatório anterior) para todos os valores reportados no período atual. A entidade deve incluir informações comparativas para <span class="hl">informações narrativas e descritivas</span> quando necessário para a compreensão das demonstrações do período atual."</div>
+      </div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 33</span><span class="ref-par-lbl">Reclassificação de valores comparativos</span></div>
+        <div class="ref-par-text">"Se uma entidade alterar a apresentação [...] de itens em suas demonstrações, deve <strong>reclassificar os valores comparativos</strong>, a menos que a reclassificação seja impraticável. Ao reclassificar valores comparativos, a entidade deve divulgar: <span class="hl">(a) a natureza da reclassificação; (b) o valor de cada item reclassificado; e (c) o motivo da reclassificação.</span>"</div>
+      </div>
+    </div>
+    <div class="ref-fn ani-fn"><span>⚠</span><span><strong>Nota:</strong> Tradução livre para fins didáticos. Texto oficial em inglês publicado pelo IASB em abril de 2024.</span></div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 14 — COMUNICAÇÃO COM O MERCADO ═══ -->
+<div class="slide" id="s14">
+  <div class="hdr"><span class="h-tag amber">6.6</span><div class="h-sep"></div><span class="h-title">Comunicação com o mercado — como informar investidores</span></div>
+  <div class="body" style="gap:9px;">
+    <div class="callout teal ani-up d1">
+      <span>📌</span>
+      <span><strong>Risco de reação negativa:</strong> Se a empresa não comunicar antecipadamente as mudanças, investidores e analistas podem interpretar a queda do "resultado operacional" na primeira DRE IFRS 18 como deterioração do negócio — quando na verdade é apenas uma reclassificação contábil.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--teal);letter-spacing:1px;margin-bottom:2px;">ESTRATÉGIA DE COMUNICAÇÃO — CRONOGRAMA</div>
+        <div class="card teal ani-up dl1" style="padding:11px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--gray2);margin-bottom:4px;">2025 — COMUNICAÇÃO INTERNA</div>
+          <div class="card-text">Treinar as equipes de RI, financeiro e contabilidade sobre os impactos. Preparar análise interna do efeito de cada reclassificação nos principais indicadores.</div>
+        </div>
+        <div class="card teal ani-up dl2" style="padding:11px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--amber);margin-bottom:4px;">2026 — COMUNICAÇÃO ANTECIPADA AO MERCADO</div>
+          <div class="card-text">Incluir nos releases de resultados de 2026 uma seção explicando o IFRS 18, o que vai mudar nos indicadores e qual será o impacto estimado sobre o ROP comparativamente ao EBIT atual.</div>
+        </div>
+        <div class="card teal ani-up dl3" style="padding:11px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">2027 — PRIMEIRO ANO</div>
+          <div class="card-text">Apresentar a tabela de reconciliação junto com o release de resultados. Garantir que analistas têm os dados necessários para atualizar seus modelos de valuation.</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--amber);letter-spacing:1px;margin-bottom:2px;">O QUE COMUNICAR — CONTEÚDO ESSENCIAL</div>
+        <div class="card amber ani-up dr1" style="padding:11px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:4px;">Para investidores e analistas de sell-side</div>
+          <div class="card-text">Tabela mostrando o EBIT atual × o ROP estimado para 2026 reapresentado. Explicação de quais itens saem do ROP e para onde vão. Impacto nos múltiplos EV/EBIT e EV/ROP.</div>
+        </div>
+        <div class="card amber ani-up dr2" style="padding:11px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:4px;">Para credores e bancos</div>
+          <div class="card-text">Revisão de covenants baseados em EBITDA ou "resultado operacional" antes da primeira publicação em IFRS 18. Proposta de adequação dos índices contratados se necessário.</div>
+        </div>
+        <div class="card amber ani-up dr3" style="padding:11px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:4px;">Para reguladores (CVM)</div>
+          <div class="card-text">Empresas abertas podem consultar previamente a CVM sobre apresentações de casos específicos complexos. O regulador brasileiro tem sido receptivo a consultas antecipadas nesse tipo de transição.</div>
+        </div>
+        <div class="callout red ani-up dr4">
+          <span>⚠</span>
+          <span><strong>O que NÃO fazer:</strong> Não apresentar o EBIT histórico e o ROP do IFRS 18 lado a lado sem explicação — isso confunde mais do que esclarece. A comunicação precisa ser pedagógica e explícita sobre as causas de cada diferença.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 15 — DESAFIOS POR TIPO DE EMPRESA ═══ -->
+<div class="slide" id="s15">
+  <div class="hdr"><span class="h-tag purple">6.7</span><div class="h-sep"></div><span class="h-title">Desafios práticos de transição por tipo de empresa</span></div>
+  <div class="body" style="gap:9px;display:grid;grid-template-columns:1fr 1fr;align-items:start;">
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div class="card ani-up dl1" style="padding:12px 14px;border-left:3px solid var(--blue);">
+        <div class="card-title">🏭 Empresas Industriais</div>
+        <div style="display:flex;flex-direction:column;gap:4px;margin-top:6px;">
+          <div class="card-text"><strong style="color:var(--red);">Principal desafio:</strong> Segregação das variações cambiais por origem. Sistemas ERP tipicamente registram variação cambial em uma conta única.</div>
+          <div class="card-text"><strong style="color:var(--teal);">Solução:</strong> Criar centros de custo ou códigos de natureza por ativo/passivo de origem desde o início de 2026.</div>
+        </div>
+      </div>
+      <div class="card ani-up dl2" style="padding:12px 14px;border-left:3px solid var(--amber);">
+        <div class="card-title">🏢 Holdings e Grupos Econômicos</div>
+        <div style="display:flex;flex-direction:column;gap:4px;margin-top:6px;">
+          <div class="card-text"><strong style="color:var(--red);">Principal desafio:</strong> Reclassificação da equivalência patrimonial e comunicação da queda do "resultado operacional" para o conselho e acionistas.</div>
+          <div class="card-text"><strong style="color:var(--teal);">Solução:</strong> Preparar análise mostrando que o ROP reflete melhor as operações próprias — e que a equivalência patrimonial fica visível separadamente.</div>
+        </div>
+      </div>
+      <div class="card ani-up dl3" style="padding:12px 14px;border-left:3px solid var(--green);">
+        <div class="card-title">🌱 Agronegócio e Commodities</div>
+        <div style="display:flex;flex-direction:column;gap:4px;margin-top:6px;">
+          <div class="card-text"><strong style="color:var(--red);">Principal desafio:</strong> Hedge accounting — derivativos de commodities precisam ser classificados pela categoria do item protegido (operacional ou investimento).</div>
+          <div class="card-text"><strong style="color:var(--teal);">Solução:</strong> Mapear cada instrumento de hedge com sua designação formal e identificar a categoria do item protegido antes do fechamento de 2026.</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div class="card ani-up dr1" style="padding:12px 14px;border-left:3px solid var(--purple);">
+        <div class="card-title">🏦 Bancos e Instituições Financeiras</div>
+        <div style="display:flex;flex-direction:column;gap:4px;margin-top:6px;">
+          <div class="card-text"><strong style="color:var(--red);">Principal desafio:</strong> Avaliar se a apresentação por liquidez ainda é mais relevante ou se a estrutura de 5 categorias passa a ser obrigatória para algum tipo de relatório específico.</div>
+          <div class="card-text"><strong style="color:var(--teal);">Solução:</strong> Engajar o Banco Central antecipadamente sobre as mudanças nos modelos de reporte regulatório.</div>
+        </div>
+      </div>
+      <div class="card ani-up dr2" style="padding:12px 14px;border-left:3px solid var(--red);">
+        <div class="card-title">📈 Empresas de Capital Aberto (B3)</div>
+        <div style="display:flex;flex-direction:column;gap:4px;margin-top:6px;">
+          <div class="card-text"><strong style="color:var(--red);">Principal desafio:</strong> Revisão das MPMs divulgadas ao mercado — press releases, apresentações de RI e guidance precisam ser compatíveis com as novas regras de reconciliação.</div>
+          <div class="card-text"><strong style="color:var(--teal);">Solução:</strong> Auditoria interna de todas as métricas divulgadas externamente para identificar quais se tornam MPMs no IFRS 18 e quais reconciliações precisam ser preparadas.</div>
+        </div>
+      </div>
+      <div class="card ani-up dr3" style="padding:12px 14px;border-left:3px solid var(--teal);">
+        <div class="card-title">⚡ Energia, Infraestrutura e Concessões</div>
+        <div style="display:flex;flex-direction:column;gap:4px;margin-top:6px;">
+          <div class="card-text"><strong style="color:var(--red);">Principal desafio:</strong> Custo de desconto de provisões de descomissionamento — reclassificação para categoria Financiamento pode impactar indicadores operacionais relevantes para os contratos de concessão.</div>
+          <div class="card-text"><strong style="color:var(--teal);">Solução:</strong> Verificar covenants dos contratos de concessão e financiamento que façam referência ao resultado operacional.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 16 — PONTOS DE ATENÇÃO ═══ -->
+<div class="slide" id="s16">
+  <div class="hdr"><span class="h-tag red">6.8</span><div class="h-sep"></div><span class="h-title">Pontos de atenção — auditores, analistas e gestores contábeis</span></div>
+  <div class="body" style="gap:9px;display:grid;grid-template-columns:1fr 1fr 1fr;align-items:start;">
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div style="background:rgba(192,57,43,0.12);border-radius:7px;padding:9px 12px;text-align:center;font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--red);">🔍 AUDITORES</div>
+      <div class="card red ani-up dl1" style="padding:10px 12px;"><div class="card-text"><strong style="color:var(--white);">Completude da nota de transição:</strong> Verificar se todas as reclassificações materiais estão divulgadas com valor, natureza e justificativa.</div></div>
+      <div class="card red ani-up dl2" style="padding:10px 12px;"><div class="card-text"><strong style="color:var(--white);">Consistência interna:</strong> A reclassificação da equivalência patrimonial na DRE comparativa deve refletir na desagregação do Balanço comparativo — coligadas separadas.</div></div>
+      <div class="card red ani-up dl3" style="padding:10px 12px;"><div class="card-text"><strong style="color:var(--white);">Impraticabilidade:</strong> Se a entidade alega impraticabilidade, o auditor deve verificar se os esforços realizados estão documentados e se a alegação é razoável.</div></div>
+      <div class="card red ani-up dl4" style="padding:10px 12px;"><div class="card-text"><strong style="color:var(--white);">MPMs do comparativo:</strong> As MPMs divulgadas em releases de 2026 precisam estar reconciliadas nas notas de 2027. O auditor precisa rastrear as métricas externas da entidade.</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div style="background:rgba(59,130,246,0.12);border-radius:7px;padding:9px 12px;text-align:center;font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--blue);">📈 ANALISTAS</div>
+      <div class="card ani-up d1" style="padding:10px 12px;border-left:3px solid var(--blue);"><div class="card-text"><strong style="color:var(--white);">Atualizar modelos:</strong> Séries históricas de EBIT precisarão ser ajustadas manualmente para períodos anteriores a 2026 — a reapresentação obrigatória cobre apenas 2026.</div></div>
+      <div class="card ani-up d2" style="padding:10px 12px;border-left:3px solid var(--blue);"><div class="card-text"><strong style="color:var(--white);">Múltiplos de mercado:</strong> O consenso de EV/EBIT vai migrar para EV/ROP — empresas com grandes efeitos de equivalência patrimonial terão múltiplos significativamente diferentes.</div></div>
+      <div class="card ani-up d3" style="padding:10px 12px;border-left:3px solid var(--blue);"><div class="card-text"><strong style="color:var(--white);">Qualidade das notas:</strong> A nota de transição é uma fonte rica de informação — empresas que divulgam reconciliações detalhadas e políticas claras merecem avaliação positiva de transparência.</div></div>
+      <div class="card ani-up d4" style="padding:10px 12px;border-left:3px solid var(--blue);"><div class="card-text"><strong style="color:var(--white);">Comparabilidade setorial:</strong> Em 2027, pela primeira vez, todas as empresas do mesmo setor terão ROP calculado com a mesma composição — oportunidade para análise comparativa robusta.</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div style="background:rgba(0,169,157,0.12);border-radius:7px;padding:9px 12px;text-align:center;font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--teal);">⚙️ GESTORES CONTÁBEIS</div>
+      <div class="card teal ani-up dr1" style="padding:10px 12px;"><div class="card-text"><strong style="color:var(--white);">Dados de 2026:</strong> O período comparativo precisa de dados com granularidade suficiente. Garantir que os lançamentos de 2026 tenham o nível de detalhe necessário para reapresentação.</div></div>
+      <div class="card teal ani-up dr2" style="padding:10px 12px;"><div class="card-text"><strong style="color:var(--white);">Plano de contas:</strong> Revisão antecipada para criar as segregações necessárias — especialmente variações cambiais por origem e desagregação de "outros" ativos e passivos.</div></div>
+      <div class="card teal ani-up dr3" style="padding:10px 12px;"><div class="card-text"><strong style="color:var(--white);">Políticas contábeis:</strong> Documentar formalmente os julgamentos sobre atividade principal antes do fechamento de 2026 — essa documentação será parte da nota de transição.</div></div>
+      <div class="card teal ani-up dr4" style="padding:10px 12px;"><div class="card-text"><strong style="color:var(--white);">Alinhamento com auditores:</strong> Discutir as posições de julgamento (atividade principal, classificação de ativos) com os auditores antes do fechamento de 2026 — evitar surpresas no primeiro ano.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 17 — CRONOGRAMA 2025–2027 ═══ -->
+<div class="slide" id="s17">
+  <div class="hdr"><span class="h-tag amber">6.9</span><div class="h-sep"></div><span class="h-title">Cronograma de preparação 2025–2027</span></div>
+  <div class="body" style="gap:9px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="background:rgba(200,214,224,0.08);border-radius:7px;padding:9px;text-align:center;font-family:'Syne',sans-serif;font-size:clamp(11px,1.3vw,14px);font-weight:800;color:var(--gray2);">2025</div>
+        <div class="card ani-up d1" style="padding:10px 12px;border-left:3px solid var(--gray2);">
+          <div style="font-size:10px;font-weight:700;color:var(--gray2);margin-bottom:4px;">1º SEMESTRE</div>
+          <div class="card-text">→ Diagnóstico completo dos impactos por item de DRE e Balanço<br>→ Mapeamento das variações cambiais por origem<br>→ Avaliação dos sistemas ERP e lacunas de dados</div>
+        </div>
+        <div class="card ani-up d2" style="padding:10px 12px;border-left:3px solid var(--gray2);">
+          <div style="font-size:10px;font-weight:700;color:var(--gray2);margin-bottom:4px;">2º SEMESTRE</div>
+          <div class="card-text">→ Treinamento das equipes de contabilidade, FP&A e RI<br>→ Revisão das MPMs divulgadas externamente<br>→ Ajuste do plano de contas e parametrizações do ERP<br>→ Primeiras discussões com auditores externos</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="background:rgba(245,166,35,0.12);border-radius:7px;padding:9px;text-align:center;font-family:'Syne',sans-serif;font-size:clamp(11px,1.3vw,14px);font-weight:800;color:var(--amber);">2026</div>
+        <div class="card amber ani-up d1" style="padding:10px 12px;">
+          <div style="font-size:10px;font-weight:700;color:var(--amber);margin-bottom:4px;">1º SEMESTRE</div>
+          <div class="card-text">→ Início do registro contábil com granularidade IFRS 18<br>→ Variações cambiais por origem desde jan/2026<br>→ Comunicação antecipada ao mercado sobre os impactos esperados<br>→ Testes paralelos: DRE em IAS 1 e em IFRS 18 simultaneamente</div>
+        </div>
+        <div class="card amber ani-up d2" style="padding:10px 12px;">
+          <div style="font-size:10px;font-weight:700;color:var(--amber);margin-bottom:4px;">2º SEMESTRE</div>
+          <div class="card-text">→ Releases de resultados já com seção sobre impacto do IFRS 18<br>→ Fechamento de 31/dez/2026 com dados suficientes para reapresentação<br>→ Documentação formal dos julgamentos sobre atividade principal<br>→ Alinhamento final com auditores sobre posições de julgamento</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="background:rgba(39,174,96,0.12);border-radius:7px;padding:9px;text-align:center;font-family:'Syne',sans-serif;font-size:clamp(11px,1.3vw,14px);font-weight:800;color:var(--green);">2027</div>
+        <div class="card green ani-up d1" style="padding:10px 12px;">
+          <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">1º SEMESTRE</div>
+          <div class="card-text">→ Primeiro ITR em IFRS 18 (1T27)<br>→ DRE trimestral com as 5 categorias obrigatórias<br>→ Comparativos de 2026 reapresentados junto ao ITR<br>→ Nota de transição incluída no primeiro ITR</div>
+        </div>
+        <div class="card green ani-up d2" style="padding:10px 12px;">
+          <div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:4px;">FECHAMENTO ANUAL</div>
+          <div class="card-text">→ Primeira DFP completa em IFRS 18<br>→ Notas com políticas contábeis materiais revisadas<br>→ Nota de transição com reconciliação completa 2026→2027<br>→ MPMs reconciliadas conforme §117–125</div>
+        </div>
+      </div>
+    </div>
+    <div class="callout teal ani-up d5">
+      <span>💡</span>
+      <span><strong>Regra prática:</strong> O maior risco de implementação não é entender a norma — é não ter os dados históricos de 2026 com o nível de granularidade necessário para a reapresentação. A preparação dos sistemas em 2025 é o investimento mais crítico de toda a transição.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 18 — REF IAS 8 §19–26 ═══ -->
+<div class="slide ref-slide" id="s18">
+  <div class="ref-bar"></div><div class="ref-bg-par">IAS8</div><div class="ref-conn"></div>
+  <div class="ref-hdr">
+    <div class="ref-badge"><span>📜</span><span class="ref-badge-text">O que diz a norma</span></div>
+    <div class="h-sep"></div>
+    <span class="h-title">Aplicação retrospectiva — IAS 8 (base da transição)</span>
+    <span class="ref-norm-ref">IAS 8 · §19–26</span>
+  </div>
+  <div class="ref-body">
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇬🇧</span><span class="ref-col-lang">Original · <span>English</span></span></div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 19</span><span class="ref-par-lbl">Retrospective application — definition</span></div>
+        <div class="ref-par-text">"<strong>Retrospective application</strong> is applying a new accounting policy to transactions, other events and conditions as if that policy had always been applied. <span class="hl">Restating comparatives</span> is correcting the recognition, measurement and disclosure of amounts of elements of financial statements as if a prior period error had never occurred."</div>
+      </div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 24</span><span class="ref-par-lbl">Impracticability — definition</span></div>
+        <div class="ref-par-text">"Applying a requirement is <strong>impracticable</strong> when the entity cannot apply it after making every <span class="hl">reasonable effort to do so</span>. For a particular prior period, it is impracticable to apply a change in an accounting policy retrospectively if: (a) the effects of the retrospective application are not determinable; (b) retrospective application requires assumptions about what management's intent would have been in that period [...]"</div>
+      </div>
+    </div>
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇧🇷</span><span class="ref-col-lang">Tradução · <span>Português</span></span></div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 19</span><span class="ref-par-lbl">Aplicação retrospectiva — definição</span></div>
+        <div class="ref-par-text">"<strong>Aplicação retrospectiva</strong> é a aplicação de uma nova política contábil a transações, outros eventos e condições como se essa política sempre tivesse sido aplicada. <span class="hl">Reapresentar comparativos</span> é corrigir o reconhecimento, mensuração e divulgação de valores de elementos das demonstrações como se um erro de período anterior nunca tivesse ocorrido."</div>
+      </div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 24</span><span class="ref-par-lbl">Impraticabilidade — definição</span></div>
+        <div class="ref-par-text">"A aplicação de um requisito é <strong>impraticável</strong> quando a entidade não consegue aplicá-lo após <span class="hl">todo esforço razoável para fazê-lo</span>. Para um período anterior específico, é impraticável aplicar retrospectivamente uma mudança de política contábil se: (a) os efeitos da aplicação retrospectiva não são determináveis; (b) a aplicação retrospectiva requer premissas sobre a intenção da administração naquele período [...]"</div>
+      </div>
+    </div>
+    <div class="ref-fn ani-fn"><span>⚠</span><span><strong>Nota:</strong> O IAS 8 (Bases de Preparação) é a norma que define as regras gerais para mudanças de política contábil e é a base sobre a qual a transição do IFRS 18 é executada. Tradução livre para fins didáticos.</span></div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 19 — SLIDE FINAL: O QUE FICA desta aula ═══ -->
+<div class="slide enc-final no-pad" id="s19">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div class="bar"></div>
+  <div class="cnt">
+    <div class="eyebrow">Aula 06 — Síntese</div>
+    <div class="title">O que fica<br>desta aula</div>
+    <div class="subtitle">Os pontos que você não pode esquecer sobre Comparativos e Transição</div>
+    <div class="enc-items">
+      <div class="enc-item"><div class="enc-dot"></div><span>A abordagem retrospectiva plena exige reapresentar a DRE e o Balanço de 2026 no formato IFRS 18 — não é opcional e não é apenas uma nota explicativa</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>O resultado líquido não muda — o que muda é como ele é apresentado: a transparência sobre a origem de cada componente é o objetivo central da transição</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>A granularidade dos dados de 2026 é o maior risco prático: se os sistemas não capturarem variações cambiais por origem e desagregações necessárias em 2026, a reapresentação será impraticável</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>A nota de transição obrigatória precisa reconciliar cada reclassificação relevante, com valor, natureza e justificativa — é o documento central de auditoria da primeira adoção</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>Comunicar o mercado em 2026 é essencial: a queda do "resultado operacional" na primeira DRE IFRS 18 pode ser interpretada como deterioração do negócio se não houver comunicação antecipada e clara</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>O cronograma começa agora — 2025 para sistemas e treinamento, 2026 para registros com granularidade e comunicação, 2027 para a primeira publicação obrigatória</span></div>
+    </div>
+    <div class="enc-next">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      Próximo: Aula 7 — Estudo de Caso Prático: reapresentação completa de demonstrações financeiras
+    </div>
+  </div>
+</div>
+
+</div><!-- #slides -->
+
+<div id="nav-trigger"></div>
+<div id="nav">
+  <button class="nav-btn" id="btn-prev" onclick="go(-1)" disabled>&#8592;</button>
+  <div id="progress-dots"></div>
+  <span id="slide-counter">1 / 19</span>
+  <button class="nav-btn" id="btn-next" onclick="go(1)">&#8594;</button>
+</div>
+
+<script src="auth.js"></script>
+<script>
+window.CourseAuth.requireCourseAccess('ifrs18', { fallbackUrl: 'contabil.html' });
+
+const isMobileView = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+
+if (isMobileView) {
+  const navTriggerEl = document.getElementById('nav-trigger');
+  const navEl = document.getElementById('nav');
+  const hintEl = document.getElementById('kb-hint');
+  const homeBtnEl = document.getElementById('home-btn');
+  const slidesWrap = document.getElementById('slides');
+
+  if (navTriggerEl) navTriggerEl.style.display = 'none';
+  if (navEl) navEl.style.display = 'none';
+  if (hintEl) hintEl.style.display = 'none';
+  if (homeBtnEl) homeBtnEl.style.display = 'none';
+
+  if (slidesWrap) {
+    slidesWrap.style.width = '100%';
+    slidesWrap.style.height = 'auto';
+    slidesWrap.style.position = 'static';
+  }
+
+  document.querySelectorAll('.slide').forEach(slide => slide.classList.add('active'));
+  document.documentElement.style.height = 'auto';
+  document.body.style.height = 'auto';
+  document.documentElement.style.overflowX = 'hidden';
+  document.body.style.overflowX = 'hidden';
+  document.documentElement.style.overflowY = 'auto';
+  document.body.style.overflowY = 'auto';
+} else {
+const TOTAL = 19;
+let current = 1, busy = false;
+const dotsEl = document.getElementById('progress-dots');
+for (let i = 1; i <= TOTAL; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 1 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
+function showSlide(n) {
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  const old = document.getElementById('s' + n);
+  const clone = old.cloneNode(true);
+  old.parentNode.replaceChild(clone, old);
+  clone.classList.add('active');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i + 1 === n));
+  document.getElementById('slide-counter').textContent = n + ' / ' + TOTAL;
+  document.getElementById('btn-prev').disabled = n === 1;
+  document.getElementById('btn-next').disabled = n === TOTAL;
+}
+function go(dir) {
+  if (busy) return;
+  const n = current + dir;
+  if (n < 1 || n > TOTAL) return;
+  busy = true; current = n;
+  showSlide(current);
+  setTimeout(() => { busy = false; }, 350);
+}
+function goTo(n) {
+  if (n === current || busy) return;
+  busy = true; current = n;
+  showSlide(current);
+  setTimeout(() => { busy = false; }, 350);
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+});
+const navTrigger = document.getElementById('nav-trigger');
+const nav = document.getElementById('nav');
+const kbHint = document.getElementById('kb-hint');
+let hideTimer;
+function showNav() { clearTimeout(hideTimer); nav.classList.add('visible'); kbHint.classList.add('visible'); }
+function scheduleHide() { hideTimer = setTimeout(() => { nav.classList.remove('visible'); kbHint.classList.remove('visible'); }, 2000); }
+navTrigger.addEventListener('mouseenter', showNav);
+navTrigger.addEventListener('mouseleave', scheduleHide);
+nav.addEventListener('mouseenter', showNav);
+nav.addEventListener('mouseleave', scheduleHide);
+kbHint.addEventListener('mouseenter', showNav);
+showNav();
+setTimeout(() => { scheduleHide(); }, 3000);
+showSlide(1);
+}
+</script>
+</body>
+</html>
+
+
+

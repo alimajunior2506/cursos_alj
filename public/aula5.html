@@ -1,0 +1,1467 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>IFRS 18 — Aula 5: Balanço Patrimonial e Notas Explicativas</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --navy:#0D2137; --dark:#081929; --card:#112840;
+  --teal:#00A99D; --amber:#F5A623; --white:#FFFFFF;
+  --gray:#C8D6E0; --gray2:#7A9AB0; --red:#C0392B; --green:#27AE60;
+  --purple:#8B5CF6; --blue:#3B82F6;
+}
+
+html, body {
+  width:100%; height:100%;
+  overflow:hidden;
+  background:var(--dark);
+  font-family:'DM Sans', sans-serif;
+  color:var(--white);
+}
+
+#slides { width:100%; height:100%; position:relative; }
+
+.slide {
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  opacity:0; pointer-events:none;
+  overflow:hidden;
+  padding-top: clamp(44px, 5.6vh, 56px);
+  padding-bottom: 12px;
+}
+.slide.active { opacity:1; pointer-events:all; }
+.no-pad { padding-top:0 !important; padding-bottom:0 !important; }
+
+/* NAV */
+#nav-trigger { position:fixed; bottom:0; left:0; right:0; height:80px; z-index:999; }
+#nav {
+  position:fixed; bottom:28px; left:50%;
+  transform:translateX(-50%) translateY(100px);
+  z-index:1000; display:flex; align-items:center; gap:14px;
+  opacity:0; transition:opacity 0.3s ease, transform 0.3s ease;
+  pointer-events:none;
+}
+#nav.visible { opacity:1; transform:translateX(-50%) translateY(0); pointer-events:all; }
+.nav-btn {
+  width:clamp(36px,4.2vw,42px); height:clamp(36px,4.2vw,42px);
+  border-radius:50%; border:1px solid rgba(0,169,157,0.35);
+  background:rgba(17,40,64,0.92); color:var(--teal);
+  font-size:18px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:all 0.2s; backdrop-filter:blur(10px);
+}
+.nav-btn:hover { background:rgba(0,169,157,0.18); border-color:var(--teal); }
+.nav-btn:disabled { opacity:0.25; cursor:default; }
+#progress-dots { display:flex; gap:4px; align-items:center; flex-wrap:wrap; max-width:300px; justify-content:center; }
+.dot { width:5px; height:5px; border-radius:50%; background:var(--gray2); transition:all 0.35s; cursor:pointer; flex-shrink:0; }
+.dot.active { background:var(--teal); width:18px; border-radius:3px; }
+#slide-counter { font-family:'Syne',sans-serif; font-size:12px; font-weight:700; color:var(--gray2); min-width:58px; text-align:center; }
+
+#home-btn {
+  position:fixed; top:10px; left:12px; z-index:2000;
+  background:rgba(17,40,64,0.92); border:1px solid rgba(0,169,157,0.25);
+  border-radius:7px; padding:7px 14px;
+  font-size:clamp(10px,1.2vw,12px); font-weight:500; color:var(--teal);
+  text-decoration:none; display:flex; align-items:center; gap:6px;
+  backdrop-filter:blur(10px); transition:all 0.2s;
+}
+#home-btn:hover { background:rgba(0,169,157,0.14); }
+
+#kb-hint {
+  position:fixed; bottom:28px; right:28px; z-index:1000;
+  font-size:11px; color:var(--gray2);
+  display:flex; align-items:center; gap:6px;
+  opacity:0; transition:opacity 0.3s ease; pointer-events:none;
+}
+#kb-hint.visible { opacity:0.6; pointer-events:all; }
+.kb { border:1px solid var(--gray2); border-radius:3px; padding:2px 6px; font-size:10px; }
+
+/* ANIMAÇÕES */
+@keyframes fadeUp    { from{opacity:0;transform:translateY(28px)}  to{opacity:1;transform:translateY(0)} }
+@keyframes fadeLeft  { from{opacity:0;transform:translateX(-28px)} to{opacity:1;transform:translateX(0)} }
+@keyframes fadeRight { from{opacity:0;transform:translateX(28px)}  to{opacity:1;transform:translateX(0)} }
+@keyframes scaleIn   { from{opacity:0;transform:scale(0.88)}       to{opacity:1;transform:scale(1)} }
+@keyframes slideBar  { from{transform:scaleY(0)} to{transform:scaleY(1)} }
+@keyframes glowPulse { 0%,100%{opacity:0.07} 50%{opacity:0.13} }
+@keyframes drawLine  { from{width:0} to{width:100%} }
+
+/* HEADER */
+.hdr {
+  background:var(--card);
+  padding: clamp(12px,1.8vh,18px) clamp(24px,4vw,48px) clamp(12px,1.8vh,18px) clamp(20px,3vw,36px);
+  display:flex; align-items:center; gap:12px;
+  border-bottom:1px solid rgba(200,214,224,0.07);
+  opacity:0; flex-shrink:0;
+}
+.slide.active .hdr { animation:fadeUp 0.5s ease 0.1s forwards; }
+.h-tag { font-family:'Syne',sans-serif; font-size:clamp(9px,1vw,11px); font-weight:700; letter-spacing:2px; color:var(--teal); text-transform:uppercase; white-space:nowrap; }
+.h-tag.amber{color:var(--amber);} .h-tag.green{color:var(--green);} .h-tag.red{color:var(--red);} .h-tag.purple{color:var(--purple);} .h-tag.blue{color:var(--blue);}
+.h-sep { width:1px; height:16px; background:rgba(200,214,224,0.18); flex-shrink:0; }
+.h-title { font-family:'Syne',sans-serif; font-size:clamp(14px,1.8vw,20px); font-weight:700; color:var(--white); }
+.h-time { margin-left:auto; font-size:11px; color:var(--gray2); white-space:nowrap; }
+
+/* BODY */
+.body {
+  flex:1;
+  padding: clamp(12px,1.8vh,20px) clamp(20px,4vw,48px) clamp(10px,1.4vh,16px) clamp(18px,3vw,36px);
+  display:flex; flex-direction:column;
+  overflow:hidden; gap:8px;
+  min-height:0;
+}
+.body.center { justify-content:center; }
+.body.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:clamp(10px,1.5vw,20px); align-items:start; overflow:hidden; }
+.body.grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:clamp(8px,1.2vw,14px); align-items:start; overflow:hidden; }
+
+/* CARDS */
+.card {
+  background:var(--card); border-radius:10px;
+  padding: clamp(10px,1.2vh,16px) clamp(12px,1.4vw,18px);
+  border:1px solid rgba(200,214,224,0.07);
+  min-height:0;
+}
+.card.teal  { border-left:3px solid var(--teal); }
+.card.amber { border-left:3px solid var(--amber); }
+.card.green { border-left:3px solid var(--green); }
+.card.red   { border-left:3px solid var(--red); }
+.card.purple{ border-left:3px solid var(--purple); }
+.card.blue  { border-left:3px solid var(--blue); }
+.card-title { font-family:'Syne',sans-serif; font-size:clamp(11px,1.3vw,14px); font-weight:700; color:var(--white); margin-bottom:5px; }
+.card-text  { font-size:clamp(10px,1.15vw,12.5px); color:var(--gray2); line-height:1.55; }
+.card-tag { display:inline-block; font-size:clamp(8px,0.9vw,10px); font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:2px 7px; border-radius:3px; margin-bottom:6px; }
+.card-tag.teal  { background:rgba(0,169,157,0.15); color:var(--teal); }
+.card-tag.amber { background:rgba(245,166,35,0.15); color:var(--amber); }
+.card-tag.green { background:rgba(39,174,96,0.15); color:var(--green); }
+.card-tag.red   { background:rgba(192,57,43,0.15); color:var(--red); }
+.card-tag.purple{ background:rgba(139,92,246,0.15); color:var(--purple); }
+.card-tag.blue  { background:rgba(59,130,246,0.15); color:var(--blue); }
+
+/* ANIMAÇÕES ESCALONADAS */
+.ani-up   { opacity:0; transform:translateY(22px); }
+.ani-left { opacity:0; transform:translateX(-22px); }
+.ani-right{ opacity:0; transform:translateX(22px); }
+.ani-scale{ opacity:0; transform:scale(0.88); }
+.slide.active .d1  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.20s forwards; }
+.slide.active .d2  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.32s forwards; }
+.slide.active .d3  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.44s forwards; }
+.slide.active .d4  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.56s forwards; }
+.slide.active .d5  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.68s forwards; }
+.slide.active .d6  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.80s forwards; }
+.slide.active .d7  { animation:fadeUp   0.5s cubic-bezier(0.22,1,0.36,1) 0.92s forwards; }
+.slide.active .dl1 { animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.20s forwards; }
+.slide.active .dl2 { animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.33s forwards; }
+.slide.active .dl3 { animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.46s forwards; }
+.slide.active .dl4 { animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.59s forwards; }
+.slide.active .dl5 { animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.72s forwards; }
+.slide.active .dr1 { animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.20s forwards; }
+.slide.active .dr2 { animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.33s forwards; }
+.slide.active .dr3 { animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.46s forwards; }
+.slide.active .dr4 { animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.59s forwards; }
+.slide.active .dr5 { animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.72s forwards; }
+.slide.active .sc1 { animation:scaleIn  0.5s cubic-bezier(0.22,1,0.36,1) 0.20s forwards; }
+.slide.active .sc2 { animation:scaleIn  0.5s cubic-bezier(0.22,1,0.36,1) 0.35s forwards; }
+.slide.active .sc3 { animation:scaleIn  0.5s cubic-bezier(0.22,1,0.36,1) 0.50s forwards; }
+
+/* CALLOUT */
+.callout {
+  border-radius:8px;
+  padding: clamp(9px,1.1vh,12px) clamp(12px,1.4vw,18px);
+  font-size:clamp(10px,1.2vw,13px); font-weight:500; line-height:1.5;
+  display:flex; align-items:flex-start; gap:9px; flex-shrink:0;
+}
+.callout.teal  { background:rgba(0,169,157,0.1); border:1px solid rgba(0,169,157,0.25); color:var(--white); border-left:3px solid var(--teal); }
+.callout.amber { background:rgba(245,166,35,0.1); border:1px solid rgba(245,166,35,0.25); color:var(--amber); border-left:3px solid var(--amber); }
+.callout.green { background:rgba(39,174,96,0.1);  border:1px solid rgba(39,174,96,0.25);  color:var(--white); border-left:3px solid var(--green); }
+.callout.red   { background:rgba(192,57,43,0.1);  border:1px solid rgba(192,57,43,0.25);  color:var(--white); border-left:3px solid var(--red); }
+.callout.purple{ background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.25); color:var(--white); border-left:3px solid var(--purple); }
+
+/* TABELA */
+.tbl { width:100%; border-collapse:collapse; font-size:clamp(9px,1.1vw,12.5px); }
+.tbl tr td { padding:clamp(4px,0.6vh,7px) clamp(7px,0.9vw,10px); border-bottom:1px solid rgba(200,214,224,0.06); }
+.tbl .cat-hdr td { background:rgba(0,169,157,0.12); color:var(--teal); font-family:'Syne',sans-serif; font-weight:700; font-size:clamp(8px,0.9vw,11px); letter-spacing:1.2px; text-transform:uppercase; }
+.tbl .cat-hdr.amber td { background:rgba(245,166,35,0.1); color:var(--amber); }
+.tbl .cat-hdr.red td   { background:rgba(192,57,43,0.1);  color:var(--red); }
+.tbl .cat-hdr.purple td{ background:rgba(139,92,246,0.1); color:var(--purple); }
+.tbl .cat-hdr.green td { background:rgba(39,174,96,0.1);  color:var(--green); }
+.tbl .item td  { color:var(--gray2); }
+.tbl .item td:last-child { text-align:right; color:var(--white); }
+.tbl .item.neg td:last-child { color:#F87171; }
+.tbl .item.hl td { color:var(--amber); }
+.tbl .item.hl td:last-child { color:var(--amber); }
+.tbl .sub td   { color:var(--white); font-weight:700; background:rgba(200,214,224,0.04); }
+.tbl .sub td:last-child { color:var(--teal); text-align:right; }
+.tbl .sub.amber td:last-child { color:var(--amber); }
+.tbl .tot td   { color:var(--white); font-family:'Syne',sans-serif; font-weight:800; background:rgba(0,169,157,0.08); }
+.tbl .tot td:last-child { color:var(--teal); text-align:right; }
+.tbl .tot.amber td:last-child { color:var(--amber); }
+.tbl .sect td  { color:var(--gray2); font-size:clamp(8px,0.85vw,10px); font-style:italic; padding-top:6px; }
+.tbl .ind td:first-child { padding-left:clamp(14px,2vw,24px); }
+
+/* BEFORE/AFTER */
+.ad-row { display:grid; grid-template-columns:1fr 32px 1fr; gap:7px; align-items:center; }
+.ad-item { padding:clamp(8px,1vh,11px) clamp(10px,1.2vw,14px); border-radius:7px; font-size:clamp(10px,1.1vw,12.5px); color:var(--white); line-height:1.4; }
+.ad-item.red   { background:rgba(192,57,43,0.12); border:1px solid rgba(192,57,43,0.25); }
+.ad-item.green { background:rgba(39,174,96,0.10);  border:1px solid rgba(39,174,96,0.25); }
+.ad-arrow { display:flex; align-items:center; justify-content:center; }
+.circ { width:26px; height:26px; background:var(--amber); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:var(--white); flex-shrink:0; }
+
+/* BADGE */
+.badge { display:inline-flex; align-items:center; gap:5px; padding:3px 9px; border-radius:4px; font-size:clamp(8px,0.9vw,10px); font-weight:700; letter-spacing:1px; text-transform:uppercase; }
+.badge.teal  { background:rgba(0,169,157,0.12); color:var(--teal);   border:1px solid rgba(0,169,157,0.25); }
+.badge.amber { background:rgba(245,166,35,0.12); color:var(--amber);  border:1px solid rgba(245,166,35,0.25); }
+.badge.green { background:rgba(39,174,96,0.12);  color:var(--green);  border:1px solid rgba(39,174,96,0.25); }
+.badge.red   { background:rgba(192,57,43,0.12);  color:var(--red);    border:1px solid rgba(192,57,43,0.25); }
+.badge.purple{ background:rgba(139,92,246,0.12); color:var(--purple); border:1px solid rgba(139,92,246,0.25); }
+
+/* CAPA */
+.capa { background:var(--dark); justify-content:flex-end; }
+.capa .glow { position:absolute; border-radius:50%; pointer-events:none; filter:blur(90px); animation:glowPulse 5s ease infinite; }
+.capa .g1 { width:700px;height:500px;background:rgba(0,169,157,1);top:-200px;left:-150px; }
+.capa .g2 { width:500px;height:400px;background:rgba(59,130,246,1);bottom:-100px;right:-100px;animation-delay:2.5s; }
+.capa .bar { position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--teal);transform:scaleY(0);transform-origin:top; }
+.capa.active .bar { animation:slideBar 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s forwards; }
+.capa .cnt { padding:0 clamp(32px,5vw,64px) clamp(40px,7vh,72px) clamp(28px,4vw,52px); position:relative; z-index:1; }
+.capa .eyebrow { font-size:clamp(9px,1vw,11px);font-weight:500;letter-spacing:3px;color:var(--teal);text-transform:uppercase;display:flex;align-items:center;gap:10px;margin-bottom:18px;opacity:0; }
+.capa .eyebrow::before { content:'';width:22px;height:2px;background:var(--teal); }
+.capa.active .eyebrow { animation:fadeLeft 0.6s ease 0.35s forwards; }
+.capa .t1 { font-family:'Syne',sans-serif;font-size:clamp(18px,2.4vw,30px);font-weight:400;color:var(--gray2);display:block;opacity:0; }
+.capa .t2 { font-family:'Syne',sans-serif;font-size:clamp(40px,6vw,80px);font-weight:800;letter-spacing:-3px;color:var(--teal);display:block;opacity:0;line-height:1; }
+.capa .t3 { font-family:'Syne',sans-serif;font-size:clamp(20px,3vw,44px);font-weight:800;letter-spacing:-2px;color:var(--white);display:block;opacity:0;line-height:1.1; }
+.capa .t4 { font-family:'Syne',sans-serif;font-size:clamp(12px,1.7vw,22px);font-weight:500;color:var(--amber);display:block;opacity:0;margin-top:10px; }
+.capa.active .t1 { animation:fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.45s forwards; }
+.capa.active .t2 { animation:fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.58s forwards; }
+.capa.active .t3 { animation:fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.72s forwards; }
+.capa.active .t4 { animation:fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.88s forwards; }
+.capa .meta { display:flex;flex-wrap:wrap;gap:clamp(20px,3vw,36px);padding-top:20px;border-top:1px solid rgba(200,214,224,0.1);margin-top:14px;opacity:0; }
+.capa.active .meta { animation:fadeUp 0.6s ease 1.05s forwards; }
+.meta-item { display:flex;flex-direction:column;gap:3px; }
+.meta-label { font-size:clamp(8px,0.9vw,10px);letter-spacing:2px;color:var(--gray2);text-transform:uppercase; }
+.meta-val { font-family:'Syne',sans-serif;font-size:clamp(12px,1.4vw,15px);font-weight:700;color:var(--white); }
+.meta-val span { color:var(--amber); }
+.bg-num { position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-family:'Syne',sans-serif;font-size:clamp(160px,20vw,300px);font-weight:800;color:rgba(0,169,157,0.03);line-height:1;user-select:none;letter-spacing:-10px;pointer-events:none;z-index:0; }
+
+/* ENCERRAMENTO */
+.enc { background:var(--dark); justify-content:flex-end; }
+.enc .bar { position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--teal);transform:scaleY(0);transform-origin:top; }
+.enc.active .bar { animation:slideBar 0.6s cubic-bezier(0.22,1,0.36,1) 0.1s forwards; }
+.enc .cnt { padding:0 clamp(32px,5vw,64px) clamp(36px,6vh,64px) clamp(28px,4vw,52px); position:relative; z-index:1; }
+.enc .eyebrow { font-size:clamp(9px,1vw,11px);font-weight:500;letter-spacing:3px;color:var(--amber);text-transform:uppercase;margin-bottom:12px;opacity:0; }
+.enc.active .eyebrow { animation:fadeUp 0.5s ease 0.2s forwards; }
+.enc .title { font-family:'Syne',sans-serif;font-size:clamp(24px,3.6vw,46px);font-weight:800;letter-spacing:-1.5px;color:var(--white);margin-bottom:20px;opacity:0; }
+.enc.active .title { animation:fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.35s forwards; }
+.enc-items { display:flex;flex-direction:column;gap:clamp(6px,0.9vh,10px); }
+.enc-item { display:flex;align-items:flex-start;gap:11px;font-size:clamp(11px,1.3vw,13.5px);color:var(--white);line-height:1.5;opacity:0;transform:translateX(-20px); }
+.enc-dot { width:8px;height:8px;flex-shrink:0;border-radius:50%;background:var(--teal);margin-top:5px; }
+.enc.active .enc-item:nth-child(1){animation:fadeLeft 0.4s ease 0.55s forwards;}
+.enc.active .enc-item:nth-child(2){animation:fadeLeft 0.4s ease 0.67s forwards;}
+.enc.active .enc-item:nth-child(3){animation:fadeLeft 0.4s ease 0.79s forwards;}
+.enc.active .enc-item:nth-child(4){animation:fadeLeft 0.4s ease 0.91s forwards;}
+.enc.active .enc-item:nth-child(5){animation:fadeLeft 0.4s ease 1.03s forwards;}
+.enc.active .enc-item:nth-child(6){animation:fadeLeft 0.4s ease 1.15s forwards;}
+.enc-next { margin-top:18px;background:var(--card);border:1px solid rgba(0,169,157,0.28);border-radius:9px;padding:12px 18px;display:flex;align-items:center;gap:11px;font-size:clamp(11px,1.2vw,13px);color:var(--teal);font-weight:500;opacity:0;transform:translateY(12px); }
+.enc.active .enc-next { animation:fadeUp 0.5s ease 1.3s forwards; }
+
+/* SLIDES DE REFERÊNCIA NORMATIVA */
+.ref-slide { background:var(--navy); }
+.ref-slide .ref-bar { position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,var(--teal) 0%,rgba(0,169,157,0.3) 100%); }
+.ref-slide .ref-bg-par { position:absolute;right:20px;bottom:-16px;font-family:'Syne',sans-serif;font-size:clamp(100px,14vw,200px);font-weight:800;color:rgba(0,169,157,0.03);line-height:1;user-select:none;pointer-events:none;z-index:0; }
+.ref-slide .ref-conn { position:absolute;left:50%;top:70px;bottom:60px;width:1px;background:linear-gradient(180deg,transparent,rgba(0,169,157,0.12) 20%,rgba(0,169,157,0.12) 80%,transparent);transform:translateX(-10px);z-index:0; }
+.ref-hdr { background:var(--card);padding:clamp(12px,1.6vh,16px) clamp(24px,3.5vw,44px) clamp(12px,1.6vh,16px) clamp(20px,3vw,36px);display:flex;align-items:center;gap:11px;border-bottom:1px solid rgba(200,214,224,0.07);flex-shrink:0;opacity:0;position:relative;z-index:1; }
+.slide.active .ref-hdr { animation:fadeUp 0.5s ease 0.1s forwards; }
+.ref-badge { display:flex;align-items:center;gap:7px;background:rgba(0,169,157,0.1);border:1px solid rgba(0,169,157,0.25);border-radius:5px;padding:4px 10px; }
+.ref-badge-text { font-family:'Courier New',monospace;font-size:clamp(9px,0.95vw,10px);font-weight:500;color:var(--teal);letter-spacing:1px; }
+.ref-norm-ref { margin-left:auto;font-family:'Courier New',monospace;font-size:clamp(9px,1vw,11px);color:var(--gray2);background:rgba(200,214,224,0.05);border:1px solid rgba(200,214,224,0.12);border-radius:4px;padding:3px 9px;white-space:nowrap; }
+.ref-body { flex:1;padding:clamp(10px,1.5vh,14px) clamp(20px,3.5vw,40px) clamp(10px,1.4vh,12px) clamp(18px,3vw,36px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.5vw,14px);position:relative;z-index:1;min-height:0; }
+.ref-col { display:flex;flex-direction:column;gap:clamp(6px,0.9vh,8px);min-height:0; }
+.ref-col-label { display:flex;align-items:center;gap:7px;flex-shrink:0; }
+.ref-col-lang { font-family:'Syne',sans-serif;font-size:clamp(9px,0.95vw,10px);font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray2); }
+.ref-col-lang span { color:var(--amber); }
+.ref-par { background:#0D2035;border:1px solid rgba(200,214,224,0.08);border-radius:9px;overflow:hidden;flex:1;display:flex;flex-direction:column;min-height:0; }
+.ref-par.pt { background:rgba(0,169,157,0.04);border-color:rgba(0,169,157,0.15); }
+.ref-par-hdr { display:flex;align-items:center;gap:8px;padding:clamp(6px,0.8vh,9px) clamp(10px,1.3vw,14px);background:rgba(0,169,157,0.06);border-bottom:1px solid rgba(200,214,224,0.07);flex-shrink:0; }
+.ref-par.pt .ref-par-hdr { background:rgba(0,169,157,0.1);border-bottom-color:rgba(0,169,157,0.15); }
+.ref-par-num { font-family:'Courier New',monospace;font-size:clamp(9px,1vw,11px);color:var(--teal);background:rgba(0,169,157,0.12);border:1px solid rgba(0,169,157,0.2);border-radius:4px;padding:2px 6px;white-space:nowrap; }
+.ref-par.pt .ref-par-num { color:var(--amber);background:rgba(245,166,35,0.1);border-color:rgba(245,166,35,0.2); }
+.ref-par-lbl { font-size:clamp(9px,1vw,11px);color:var(--gray2);font-style:italic; }
+.ref-par.pt .ref-par-lbl { color:var(--teal);font-style:normal; }
+.ref-par-text { padding:clamp(8px,1vh,12px) clamp(10px,1.2vw,14px);font-size:clamp(10px,1.1vw,12px);color:var(--gray);line-height:1.72;font-style:italic;flex:1;overflow:auto; }
+.ref-par.pt .ref-par-text { color:var(--white);font-style:normal; }
+.ref-par-text strong { color:var(--white);font-style:normal;font-weight:500; }
+.ref-par-text .hl { color:var(--teal);font-style:normal;font-weight:500; }
+.ref-par.pt .ref-par-text .hl { color:var(--amber); }
+.ref-fn { grid-column:1/-1;display:flex;align-items:center;gap:8px;background:rgba(245,166,35,0.05);border:1px solid rgba(245,166,35,0.14);border-left:3px solid var(--amber);border-radius:6px;padding:clamp(7px,0.9vh,10px) clamp(10px,1.3vw,14px);font-size:clamp(9px,1vw,11px);color:var(--gray2);line-height:1.5;flex-shrink:0; }
+.ref-fn strong { color:var(--amber); }
+.ref-col.ani-ref { opacity:0;transform:translateY(18px); }
+.slide.active .ref-col.ani-ref:nth-child(1) { animation:fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.25s forwards; }
+.slide.active .ref-col.ani-ref:nth-child(2) { animation:fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.42s forwards; }
+.ref-fn.ani-fn { opacity:0;transform:translateY(12px); }
+.slide.active .ref-fn.ani-fn { animation:fadeUp 0.5s ease 0.6s forwards; }
+
+/* HELPER — linha separadora fina */
+.divider { height:1px; background:rgba(200,214,224,0.1); flex-shrink:0; }
+
+/* RESPONSIVIDADE MOBILE */
+@media (max-width:1024px) {
+  html, body {
+    width:100% !important;
+    height:auto !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+  }
+
+  #slides {
+    width:100% !important;
+    height:auto !important;
+    position:static !important;
+  }
+
+  .slide {
+    position:static !important;
+    inset:auto !important;
+    opacity:1 !important;
+    pointer-events:all !important;
+    overflow:visible !important;
+    min-height:auto !important;
+    margin-bottom:20px !important;
+    padding:40px 16px !important;
+    display:flex !important;
+    flex-direction:column !important;
+  }
+
+  .slide.active { opacity:1 !important; }
+  .slide .body { overflow:visible !important; }
+  .body.grid2, .body.grid3, .ref-body { grid-template-columns:1fr !important; }
+  .ref-body { display:flex !important; flex-direction:column !important; }
+  .ref-conn, .ref-bg-par { display:none !important; }
+  #nav-trigger, #nav, #kb-hint, #home-btn { display:none !important; }
+}
+</style>
+</head>
+<body>
+
+<a href="index-ifrs-19.html" id="home-btn">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+  Índice do curso
+</a>
+<div id="kb-hint"><span class="kb">←</span><span class="kb">→</span> ou <span class="kb">Espaço</span></div>
+
+<div id="slides">
+
+<!-- ═══ SLIDE 1 — CAPA ═══ -->
+<div class="slide capa no-pad" id="s1">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div class="bar"></div>
+  <div class="bg-num">5</div>
+  <div class="cnt">
+    <div class="eyebrow">Aula 05 — Balanço Patrimonial e Notas Explicativas</div>
+    <span class="t1">IFRS 18</span>
+    <span class="t2">Aula 5</span>
+    <span class="t3">Balanço Patrimonial e<br>Notas Explicativas</span>
+    <span class="t4">Estrutura, agregação, desagregação e novos requisitos de divulgação</span>
+    <div class="meta">
+      <div class="meta-item"><span class="meta-label">Slides</span><span class="meta-val">27 <span>slides</span></span></div>
+      <div class="meta-item"><span class="meta-label">Duração estimada</span><span class="meta-val">~70 <span>min</span></span></div>
+      <div class="meta-item"><span class="meta-label">Foco</span><span class="meta-val">Balanço <span>+ Notas</span></span></div>
+      <div class="meta-item"><span class="meta-label">Método</span><span class="meta-val">Antes <span>× Depois</span></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 2 — AGENDA ═══ -->
+<div class="slide" id="s2">
+  <div class="hdr"><span class="h-tag">Aula 05</span><div class="h-sep"></div><span class="h-title">Agenda</span><span class="h-time">⏱ ~70 min</span></div>
+  <div class="body grid2" style="gap:10px;">
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div class="card teal ani-up d1"><div class="card-tag teal">01 — 04 min</div><div class="card-title">O que muda no Balanço — visão geral</div><div class="card-text">O IFRS 18 não altera reconhecimento, mas exige nova forma de apresentar e desagregar</div></div>
+      <div class="card teal ani-up d2"><div class="card-tag teal">02 — 05 min</div><div class="card-title">Agregação e desagregação — o princípio central</div><div class="card-text">O critério que define o que mostrar junto e o que separar no Balanço e nas Notas</div></div>
+      <div class="card teal ani-up d3"><div class="card-tag teal">03 — 05 min</div><div class="card-title">Classificação corrente e não corrente</div><div class="card-text">Mudanças relevantes na classificação de passivos com covenants e ativos mistos</div></div>
+      <div class="card amber ani-up d4"><div class="card-tag amber">04 — 06 min</div><div class="card-title">Caso prático — Balanço antes × depois</div><div class="card-text">Empresa industrial com ativos financeiros e operacionais misturados</div></div>
+      <div class="card amber ani-up d5"><div class="card-tag amber">05 — 05 min</div><div class="card-title">Interação Balanço × DRE</div><div class="card-text">Como a nova estrutura da DRE reflete e exige mudanças na apresentação do Balanço</div></div>
+      <div class="card amber ani-up d6"><div class="card-tag amber">06 — 06 min</div><div class="card-title">Caso prático — Balanço com ativos mistos</div><div class="card-text">Empresa com carteira de investimentos e ativos operacionais — como segregar</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div class="card green ani-up d1"><div class="card-tag green">07 — 04 min</div><div class="card-title">Notas explicativas — papel e hierarquia</div><div class="card-text">A nova lógica de estruturação das notas sob o IFRS 18</div></div>
+      <div class="card green ani-up d2"><div class="card-tag green">08 — 05 min</div><div class="card-title">Políticas contábeis materiais</div><div class="card-text">O que mudou na obrigação de divulgação — de "significativas" para "materiais"</div></div>
+      <div class="card green ani-up d3"><div class="card-tag green">09 — 05 min</div><div class="card-title">Julgamentos e estimativas nas notas</div><div class="card-text">Divulgações exigidas sobre as principais incertezas que afetam os valores reportados</div></div>
+      <div class="card green ani-up d4"><div class="card-tag green">10 — 06 min</div><div class="card-title">Desagregação nas notas — exemplos numéricos</div><div class="card-text">Como apresentar a desagregação de receitas, ativos e provisões com exemplos completos</div></div>
+      <div class="card ani-up d5" style="border-left:3px solid var(--purple)"><div class="card-tag purple">11 — 06 min</div><div class="card-title">Impactos setoriais + Checklist</div><div class="card-text">Como o Balanço muda por setor e lista de verificação para implementação</div></div>
+      <div class="card ani-up d6" style="border-left:3px solid var(--gray2)"><div class="card-tag" style="background:rgba(200,214,224,0.08);color:var(--gray2);">12 — 07 min</div><div class="card-title">Pontos de atenção + Encerramento</div><div class="card-text">Para auditores, analistas e gestores contábeis — perspectivas distintas sobre as mudanças</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 3 — O QUE MUDA NO BALANÇO ═══ -->
+<div class="slide" id="s3">
+  <div class="hdr"><span class="h-tag">5.1</span><div class="h-sep"></div><span class="h-title">O que o IFRS 18 muda no Balanço Patrimonial</span></div>
+  <div class="body" style="gap:9px;">
+    <div class="callout teal ani-up d1">
+      <span>📌</span>
+      <span><strong>Ponto de partida:</strong> O IFRS 18 não altera o reconhecimento nem a mensuração de ativos e passivos. O que muda é como eles são <strong>apresentados, agrupados e divulgados</strong> nas demonstrações financeiras e nas notas.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--red);letter-spacing:1px;">O QUE NÃO MUDOU</div>
+        <div class="card red ani-up dl1" style="padding:10px 13px;"><div class="card-text">✗ Critérios de reconhecimento de ativos e passivos (IAS 16, IFRS 9, IAS 37 etc.)</div></div>
+        <div class="card red ani-up dl2" style="padding:10px 13px;"><div class="card-text">✗ Bases de mensuração — custo histórico, valor justo, valor realizável líquido</div></div>
+        <div class="card red ani-up dl3" style="padding:10px 13px;"><div class="card-text">✗ Definição de ativo, passivo e patrimônio líquido (Estrutura Conceitual)</div></div>
+        <div class="card red ani-up dl4" style="padding:10px 13px;"><div class="card-text">✗ Classificação corrente × não corrente — critérios gerais mantidos do IAS 1</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--teal);letter-spacing:1px;">O QUE MUDOU</div>
+        <div class="card teal ani-up dr1" style="padding:10px 13px;"><div class="card-text">✓ <strong style="color:var(--white);">Princípio de agregação e desagregação</strong> — orientação mais precisa sobre o que agrupar e o que separar</div></div>
+        <div class="card teal ani-up dr2" style="padding:10px 13px;"><div class="card-text">✓ <strong style="color:var(--white);">Itens mínimos obrigatórios</strong> no Balanço — lista revisada e alinhada com a nova estrutura da DRE</div></div>
+        <div class="card teal ani-up dr3" style="padding:10px 13px;"><div class="card-text">✓ <strong style="color:var(--white);">Políticas contábeis "materiais"</strong> substituem "significativas" — critério mais exigente de divulgação</div></div>
+        <div class="card teal ani-up dr4" style="padding:10px 13px;"><div class="card-text">✓ <strong style="color:var(--white);">Interação obrigatória</strong> entre Balanço e DRE — ativos e passivos devem refletir as categorias da DRE</div></div>
+        <div class="card teal ani-up dr5" style="padding:10px 13px;"><div class="card-text">✓ <strong style="color:var(--white);">Notas explicativas</strong> — estrutura hierárquica obrigatória e desagregação exigida de itens materiais</div></div>
+      </div>
+    </div>
+    <div class="callout amber ani-up d5">
+      <span>⚠</span>
+      <span><strong>Impacto prático:</strong> Embora os valores no Balanço não mudem, a forma de apresentá-los e de organizar as notas pode exigir revisão completa do modelo de divulgação da entidade — especialmente para grupos com ativos de naturezas distintas misturados em linhas únicas.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 4 — REF §96–98 ═══ -->
+<div class="slide ref-slide" id="s4">
+  <div class="ref-bar"></div><div class="ref-bg-par">§96</div><div class="ref-conn"></div>
+  <div class="ref-hdr">
+    <div class="ref-badge"><span>📜</span><span class="ref-badge-text">O que diz a norma</span></div>
+    <div class="h-sep"></div>
+    <span class="h-title">Balanço Patrimonial — estrutura geral</span>
+    <span class="ref-norm-ref">IFRS 18 · §96–98</span>
+  </div>
+  <div class="ref-body">
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇬🇧</span><span class="ref-col-lang">Original · <span>English</span></span></div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 96</span><span class="ref-par-lbl">Statement of financial position — current/non-current distinction</span></div>
+        <div class="ref-par-text">"An entity shall present <strong>current and non-current assets</strong>, and <strong>current and non-current liabilities</strong>, as separate classifications in its statement of financial position [...] except when a <span class="hl">presentation based on liquidity</span> provides information that is reliable and more relevant."</div>
+      </div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 98</span><span class="ref-par-lbl">Items to be presented in the statement of financial position</span></div>
+        <div class="ref-par-text">"The statement of financial position shall include <strong>line items</strong> that present the following amounts: <span class="hl">(a) property, plant and equipment; (b) investment property; (c) intangible assets; (d) financial assets; (e) investments accounted for using the equity method;</span> (f) biological assets; (g) inventories; (h) trade and other receivables; (i) cash and cash equivalents; (j) the total of assets classified as held for sale [...]"</div>
+      </div>
+    </div>
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇧🇷</span><span class="ref-col-lang">Tradução · <span>Português</span></span></div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 96</span><span class="ref-par-lbl">Balanço — distinção corrente/não corrente</span></div>
+        <div class="ref-par-text">"Uma entidade deve apresentar <strong>ativos circulantes e não circulantes</strong>, e <strong>passivos circulantes e não circulantes</strong>, como classificações separadas no Balanço Patrimonial [...] exceto quando uma <span class="hl">apresentação baseada em liquidez</span> fornecer informações confiáveis e mais relevantes."</div>
+      </div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 98</span><span class="ref-par-lbl">Itens obrigatórios no Balanço Patrimonial</span></div>
+        <div class="ref-par-text">"O Balanço deve incluir <strong>linhas</strong> que apresentem os seguintes valores: <span class="hl">(a) imobilizado; (b) propriedades para investimento; (c) intangíveis; (d) ativos financeiros; (e) investimentos pelo método da equivalência patrimonial;</span> (f) ativos biológicos; (g) estoques; (h) contas a receber; (i) caixa e equivalentes; (j) total de ativos mantidos para venda [...]"</div>
+      </div>
+    </div>
+    <div class="ref-fn ani-fn"><span>⚠</span><span><strong>Nota:</strong> Tradução livre para fins didáticos. Texto oficial em inglês publicado pelo IASB em abril de 2024.</span></div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 5 — AGREGAÇÃO E DESAGREGAÇÃO ═══ -->
+<div class="slide" id="s5">
+  <div class="hdr"><span class="h-tag">5.2</span><div class="h-sep"></div><span class="h-title">Agregação e desagregação — o princípio central do IFRS 18</span></div>
+  <div class="body" style="gap:9px;">
+    <div class="callout teal ani-up d1">
+      <span>📌</span>
+      <span><strong>O princípio:</strong> Itens com <strong>características compartilhadas</strong> podem ser agregados. Itens com características distintas devem ser desagregados quando a mistura distorceria a compreensão. O IFRS 18 formaliza esse raciocínio com critérios objetivos — antes dependia apenas do julgamento da administração.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--teal);letter-spacing:1px;margin-bottom:2px;">QUANDO AGREGAR É PERMITIDO</div>
+        <div class="card teal ani-up dl1" style="padding:10px 13px;"><div class="card-text"><strong style="color:var(--white);">Características compartilhadas:</strong> mesma natureza, mesmo risco, mesma base de mensuração e mesma função econômica.</div></div>
+        <div class="card teal ani-up dl2" style="padding:10px 13px;"><div class="card-text"><strong style="color:var(--white);">Imaterialidade:</strong> itens individualmente imateriais podem ser agrupados em "outros" desde que a agregação não esconda informação relevante.</div></div>
+        <div class="card teal ani-up dl3" style="padding:10px 13px;"><div class="card-text"><strong style="color:var(--white);">Exemplo permitido:</strong> Agrupar máquinas, veículos e móveis em "Imobilizado" quando todos têm política de custo histórico e depreciação pelo método linear.</div></div>
+        <div class="ad-row ani-up dl4">
+          <div class="ad-item red"><div style="font-size:10px;font-weight:700;color:var(--red);margin-bottom:3px;">IAS 1</div>Critério de agrupamento era vago: "relevante para os usuários". Cada empresa definia à sua maneira.</div>
+          <div class="ad-arrow"><div class="circ">→</div></div>
+          <div class="ad-item green"><div style="font-size:10px;font-weight:700;color:var(--green);margin-bottom:3px;">IFRS 18</div>Critério objetivo: características compartilhadas definidas — natureza, risco, mensuração e função.</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--amber);letter-spacing:1px;margin-bottom:2px;">QUANDO DESAGREGAR É OBRIGATÓRIO</div>
+        <div class="card amber ani-up dr1" style="padding:10px 13px;"><div class="card-text"><strong style="color:var(--white);">Naturezas distintas:</strong> ativos mensurados a valor justo agrupados com ativos ao custo — distorção de informação.</div></div>
+        <div class="card amber ani-up dr2" style="padding:10px 13px;"><div class="card-text"><strong style="color:var(--white);">Funções distintas:</strong> ativos operacionais e ativos de investimento na mesma linha — impede análise das atividades principais.</div></div>
+        <div class="card amber ani-up dr3" style="padding:10px 13px;"><div class="card-text"><strong style="color:var(--white);">Riscos distintos:</strong> recebíveis com clientes de alta qualidade creditícia agrupados com recebíveis duvidosos — esconde risco de crédito.</div></div>
+        <div class="callout red ani-up dr4">
+          <span>⚠</span>
+          <span><strong>Caso crítico:</strong> Muitas empresas brasileiras apresentam "Outros créditos" como linha única no Balanço, agrupando depósitos judiciais, adiantamentos, impostos a recuperar e instrumentos financeiros. O IFRS 18 exige desagregação quando os itens têm naturezas e riscos distintos.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 6 — REF §41–45 ═══ -->
+<div class="slide ref-slide" id="s6">
+  <div class="ref-bar"></div><div class="ref-bg-par">§41</div><div class="ref-conn"></div>
+  <div class="ref-hdr">
+    <div class="ref-badge"><span>📜</span><span class="ref-badge-text">O que diz a norma</span></div>
+    <div class="h-sep"></div>
+    <span class="h-title">Agregação e desagregação — texto original</span>
+    <span class="ref-norm-ref">IFRS 18 · §41–45</span>
+  </div>
+  <div class="ref-body">
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇬🇧</span><span class="ref-col-lang">Original · <span>English</span></span></div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 41</span><span class="ref-par-lbl">Principles of aggregation and disaggregation</span></div>
+        <div class="ref-par-text">"An entity shall aggregate items that have <strong>shared characteristics</strong> and disaggregate items that do not. An entity uses judgement to determine whether items have shared characteristics. <span class="hl">Shared characteristics include the nature of the items, their function, the risks to which they are exposed</span> and the measurement basis used."</div>
+      </div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 43</span><span class="ref-par-lbl">Aggregation that obscures information</span></div>
+        <div class="ref-par-text">"An entity shall not aggregate items if doing so <strong>obscures information</strong> that is material. Information is obscured if it is presented in a manner that would make it <span class="hl">difficult for a user to identify the distinct characteristics of the items</span> or their significance to the entity's financial position, performance or cash flows."</div>
+      </div>
+    </div>
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇧🇷</span><span class="ref-col-lang">Tradução · <span>Português</span></span></div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 41</span><span class="ref-par-lbl">Princípios de agregação e desagregação</span></div>
+        <div class="ref-par-text">"Uma entidade deve agregar itens que tenham <strong>características compartilhadas</strong> e desagregar itens que não as tenham. A entidade usa julgamento para determinar se os itens têm características compartilhadas. <span class="hl">As características compartilhadas incluem a natureza dos itens, sua função, os riscos aos quais estão expostos</span> e a base de mensuração utilizada."</div>
+      </div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 43</span><span class="ref-par-lbl">Agregação que obscurece informação</span></div>
+        <div class="ref-par-text">"Uma entidade não deve agregar itens se isso <strong>obscurecer informações</strong> que são materiais. As informações são obscurecidas se apresentadas de forma que tornaria <span class="hl">difícil para o usuário identificar as características distintas dos itens</span> ou sua relevância para a posição financeira, o desempenho ou os fluxos de caixa da entidade."</div>
+      </div>
+    </div>
+    <div class="ref-fn ani-fn"><span>⚠</span><span><strong>Nota:</strong> Tradução livre para fins didáticos. Texto oficial em inglês publicado pelo IASB em abril de 2024.</span></div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 7 — ESTRUTURA DO BALANÇO ANTES × DEPOIS ═══ -->
+<div class="slide" id="s7">
+  <div class="hdr"><span class="h-tag amber">5.1</span><div class="h-sep"></div><span class="h-title">Estrutura do Balanço — Antes × Depois</span></div>
+  <div class="body grid2" style="gap:14px;">
+    <div class="ani-up d1">
+      <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--red);margin-bottom:7px;text-align:center;padding:6px;background:rgba(192,57,43,0.1);border-radius:6px;">ANTES — IAS 1 (formato típico)</div>
+      <table class="tbl">
+        <tr class="cat-hdr red"><td colspan="2">ATIVO CIRCULANTE</td></tr>
+        <tr class="item"><td>Caixa e equivalentes</td><td>180</td></tr>
+        <tr class="item"><td>Aplicações financeiras</td><td>95</td></tr>
+        <tr class="item"><td>Contas a receber</td><td>310</td></tr>
+        <tr class="item"><td>Estoques</td><td>240</td></tr>
+        <tr class="item hl"><td>Outros créditos *</td><td>88</td></tr>
+        <tr class="sub"><td>Total Circulante</td><td>913</td></tr>
+        <tr class="cat-hdr red"><td colspan="2">ATIVO NÃO CIRCULANTE</td></tr>
+        <tr class="item"><td>Imobilizado líquido</td><td>620</td></tr>
+        <tr class="item"><td>Intangíveis</td><td>85</td></tr>
+        <tr class="item hl"><td>Participações societárias **</td><td>210</td></tr>
+        <tr class="item hl"><td>Outros ativos ***</td><td>74</td></tr>
+        <tr class="sub"><td>Total Não Circulante</td><td>989</td></tr>
+        <tr class="tot"><td>TOTAL ATIVO</td><td>1.902</td></tr>
+      </table>
+      <div style="margin-top:6px;font-size:clamp(9px,1vw,11px);color:var(--amber);">* Mistura: depósitos judiciais + impostos a recuperar + adiantamentos<br>** Mistura: coligadas (equiv. patrimonial) + ações de outras empresas (VJ)<br>*** Mistura: propriedades para investimento + ativos financeiros de longo prazo</div>
+    </div>
+    <div class="ani-up d2">
+      <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--teal);margin-bottom:7px;text-align:center;padding:6px;background:rgba(0,169,157,0.1);border-radius:6px;">DEPOIS — IFRS 18 (desagregação obrigatória)</div>
+      <table class="tbl">
+        <tr class="cat-hdr"><td colspan="2">ATIVO CIRCULANTE</td></tr>
+        <tr class="item"><td>Caixa e equivalentes</td><td>180</td></tr>
+        <tr class="item"><td>Ativos financeiros — aplicações (VJ)</td><td>95</td></tr>
+        <tr class="item"><td>Contas a receber de clientes</td><td>310</td></tr>
+        <tr class="item"><td>Estoques</td><td>240</td></tr>
+        <tr class="item"><td>Impostos a recuperar</td><td>52</td></tr>
+        <tr class="item"><td>Outros créditos operacionais</td><td>36</td></tr>
+        <tr class="sub"><td>Total Circulante</td><td>913</td></tr>
+        <tr class="cat-hdr"><td colspan="2">ATIVO NÃO CIRCULANTE</td></tr>
+        <tr class="item"><td>Imobilizado líquido</td><td>620</td></tr>
+        <tr class="item"><td>Intangíveis</td><td>85</td></tr>
+        <tr class="item"><td>Invest. — equivalência patrimonial</td><td>160</td></tr>
+        <tr class="item"><td>Ativos financeiros — ações (VJ)</td><td>50</td></tr>
+        <tr class="item"><td>Propriedades para investimento</td><td>62</td></tr>
+        <tr class="item"><td>Depósitos judiciais</td><td>12</td></tr>
+        <tr class="sub"><td>Total Não Circulante</td><td>989</td></tr>
+        <tr class="tot"><td>TOTAL ATIVO</td><td>1.902</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 8 — CLASSIFICAÇÃO CORRENTE E NÃO CORRENTE ═══ -->
+<div class="slide" id="s8">
+  <div class="hdr"><span class="h-tag">5.3</span><div class="h-sep"></div><span class="h-title">Classificação corrente e não corrente — mudanças relevantes</span></div>
+  <div class="body" style="gap:9px;">
+    <div class="callout teal ani-up d1">
+      <span>📌</span>
+      <span><strong>Base geral mantida:</strong> Um ativo é corrente se for realizado, vendido ou consumido dentro de 12 meses ou dentro do ciclo operacional normal. Um passivo é corrente se for exigível dentro de 12 meses. O IFRS 18 mantém esses critérios do IAS 1, mas traz refinamentos importantes.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--amber);letter-spacing:1px;margin-bottom:2px;">PASSIVOS COM COVENANTS — MUDANÇA IMPORTANTE</div>
+        <div class="ad-row ani-up dl1">
+          <div class="ad-item red"><div style="font-size:9px;font-weight:700;color:var(--red);margin-bottom:3px;">IAS 1 — ANTES</div>Um passivo podia ser classificado como não corrente mesmo com covenant pendente, se a entidade tivesse o direito de diferir o pagamento por pelo menos 12 meses após a data do balanço.</div>
+          <div class="ad-arrow"><div class="circ">→</div></div>
+          <div class="ad-item green"><div style="font-size:9px;font-weight:700;color:var(--green);margin-bottom:3px;">IFRS 18 — DEPOIS</div>O direito de diferir precisa existir na data do balanço e não depender do cumprimento de condições futuras após essa data. Covenants verificados após o balanço não garantem classificação como não corrente.</div>
+        </div>
+        <div class="card amber ani-up dl2" style="padding:10px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:4px;">EXEMPLO PRÁTICO</div>
+          <div class="card-text">Empresa tem dívida com vencimento em 3 anos, mas com covenant de índice de cobertura verificado anualmente. Se em 31/dez o covenant foi descumprido e o banco ainda não exerceu a aceleração, a dívida pode precisar ser reclassificada para corrente.</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--teal);letter-spacing:1px;margin-bottom:2px;">OUTROS REFINAMENTOS RELEVANTES</div>
+        <div class="card teal ani-up dr1" style="padding:10px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:4px;">Ativos com dupla natureza</div>
+          <div class="card-text">Ativos financeiros com parte realizável em 12 meses e parte após: devem ser desagregados entre circulante e não circulante quando as parcelas têm valores materialmente diferentes.</div>
+        </div>
+        <div class="card teal ani-up dr2" style="padding:10px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:4px;">Ativos biológicos</div>
+          <div class="card-text">Animais para abate no próximo ciclo: corrente. Rebanho reprodutor com vida útil de vários anos: não corrente. A segregação é obrigatória quando os valores são materiais.</div>
+        </div>
+        <div class="card teal ani-up dr3" style="padding:10px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:4px;">Apresentação por liquidez</div>
+          <div class="card-text">Bancos e entidades financeiras podem apresentar ativos e passivos em ordem de liquidez em vez da distinção corrente/não corrente. O IFRS 18 mantém essa opção com restrições mais claras.</div>
+        </div>
+        <div class="callout amber ani-up dr4">
+          <span>🇧🇷</span>
+          <span><strong>Impacto no Brasil:</strong> Empresas com dívidas atreladas a índices de cobertura ou de alavancagem precisarão revisar o critério de classificação de seus passivos financeiros, especialmente em períodos de pressão financeira.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 9 — REF §99–102 ═══ -->
+<div class="slide ref-slide" id="s9">
+  <div class="ref-bar"></div><div class="ref-bg-par">§99</div><div class="ref-conn"></div>
+  <div class="ref-hdr">
+    <div class="ref-badge"><span>📜</span><span class="ref-badge-text">O que diz a norma</span></div>
+    <div class="h-sep"></div>
+    <span class="h-title">Classificação corrente e não corrente — texto original</span>
+    <span class="ref-norm-ref">IFRS 18 · §99–102</span>
+  </div>
+  <div class="ref-body">
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇬🇧</span><span class="ref-col-lang">Original · <span>English</span></span></div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 99</span><span class="ref-par-lbl">Current assets — classification criteria</span></div>
+        <div class="ref-par-text">"An entity shall classify an asset as current when: <span class="hl">(a) it expects to realise the asset, or intends to sell or consume it, in its normal operating cycle; (b) it holds the asset primarily for the purpose of trading; (c) it expects to realise the asset within 12 months after the reporting period;</span> or (d) the asset is cash or a cash equivalent."</div>
+      </div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 102</span><span class="ref-par-lbl">Current liabilities — right to defer settlement</span></div>
+        <div class="ref-par-text">"An entity classifies a liability as <strong>non-current</strong> only if the entity has, <span class="hl">at the end of the reporting period</span>, the right to defer settlement of the liability for at least 12 months after that period. The classification of a liability is not affected by the likelihood of the entity exercising its right to defer settlement."</div>
+      </div>
+    </div>
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇧🇷</span><span class="ref-col-lang">Tradução · <span>Português</span></span></div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 99</span><span class="ref-par-lbl">Ativos circulantes — critérios de classificação</span></div>
+        <div class="ref-par-text">"Uma entidade deve classificar um ativo como circulante quando: <span class="hl">(a) espera realizar o ativo, ou pretende vendê-lo ou consumi-lo, em seu ciclo operacional normal; (b) mantém o ativo principalmente para fins de negociação; (c) espera realizar o ativo dentro de 12 meses após o período de relatório;</span> ou (d) o ativo é caixa ou equivalente de caixa."</div>
+      </div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 102</span><span class="ref-par-lbl">Passivos circulantes — direito de diferir</span></div>
+        <div class="ref-par-text">"Uma entidade classifica um passivo como <strong>não circulante</strong> apenas se a entidade tiver, <span class="hl">ao final do período de relatório</span>, o direito de diferir o pagamento do passivo por pelo menos 12 meses após esse período. A classificação de um passivo não é afetada pela probabilidade de a entidade exercer seu direito de diferir o pagamento."</div>
+      </div>
+    </div>
+    <div class="ref-fn ani-fn"><span>⚠</span><span><strong>Nota:</strong> Tradução livre para fins didáticos. Texto oficial em inglês publicado pelo IASB em abril de 2024.</span></div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 10 — CASO PRÁTICO BALANÇO ═══ -->
+<div class="slide" id="s10">
+  <div class="hdr"><span class="h-tag" style="color:var(--blue)">Caso Prático 1</span><div class="h-sep"></div><span class="h-title">Balanço de empresa industrial — antes × depois completo</span></div>
+  <div class="body grid2" style="gap:14px;">
+    <div class="ani-up d1">
+      <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--red);margin-bottom:6px;text-align:center;padding:5px;background:rgba(192,57,43,0.1);border-radius:5px;">ANTES — IAS 1 · Empresa Metalúrgica XYZ  (R$ MM)</div>
+      <table class="tbl">
+        <tr class="cat-hdr red"><td colspan="2">ATIVO CIRCULANTE</td></tr>
+        <tr class="item"><td>Caixa e equivalentes</td><td>85</td></tr>
+        <tr class="item"><td>Aplicações financeiras</td><td>120</td></tr>
+        <tr class="item"><td>Clientes</td><td>340</td></tr>
+        <tr class="item"><td>Estoques</td><td>280</td></tr>
+        <tr class="item hl"><td>Outros ativos circulantes</td><td>96</td></tr>
+        <tr class="sub"><td>Total Circulante</td><td>921</td></tr>
+        <tr class="cat-hdr red"><td colspan="2">ATIVO NÃO CIRCULANTE</td></tr>
+        <tr class="item"><td>Realizável a longo prazo</td><td>145</td></tr>
+        <tr class="item"><td>Investimentos</td><td>380</td></tr>
+        <tr class="item"><td>Imobilizado</td><td>890</td></tr>
+        <tr class="item"><td>Intangível</td><td>95</td></tr>
+        <tr class="sub"><td>Total Não Circulante</td><td>1.510</td></tr>
+        <tr class="tot"><td>TOTAL ATIVO</td><td>2.431</td></tr>
+        <tr class="cat-hdr red"><td colspan="2">PASSIVO CIRCULANTE</td></tr>
+        <tr class="item"><td>Fornecedores</td><td>215</td></tr>
+        <tr class="item"><td>Empréstimos c/p</td><td>180</td></tr>
+        <tr class="item hl"><td>Outras obrigações</td><td>124</td></tr>
+        <tr class="sub"><td>Total Passivo Circulante</td><td>519</td></tr>
+        <tr class="cat-hdr red"><td colspan="2">PASSIVO NÃO CIRCULANTE</td></tr>
+        <tr class="item"><td>Empréstimos l/p</td><td>620</td></tr>
+        <tr class="item hl"><td>Outras obrigações l/p</td><td>142</td></tr>
+        <tr class="sub"><td>Total Passivo Não Circulante</td><td>762</td></tr>
+        <tr class="tot amber"><td>PATRIMÔNIO LÍQUIDO</td><td>1.150</td></tr>
+      </table>
+    </div>
+    <div class="ani-up d2">
+      <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--teal);margin-bottom:6px;text-align:center;padding:5px;background:rgba(0,169,157,0.1);border-radius:5px;">DEPOIS — IFRS 18 · Desagregação obrigatória  (R$ MM)</div>
+      <table class="tbl">
+        <tr class="cat-hdr"><td colspan="2">ATIVO CIRCULANTE</td></tr>
+        <tr class="item"><td>Caixa e equivalentes</td><td>85</td></tr>
+        <tr class="item"><td>Ativos financeiros — aplicações (VJ)</td><td>120</td></tr>
+        <tr class="item"><td>Clientes e contas a receber</td><td>340</td></tr>
+        <tr class="item"><td>Estoques</td><td>280</td></tr>
+        <tr class="item"><td>Impostos a recuperar</td><td>58</td></tr>
+        <tr class="item"><td>Adiantamentos a fornecedores</td><td>38</td></tr>
+        <tr class="sub"><td>Total Circulante</td><td>921</td></tr>
+        <tr class="cat-hdr"><td colspan="2">ATIVO NÃO CIRCULANTE</td></tr>
+        <tr class="item"><td>Depósitos judiciais</td><td>48</td></tr>
+        <tr class="item"><td>IR diferido ativo</td><td>97</td></tr>
+        <tr class="item"><td>Invest. — equivalência patrimonial</td><td>290</td></tr>
+        <tr class="item"><td>Ativos financeiros — ações (VJ)</td><td>90</td></tr>
+        <tr class="item"><td>Imobilizado líquido</td><td>890</td></tr>
+        <tr class="item"><td>Intangível</td><td>95</td></tr>
+        <tr class="sub"><td>Total Não Circulante</td><td>1.510</td></tr>
+        <tr class="tot"><td>TOTAL ATIVO</td><td>2.431</td></tr>
+        <tr class="cat-hdr"><td colspan="2">PASSIVO CIRCULANTE</td></tr>
+        <tr class="item"><td>Fornecedores</td><td>215</td></tr>
+        <tr class="item"><td>Empréstimos e financiamentos c/p</td><td>180</td></tr>
+        <tr class="item"><td>Obrigações trabalhistas e sociais</td><td>68</td></tr>
+        <tr class="item"><td>Impostos e contribuições a recolher</td><td>56</td></tr>
+        <tr class="sub"><td>Total Passivo Circulante</td><td>519</td></tr>
+        <tr class="cat-hdr"><td colspan="2">PASSIVO NÃO CIRCULANTE</td></tr>
+        <tr class="item"><td>Empréstimos e financiamentos l/p</td><td>620</td></tr>
+        <tr class="item"><td>Provisão para descomissionamento</td><td>85</td></tr>
+        <tr class="item"><td>IR diferido passivo</td><td>57</td></tr>
+        <tr class="sub"><td>Total Passivo Não Circulante</td><td>762</td></tr>
+        <tr class="tot amber"><td>PATRIMÔNIO LÍQUIDO</td><td>1.150</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 11 — INTERAÇÃO BALANÇO × DRE ═══ -->
+<div class="slide" id="s11">
+  <div class="hdr"><span class="h-tag">5.4</span><div class="h-sep"></div><span class="h-title">Interação Balanço × DRE sob o IFRS 18</span></div>
+  <div class="body" style="gap:9px;">
+    <div class="callout teal ani-up d1">
+      <span>📌</span>
+      <span><strong>Princípio da coerência:</strong> A classificação de um item no Balanço deve ser coerente com a categoria em que suas receitas e despesas aparecem na DRE. Um ativo que gera receita na categoria Operacional deve estar claramente identificável como ativo operacional no Balanço.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;">
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="background:rgba(0,169,157,0.1);border-radius:7px;padding:10px;text-align:center;font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--teal);">ATIVOS OPERACIONAIS</div>
+        <div class="card teal ani-up dl1" style="padding:10px 12px;"><div class="card-text">Imobilizado, estoques, clientes, adiantamentos → geram itens na categoria <strong style="color:var(--teal)">Operacional</strong> da DRE</div></div>
+        <div class="card teal ani-up dl2" style="padding:10px 12px;"><div class="card-text">Sua depreciação, impairment e variações aparecem no Resultado das Operações Principais</div></div>
+        <div class="card teal ani-up dl3" style="padding:10px 12px;"><div class="card-text">Devem ser apresentados separadamente dos ativos de investimento no Balanço</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="background:rgba(59,130,246,0.1);border-radius:7px;padding:10px;text-align:center;font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--blue);">ATIVOS DE INVESTIMENTO</div>
+        <div class="card ani-up d2" style="padding:10px 12px;border-left:3px solid var(--blue);"><div class="card-text">Participações em coligadas, ações de outras empresas, propriedades para investimento</div></div>
+        <div class="card ani-up d3" style="padding:10px 12px;border-left:3px solid var(--blue);"><div class="card-text">Seus rendimentos, dividendos e ganhos de capital aparecem na categoria <strong style="color:var(--blue)">Investimento</strong></div></div>
+        <div class="card ani-up d4" style="padding:10px 12px;border-left:3px solid var(--blue);"><div class="card-text">Devem ser identificáveis separadamente no Balanço — não agrupados com ativos operacionais</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="background:rgba(245,166,35,0.1);border-radius:7px;padding:10px;text-align:center;font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--amber);">PASSIVOS DE FINANCIAMENTO</div>
+        <div class="card amber ani-up dr1" style="padding:10px 12px;"><div class="card-text">Empréstimos, debêntures, financiamentos — passivos que envolvem exclusivamente captação</div></div>
+        <div class="card amber ani-up dr2" style="padding:10px 12px;"><div class="card-text">Seus juros e variações cambiais aparecem na categoria <strong style="color:var(--amber)">Financiamento</strong> da DRE</div></div>
+        <div class="card amber ani-up dr3" style="padding:10px 12px;"><div class="card-text">Devem ser identificáveis separadamente dos passivos operacionais (fornecedores, tributos)</div></div>
+      </div>
+    </div>
+    <div class="callout amber ani-up d5">
+      <span>⚠</span>
+      <span><strong>Consequência prática:</strong> Se a DRE separou as variações cambiais por origem (operacional, investimento, financiamento), o Balanço precisa permitir que o auditor ou analista rastreie cada componente até seu ativo ou passivo correspondente. A coerência entre os demonstrativos é auditável.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 12 — CASO PRÁTICO 2 ═══ -->
+<div class="slide" id="s12">
+  <div class="hdr"><span class="h-tag" style="color:var(--blue)">Caso Prático 2</span><div class="h-sep"></div><span class="h-title">Empresa com ativos financeiros e operacionais misturados</span></div>
+  <div class="body" style="gap:9px;">
+    <div class="callout amber ani-up d1" style="font-size:clamp(10px,1.1vw,12.5px);">
+      <span>📋</span>
+      <span><strong>Cenário:</strong> Empresa de alimentos que apresentava "Aplicações financeiras" como linha única de R$ 215 MM no circulante, misturando: (a) R$ 85 MM em CDBs para gestão de caixa operacional, (b) R$ 80 MM em fundos de renda fixa como reserva estratégica, (c) R$ 50 MM em debêntures de longo prazo com vencimento em 18 meses.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--red);margin-bottom:6px;text-align:center;padding:5px;background:rgba(192,57,43,0.1);border-radius:5px;">ANTES — IAS 1</div>
+        <table class="tbl">
+          <tr class="cat-hdr red"><td colspan="2">ATIVO CIRCULANTE</td></tr>
+          <tr class="item"><td>Caixa e equivalentes</td><td>140</td></tr>
+          <tr class="item hl"><td>Aplicações financeiras</td><td>215</td></tr>
+          <tr class="item"><td>Clientes</td><td>420</td></tr>
+          <tr class="item"><td>Estoques</td><td>310</td></tr>
+          <tr class="sub"><td>Total Circulante</td><td>1.085</td></tr>
+        </table>
+        <div style="margin-top:7px;padding:8px;background:rgba(192,57,43,0.08);border-radius:6px;font-size:clamp(9px,1vw,11px);color:var(--red);">
+          ⚠ "Aplicações financeiras" de R$ 215 MM mistura três instrumentos com funções, riscos e horizontes completamente distintos. O usuário não consegue distinguir o que é gestão de caixa operacional do que é aplicação de reserva estratégica.
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--teal);margin-bottom:6px;text-align:center;padding:5px;background:rgba(0,169,157,0.1);border-radius:5px;">DEPOIS — IFRS 18</div>
+        <table class="tbl">
+          <tr class="cat-hdr"><td colspan="2">ATIVO CIRCULANTE</td></tr>
+          <tr class="item"><td>Caixa e equivalentes</td><td>140</td></tr>
+          <tr class="item"><td>At. financeiros — gestão de caixa (CDBs)</td><td>85</td></tr>
+          <tr class="item"><td>At. financeiros — reserva estratégica (FRF)</td><td>80</td></tr>
+          <tr class="item"><td>At. financeiros — debêntures (venc. 18m)</td><td>50</td></tr>
+          <tr class="item"><td>Clientes</td><td>420</td></tr>
+          <tr class="item"><td>Estoques</td><td>310</td></tr>
+          <tr class="sub"><td>Total Circulante</td><td>1.085</td></tr>
+        </table>
+        <div style="margin-top:7px;display:flex;flex-direction:column;gap:5px;">
+          <div style="padding:6px 10px;background:rgba(0,169,157,0.08);border-radius:5px;font-size:clamp(9px,1vw,11px);">
+            <span style="color:var(--teal);font-weight:700;">DRE — Categoria Operacional:</span><span style="color:var(--gray2);"> rendimentos dos CDBs (gestão de caixa operacional)</span>
+          </div>
+          <div style="padding:6px 10px;background:rgba(59,130,246,0.08);border-radius:5px;font-size:clamp(9px,1vw,11px);">
+            <span style="color:var(--blue);font-weight:700;">DRE — Categoria Investimento:</span><span style="color:var(--gray2);"> rendimentos do FRF e das debêntures (reserva independente das operações)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="callout teal ani-up d3">
+      <span>💡</span>
+      <span>A desagregação no Balanço não é apenas cosmética — ela é o espelho obrigatório da classificação adotada na DRE. Se os rendimentos foram separados por categoria na DRE, o Balanço precisa permitir rastrear cada ativo correspondente.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 13 — NOTAS EXPLICATIVAS ═══ -->
+<div class="slide" id="s13">
+  <div class="hdr"><span class="h-tag green">5.5</span><div class="h-sep"></div><span class="h-title">Notas explicativas — papel e hierarquia sob o IFRS 18</span></div>
+  <div class="body" style="gap:9px;">
+    <div class="callout teal ani-up d1">
+      <span>📌</span>
+      <span><strong>Mudança de filosofia:</strong> O IAS 1 tratava as notas como repositório de informações exigidas por cada norma específica. O IFRS 18 estabelece uma <strong>hierarquia estrutural</strong> para as notas, baseada no papel que cada informação desempenha para o usuário das demonstrações.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--teal);letter-spacing:1px;margin-bottom:2px;">HIERARQUIA DAS NOTAS — IFRS 18</div>
+        <div class="card teal ani-up dl1" style="padding:11px 13px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+            <div style="width:24px;height:24px;background:var(--teal);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;flex-shrink:0;">1</div>
+            <div style="font-size:clamp(11px,1.2vw,13px);font-weight:700;color:var(--white);">Informações sobre a base de preparação</div>
+          </div>
+          <div class="card-text">Declaração de conformidade com IFRS, base de mensuração adotada, moeda funcional e de apresentação.</div>
+        </div>
+        <div class="card teal ani-up dl2" style="padding:11px 13px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+            <div style="width:24px;height:24px;background:var(--teal);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;flex-shrink:0;">2</div>
+            <div style="font-size:clamp(11px,1.2vw,13px);font-weight:700;color:var(--white);">Políticas contábeis materiais</div>
+          </div>
+          <div class="card-text">Apenas as políticas que são materiais para entender como os valores foram mensurados — não mais uma lista completa de todos os pronunciamentos aplicados.</div>
+        </div>
+        <div class="card teal ani-up dl3" style="padding:11px 13px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+            <div style="width:24px;height:24px;background:var(--teal);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;flex-shrink:0;">3</div>
+            <div style="font-size:clamp(11px,1.2vw,13px);font-weight:700;color:var(--white);">Julgamentos e principais fontes de incerteza</div>
+          </div>
+          <div class="card-text">Julgamentos que têm efeito mais significativo nos valores e estimativas com risco relevante de ajuste material no próximo período.</div>
+        </div>
+        <div class="card teal ani-up dl4" style="padding:11px 13px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+            <div style="width:24px;height:24px;background:var(--teal);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;flex-shrink:0;">4</div>
+            <div style="font-size:clamp(11px,1.2vw,13px);font-weight:700;color:var(--white);">Notas de suporte às demonstrações primárias</div>
+          </div>
+          <div class="card-text">Desagregação e detalhamento de linhas das demonstrações primárias — a maior parte do volume das notas.</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--amber);letter-spacing:1px;margin-bottom:2px;">MUDANÇA CENTRAL — "SIGNIFICATIVAS" → "MATERIAIS"</div>
+        <div class="ad-row ani-up dr1">
+          <div class="ad-item red">
+            <div style="font-size:9px;font-weight:700;color:var(--red);margin-bottom:3px;">IAS 1 — ANTES</div>
+            A entidade divulgava suas "políticas contábeis significativas". Na prática, isso resultava em notas longas com cópia dos pronunciamentos aplicados, independentemente de serem relevantes para entender os valores reportados.
+          </div>
+          <div class="ad-arrow"><div class="circ">→</div></div>
+          <div class="ad-item green">
+            <div style="font-size:9px;font-weight:700;color:var(--green);margin-bottom:3px;">IFRS 18 — DEPOIS</div>
+            A entidade divulga políticas contábeis "materiais" — apenas aquelas cuja ausência ou imprecisão tornaria as demonstrações enganosas. Menos volume, mais relevância.
+          </div>
+        </div>
+        <div class="callout amber ani-up dr2">
+          <span>⚠</span>
+          <span><strong>Exemplo prático:</strong> Uma empresa sem ativos biológicos não precisa mais incluir nota sobre política de ativos biológicos. Uma empresa com reconhecimento de receita por contratos de longo prazo precisa detalhar o julgamento sobre o método de percentual de conclusão — esse é material.</span>
+        </div>
+        <div class="callout teal ani-up dr3">
+          <span>💡</span>
+          <span><strong>Para o gestor contábil:</strong> A revisão das notas para eliminar políticas não materiais pode reduzir significativamente o volume das demonstrações sem perda de informação relevante — e aumenta a clareza para o usuário.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 14 — REF §113–116 ═══ -->
+<div class="slide ref-slide" id="s14">
+  <div class="ref-bar"></div><div class="ref-bg-par">§113</div><div class="ref-conn"></div>
+  <div class="ref-hdr">
+    <div class="ref-badge"><span>📜</span><span class="ref-badge-text">O que diz a norma</span></div>
+    <div class="h-sep"></div>
+    <span class="h-title">Notas explicativas — estrutura e hierarquia</span>
+    <span class="ref-norm-ref">IFRS 18 · §113–116</span>
+  </div>
+  <div class="ref-body">
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇬🇧</span><span class="ref-col-lang">Original · <span>English</span></span></div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 113</span><span class="ref-par-lbl">Notes — structure</span></div>
+        <div class="ref-par-text">"An entity shall, as far as practicable, present notes in a <strong>systematic manner</strong>. In determining a systematic order, an entity considers the understandability and comparability of its financial statements. An entity shall <span class="hl">cross-reference each item in the primary financial statements</span> to any related information in the notes."</div>
+      </div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 116</span><span class="ref-par-lbl">Material accounting policy information</span></div>
+        <div class="ref-par-text">"An entity shall disclose <strong>material accounting policy information</strong>. Accounting policy information is material if, when considered together with other information included in an entity's financial statements, it can <span class="hl">reasonably be expected to influence the decisions that the primary users</span> of general purpose financial statements make on the basis of those financial statements."</div>
+      </div>
+    </div>
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇧🇷</span><span class="ref-col-lang">Tradução · <span>Português</span></span></div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 113</span><span class="ref-par-lbl">Notas — estrutura</span></div>
+        <div class="ref-par-text">"Uma entidade deve, na medida do praticável, apresentar as notas de forma <strong>sistemática</strong>. Ao determinar uma ordem sistemática, a entidade considera a compreensibilidade e a comparabilidade de suas demonstrações. A entidade deve <span class="hl">referenciar cada item das demonstrações primárias</span> a qualquer informação relacionada nas notas."</div>
+      </div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 116</span><span class="ref-par-lbl">Informação sobre políticas contábeis materiais</span></div>
+        <div class="ref-par-text">"Uma entidade deve divulgar <strong>informações sobre políticas contábeis materiais</strong>. As informações sobre políticas contábeis são materiais se, consideradas em conjunto com outras informações, puderem <span class="hl">razoavelmente influenciar as decisões que os usuários primários</span> das demonstrações financeiras tomam com base nessas demonstrações."</div>
+      </div>
+    </div>
+    <div class="ref-fn ani-fn"><span>⚠</span><span><strong>Nota:</strong> Tradução livre para fins didáticos. Texto oficial em inglês publicado pelo IASB em abril de 2024.</span></div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 15 — POLÍTICAS CONTÁBEIS MATERIAIS ═══ -->
+<div class="slide" id="s15">
+  <div class="hdr"><span class="h-tag green">5.6</span><div class="h-sep"></div><span class="h-title">Políticas contábeis materiais — antes × depois</span></div>
+  <div class="body" style="gap:9px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="ani-up dl1">
+        <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--red);margin-bottom:7px;text-align:center;padding:5px;background:rgba(192,57,43,0.1);border-radius:5px;">ANTES — IAS 1 — Nota de políticas típica</div>
+        <div style="background:var(--card);border-radius:8px;padding:14px;border:1px solid rgba(200,214,224,0.07);font-size:clamp(10px,1.1vw,12px);">
+          <div style="font-weight:700;color:var(--white);margin-bottom:8px;">Nota 3 — Políticas Contábeis Significativas</div>
+          <div style="display:flex;flex-direction:column;gap:4px;color:var(--gray2);">
+            <div>3.1 Consolidação e combinação de negócios</div>
+            <div>3.2 Transações em moeda estrangeira</div>
+            <div>3.3 Instrumentos financeiros</div>
+            <div>3.4 Imobilizado</div>
+            <div>3.5 Propriedades para investimento</div>
+            <div>3.6 Ativos intangíveis</div>
+            <div style="color:var(--amber);">3.7 Ativos biológicos ← empresa não tem</div>
+            <div style="color:var(--amber);">3.8 Contratos de seguro ← empresa não tem</div>
+            <div>3.9 Estoques</div>
+            <div>3.10 Provisões e passivos contingentes</div>
+            <div>3.11 Reconhecimento de receita</div>
+            <div>3.12 Benefícios a empregados</div>
+            <div style="color:var(--amber);">3.13 Exploração mineral ← empresa não tem</div>
+            <div>... (20+ itens no total)</div>
+          </div>
+          <div style="margin-top:8px;padding:6px 8px;background:rgba(192,57,43,0.08);border-radius:5px;font-size:clamp(9px,0.9vw,11px);color:var(--red);">⚠ Lista exaustiva com políticas irrelevantes para a entidade específica — volume sem relevância</div>
+        </div>
+      </div>
+      <div class="ani-up dr1">
+        <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--teal);margin-bottom:7px;text-align:center;padding:5px;background:rgba(0,169,157,0.1);border-radius:5px;">DEPOIS — IFRS 18 — Apenas políticas materiais</div>
+        <div style="background:var(--card);border-radius:8px;padding:14px;border:1px solid rgba(0,169,157,0.15);font-size:clamp(10px,1.1vw,12px);">
+          <div style="font-weight:700;color:var(--white);margin-bottom:8px;">Nota 3 — Políticas Contábeis Materiais</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="padding:6px 10px;background:rgba(0,169,157,0.08);border-radius:5px;">
+              <div style="color:var(--teal);font-weight:600;font-size:clamp(10px,1.1vw,12px);">3.1 Reconhecimento de receita (IFRS 15)</div>
+              <div style="color:var(--gray2);font-size:clamp(9px,1vw,11px);margin-top:3px;">Material: contratos com múltiplas obrigações de desempenho e julgamentos sobre preço de transação.</div>
+            </div>
+            <div style="padding:6px 10px;background:rgba(0,169,157,0.08);border-radius:5px;">
+              <div style="color:var(--teal);font-weight:600;font-size:clamp(10px,1.1vw,12px);">3.2 Imobilizado — vida útil e valor residual</div>
+              <div style="color:var(--gray2);font-size:clamp(9px,1vw,11px);margin-top:3px;">Material: estimativas com impacto significativo na depreciação anual de R$ 180 MM.</div>
+            </div>
+            <div style="padding:6px 10px;background:rgba(0,169,157,0.08);border-radius:5px;">
+              <div style="color:var(--teal);font-weight:600;font-size:clamp(10px,1.1vw,12px);">3.3 Provisões para litígios (IAS 37)</div>
+              <div style="color:var(--gray2);font-size:clamp(9px,1vw,11px);margin-top:3px;">Material: saldo de R$ 240 MM envolve estimativas com alta incerteza sobre desfecho e valores.</div>
+            </div>
+            <div style="padding:6px 10px;background:rgba(0,169,157,0.08);border-radius:5px;">
+              <div style="color:var(--teal);font-weight:600;font-size:clamp(10px,1.1vw,12px);">3.4 Instrumentos financeiros — hedge accounting</div>
+              <div style="color:var(--gray2);font-size:clamp(9px,1vw,11px);margin-top:3px;">Material: empresa utiliza hedges de fluxo de caixa com impacto em OCI e na DRE.</div>
+            </div>
+          </div>
+          <div style="margin-top:8px;padding:6px 8px;background:rgba(0,169,157,0.08);border-radius:5px;font-size:clamp(9px,0.9vw,11px);color:var(--teal);">✓ Apenas o que é realmente relevante para entender os valores desta entidade específica</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 16 — JULGAMENTOS E ESTIMATIVAS ═══ -->
+<div class="slide" id="s16">
+  <div class="hdr"><span class="h-tag green">5.7</span><div class="h-sep"></div><span class="h-title">Julgamentos e estimativas nas notas</span></div>
+  <div class="body" style="gap:9px;">
+    <div class="callout teal ani-up d1">
+      <span>📌</span>
+      <span><strong>Dois tipos de divulgação obrigatória:</strong> O IFRS 18 distingue (1) julgamentos contábeis com efeito mais significativo nos valores reportados e (2) estimativas com risco relevante de ajuste material no futuro. Cada um exige divulgação específica.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--teal);letter-spacing:1px;margin-bottom:2px;">JULGAMENTOS — O QUE DIVULGAR</div>
+        <div class="callout teal ani-up dl1" style="font-size:clamp(10px,1.1vw,12px);">
+          <span>📌</span>
+          <span>Julgamentos ao aplicar políticas contábeis que têm o efeito mais significativo nos valores reconhecidos nas demonstrações.</span>
+        </div>
+        <div class="card teal ani-up dl2" style="padding:10px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:4px;">Exemplos de julgamentos obrigatórios</div>
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <div class="card-text">→ Classificação de arrendamento como financeiro ou operacional</div>
+            <div class="card-text">→ Controle vs. influência significativa em participações societárias</div>
+            <div class="card-text">→ Reconhecimento de receita ao longo do tempo vs. em um ponto específico</div>
+            <div class="card-text">→ Atividade principal para fins de classificação na DRE (IFRS 18)</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--amber);letter-spacing:1px;margin-bottom:2px;">ESTIMATIVAS — O QUE DIVULGAR</div>
+        <div class="callout amber ani-up dr1" style="font-size:clamp(10px,1.1vw,12px);">
+          <span>📌</span>
+          <span>Estimativas e premissas que apresentam risco significativo de causar ajuste material nos valores reconhecidos nos próximos 12 meses.</span>
+        </div>
+        <div class="card amber ani-up dr2" style="padding:10px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:4px;">Exemplos de estimativas obrigatórias</div>
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <div class="card-text">→ Valor justo de instrumentos financeiros sem mercado ativo</div>
+            <div class="card-text">→ Provisões para litígios com incerteza sobre desfecho</div>
+            <div class="card-text">→ Teste de impairment de ágio — premissas do fluxo de caixa</div>
+            <div class="card-text">→ Vida útil de ativos com obsolescência tecnológica</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ad-row ani-up d5">
+      <div class="ad-item red">
+        <div style="font-size:9px;font-weight:700;color:var(--red);margin-bottom:3px;">IAS 1 — ANTES</div>
+        As notas de julgamentos e estimativas frequentemente eram genéricas e repetitivas — copiando o texto dos pronunciamentos sem relacionar com os valores específicos da entidade.
+      </div>
+      <div class="ad-arrow"><div class="circ">→</div></div>
+      <div class="ad-item green">
+        <div style="font-size:9px;font-weight:700;color:var(--green);margin-bottom:3px;">IFRS 18 — DEPOIS</div>
+        As notas precisam ser específicas para a entidade: qual o valor afetado, qual a premissa adotada, qual o intervalo razoável de estimativas e qual seria o impacto de premissas alternativas.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 17 — REF §B112–B115 ═══ -->
+<div class="slide ref-slide" id="s17">
+  <div class="ref-bar"></div><div class="ref-bg-par">§B112</div><div class="ref-conn"></div>
+  <div class="ref-hdr">
+    <div class="ref-badge"><span>📜</span><span class="ref-badge-text">O que diz a norma</span></div>
+    <div class="h-sep"></div>
+    <span class="h-title">Políticas contábeis e estimativas — texto original</span>
+    <span class="ref-norm-ref">IFRS 18 · §B112–B115</span>
+  </div>
+  <div class="ref-body">
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇬🇧</span><span class="ref-col-lang">Original · <span>English</span></span></div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ B112</span><span class="ref-par-lbl">Material accounting policy information — examples</span></div>
+        <div class="ref-par-text">"Accounting policy information that relates to <strong>immaterial transactions</strong>, other events or conditions is <span class="hl">immaterial and need not be disclosed</span>. Accounting policy information may be material because of the nature of the entity's operations, even if the amounts for current and prior periods are immaterial."</div>
+      </div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ B115</span><span class="ref-par-lbl">Judgements and sources of estimation uncertainty</span></div>
+        <div class="ref-par-text">"An entity shall disclose information about <strong>judgements</strong> that management has made in applying the entity's accounting policies and that have the most significant effect on the amounts recognised in the financial statements [...] and about <span class="hl">assumptions and other major sources of estimation uncertainty</span> that have a significant risk of resulting in a material adjustment within the next annual reporting period."</div>
+      </div>
+    </div>
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇧🇷</span><span class="ref-col-lang">Tradução · <span>Português</span></span></div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ B112</span><span class="ref-par-lbl">Políticas contábeis materiais — exemplos</span></div>
+        <div class="ref-par-text">"Informações sobre políticas contábeis que se relacionam a <strong>transações imateriais</strong> são <span class="hl">imateriais e não precisam ser divulgadas</span>. As informações sobre políticas contábeis podem ser materiais pela natureza das operações da entidade, mesmo que os valores dos períodos atual e anterior sejam imateriais."</div>
+      </div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ B115</span><span class="ref-par-lbl">Julgamentos e fontes de incerteza de estimativa</span></div>
+        <div class="ref-par-text">"Uma entidade deve divulgar informações sobre <strong>julgamentos</strong> que a administração fez ao aplicar as políticas contábeis e que têm o efeito mais significativo sobre os valores reconhecidos [...] e sobre <span class="hl">premissas e outras principais fontes de incerteza de estimativa</span> com risco significativo de resultar em ajuste material no próximo período de relatório."</div>
+      </div>
+    </div>
+    <div class="ref-fn ani-fn"><span>⚠</span><span><strong>Nota:</strong> Tradução livre para fins didáticos. Texto oficial em inglês publicado pelo IASB em abril de 2024.</span></div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 18 — DESAGREGAÇÃO NAS NOTAS ═══ -->
+<div class="slide" id="s18">
+  <div class="hdr"><span class="h-tag green">5.8</span><div class="h-sep"></div><span class="h-title">Desagregação nas notas — exemplos numéricos completos</span></div>
+  <div class="body" style="gap:9px;">
+    <div class="callout teal ani-up d1" style="font-size:clamp(10px,1.1vw,12px);">
+      <span>📌</span>
+      <span>A desagregação nas notas é o complemento obrigatório da apresentação agregada no Balanço e na DRE. Quando itens são agrupados nas demonstrações primárias, as notas devem detalhar os componentes que têm características distintas.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="ani-up dl1">
+        <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--teal);margin-bottom:6px;">EXEMPLO 1 — Desagregação de Receitas</div>
+        <table class="tbl">
+          <tr class="cat-hdr"><td colspan="3">Nota X — Desagregação de Receitas  (R$ MM)</td></tr>
+          <tr style="background:rgba(200,214,224,0.05);"><td style="color:var(--gray2);font-size:10px;">Segmento / Tipo</td><td style="text-align:right;color:var(--gray2);font-size:10px;">2027</td><td style="text-align:right;color:var(--gray2);font-size:10px;">2026</td></tr>
+          <tr class="sect"><td colspan="3">Por linha de produto</td></tr>
+          <tr class="item ind"><td>Produto A — venda à vista</td><td style="text-align:right;">420</td><td style="text-align:right;">390</td></tr>
+          <tr class="item ind"><td>Produto B — contratos de longo prazo</td><td style="text-align:right;">310</td><td style="text-align:right;">285</td></tr>
+          <tr class="item ind"><td>Serviços de manutenção</td><td style="text-align:right;">95</td><td style="text-align:right;">88</td></tr>
+          <tr class="sect"><td colspan="3">Por momento de reconhecimento</td></tr>
+          <tr class="item ind"><td>Reconhecida em ponto específico no tempo</td><td style="text-align:right;">560</td><td style="text-align:right;">510</td></tr>
+          <tr class="item ind"><td>Reconhecida ao longo do tempo</td><td style="text-align:right;">265</td><td style="text-align:right;">253</td></tr>
+          <tr class="sub"><td>Total de Receitas</td><td style="text-align:right;">825</td><td style="text-align:right;">763</td></tr>
+        </table>
+      </div>
+      <div class="ani-up dr1">
+        <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--amber);margin-bottom:6px;">EXEMPLO 2 — Desagregação de Provisões</div>
+        <table class="tbl">
+          <tr class="cat-hdr amber"><td colspan="4">Nota Y — Movimentação de Provisões  (R$ MM)</td></tr>
+          <tr style="background:rgba(200,214,224,0.05);"><td style="color:var(--gray2);font-size:10px;">Natureza</td><td style="text-align:right;color:var(--gray2);font-size:10px;">Saldo ini.</td><td style="text-align:right;color:var(--gray2);font-size:10px;">Adições</td><td style="text-align:right;color:var(--gray2);font-size:10px;">Saldo fin.</td></tr>
+          <tr class="item"><td>Litígios trabalhistas</td><td style="text-align:right;">85</td><td style="text-align:right;">22</td><td style="text-align:right;">94</td></tr>
+          <tr class="item"><td>Litígios tributários</td><td style="text-align:right;">142</td><td style="text-align:right;">18</td><td style="text-align:right;">148</td></tr>
+          <tr class="item"><td>Garantias de produtos</td><td style="text-align:right;">38</td><td style="text-align:right;">12</td><td style="text-align:right;">42</td></tr>
+          <tr class="item"><td>Descomissionamento</td><td style="text-align:right;">95</td><td style="text-align:right;">8</td><td style="text-align:right;">103</td></tr>
+          <tr class="sub amber"><td>Total de Provisões</td><td style="text-align:right;">360</td><td style="text-align:right;">60</td><td style="text-align:right;">387</td></tr>
+        </table>
+        <div style="margin-top:7px;padding:7px 10px;background:rgba(245,166,35,0.08);border-radius:5px;font-size:clamp(9px,1vw,11px);color:var(--amber);">
+          A desagregação permite ao analista avaliar separadamente o risco de litígios tributários (menos previsíveis) do risco de garantias (mais quantificáveis).
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;" class="ani-up d3">
+      <div class="card teal" style="padding:10px 13px;">
+        <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:4px;">EXEMPLO 3 — Desagregação de Despesas por Natureza</div>
+        <table class="tbl" style="margin-top:4px;">
+          <tr style="background:rgba(200,214,224,0.05);"><td style="color:var(--gray2);font-size:10px;">Natureza</td><td style="text-align:right;color:var(--gray2);font-size:10px;">CPV</td><td style="text-align:right;color:var(--gray2);font-size:10px;">Adm.</td><td style="text-align:right;color:var(--gray2);font-size:10px;">Total</td></tr>
+          <tr class="item"><td>Materiais</td><td style="text-align:right;">380</td><td style="text-align:right;">8</td><td style="text-align:right;">388</td></tr>
+          <tr class="item"><td>Pessoal</td><td style="text-align:right;">95</td><td style="text-align:right;">45</td><td style="text-align:right;">140</td></tr>
+          <tr class="item"><td>Depreciação</td><td style="text-align:right;">62</td><td style="text-align:right;">18</td><td style="text-align:right;">80</td></tr>
+          <tr class="item"><td>Terceiros</td><td style="text-align:right;">43</td><td style="text-align:right;">29</td><td style="text-align:right;">72</td></tr>
+          <tr class="sub"><td>Total</td><td style="text-align:right;">580</td><td style="text-align:right;">100</td><td style="text-align:right;">680</td></tr>
+        </table>
+      </div>
+      <div class="callout amber" style="align-items:flex-start;flex-direction:column;gap:7px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Por que a desagregação importa</div>
+        <div style="font-size:clamp(10px,1.1vw,12px);color:var(--white);">O analista consegue calcular a intensidade de capital (depreciação/receita), o custo de mão de obra e o índice de terceirização de forma direta — sem depender de releases de resultados ou apresentações de RI.</div>
+        <div style="font-size:clamp(10px,1.1vw,12px);color:var(--white);">O auditor consegue rastrear cada componente até os registros contábeis subjacentes com muito mais precisão.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 19 — REF §B6–B7 ═══ -->
+<div class="slide ref-slide" id="s19">
+  <div class="ref-bar"></div><div class="ref-bg-par">§B6</div><div class="ref-conn"></div>
+  <div class="ref-hdr">
+    <div class="ref-badge"><span>📜</span><span class="ref-badge-text">O que diz a norma</span></div>
+    <div class="h-sep"></div>
+    <span class="h-title">Papel das notas explicativas — texto original</span>
+    <span class="ref-norm-ref">IFRS 18 · §B6–B7</span>
+  </div>
+  <div class="ref-body">
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇬🇧</span><span class="ref-col-lang">Original · <span>English</span></span></div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ B6</span><span class="ref-par-lbl">Role of the notes — understanding primary statements</span></div>
+        <div class="ref-par-text">"Notes that enable users to understand the primary financial statements include: <span class="hl">(a) disaggregation of items presented in the primary financial statements; (b) information about items that are not recognised in the financial statements;</span> (c) information about the nature and extent of risks; (d) information about assumptions, judgements and estimates."</div>
+      </div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ B7</span><span class="ref-par-lbl">Role of the notes — supplementing primary statements</span></div>
+        <div class="ref-par-text">"Notes that supplement the primary financial statements with additional information include: (a) information required or permitted by other IFRS Accounting Standards; and (b) <strong>information that is not presented</strong> in the primary financial statements but is <span class="hl">relevant to an understanding of them.</span>"</div>
+      </div>
+    </div>
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇧🇷</span><span class="ref-col-lang">Tradução · <span>Português</span></span></div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ B6</span><span class="ref-par-lbl">Papel das notas — compreensão das demonstrações primárias</span></div>
+        <div class="ref-par-text">"As notas que permitem aos usuários compreender as demonstrações primárias incluem: <span class="hl">(a) desagregação de itens apresentados nas demonstrações primárias; (b) informações sobre itens não reconhecidos nas demonstrações;</span> (c) informações sobre a natureza e extensão dos riscos; (d) informações sobre premissas, julgamentos e estimativas."</div>
+      </div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ B7</span><span class="ref-par-lbl">Papel das notas — complemento às demonstrações primárias</span></div>
+        <div class="ref-par-text">"As notas que complementam as demonstrações primárias com informações adicionais incluem: (a) informações exigidas ou permitidas por outras normas IFRS; e (b) <strong>informações não apresentadas</strong> nas demonstrações primárias mas <span class="hl">relevantes para a sua compreensão.</span>"</div>
+      </div>
+    </div>
+    <div class="ref-fn ani-fn"><span>⚠</span><span><strong>Nota:</strong> Tradução livre para fins didáticos. Texto oficial em inglês publicado pelo IASB em abril de 2024.</span></div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 20 — REF §103–105 ═══ -->
+<div class="slide ref-slide" id="s20">
+  <div class="ref-bar"></div><div class="ref-bg-par">§103</div><div class="ref-conn"></div>
+  <div class="ref-hdr">
+    <div class="ref-badge"><span>📜</span><span class="ref-badge-text">O que diz a norma</span></div>
+    <div class="h-sep"></div>
+    <span class="h-title">Itens obrigatórios no Balanço — texto original</span>
+    <span class="ref-norm-ref">IFRS 18 · §103–105</span>
+  </div>
+  <div class="ref-body">
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇬🇧</span><span class="ref-col-lang">Original · <span>English</span></span></div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 103</span><span class="ref-par-lbl">Additional line items in the statement of financial position</span></div>
+        <div class="ref-par-text">"An entity shall present additional line items, headings and subtotals in the statement of financial position when <span class="hl">such presentation is necessary to provide a useful structured summary</span>. An entity shall use judgement about whether to present additional line items separately on the basis of an assessment of: <strong>(a) the nature and liquidity of assets; (b) the function of assets within the entity; and (c) the amounts, nature and timing of liabilities.</strong>"</div>
+      </div>
+      <div class="ref-par">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 105</span><span class="ref-par-lbl">Different measurement bases</span></div>
+        <div class="ref-par-text">"When an entity uses <strong>different measurement bases</strong> for different classes of assets, this indicates that the nature or function of those assets differs and, therefore, an entity shall present them as <span class="hl">separate line items</span>. For example, different classes of property, plant and equipment can be carried at cost or at revalued amounts."</div>
+      </div>
+    </div>
+    <div class="ref-col ani-ref">
+      <div class="ref-col-label"><span>🇧🇷</span><span class="ref-col-lang">Tradução · <span>Português</span></span></div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 103</span><span class="ref-par-lbl">Linhas adicionais no Balanço Patrimonial</span></div>
+        <div class="ref-par-text">"Uma entidade deve apresentar linhas adicionais, títulos e subtotais no Balanço quando <span class="hl">tal apresentação for necessária para fornecer um resumo estruturado útil</span>. A entidade deve usar julgamento sobre a apresentação separada com base em: <strong>(a) natureza e liquidez dos ativos; (b) função dos ativos na entidade; e (c) valores, natureza e vencimento dos passivos.</strong>"</div>
+      </div>
+      <div class="ref-par pt">
+        <div class="ref-par-hdr"><span class="ref-par-num">§ 105</span><span class="ref-par-lbl">Bases de mensuração distintas</span></div>
+        <div class="ref-par-text">"Quando uma entidade usa <strong>bases de mensuração diferentes</strong> para classes distintas de ativos, isso indica que a natureza ou função desses ativos difere e, portanto, a entidade deve apresentá-los como <span class="hl">linhas separadas</span>. Por exemplo, diferentes classes de imobilizado podem ser mensuradas ao custo ou por valores reavaliados."</div>
+      </div>
+    </div>
+    <div class="ref-fn ani-fn"><span>⚠</span><span><strong>Nota:</strong> Tradução livre para fins didáticos. Texto oficial em inglês publicado pelo IASB em abril de 2024.</span></div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 21 — IMPACTOS SETORIAIS ═══ -->
+<div class="slide" id="s21">
+  <div class="hdr"><span class="h-tag purple">5.9</span><div class="h-sep"></div><span class="h-title">Impactos setoriais no Balanço e nas Notas</span></div>
+  <div class="body" style="gap:9px;display:grid;grid-template-columns:1fr 1fr;align-items:start;">
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div class="card ani-up dl1" style="padding:12px 14px;border-left:3px solid var(--blue);">
+        <div class="card-title">🏦 Setor Financeiro</div>
+        <div class="card-text" style="margin-top:5px;">Apresentação por liquidez mantida. Carteira de crédito deve ser desagregada por tipo (varejo, corporativo, rural) e por estágio de risco (IFRS 9 stage 1, 2, 3). Notas de políticas: metodologia de PCE é material obrigatório.</div>
+      </div>
+      <div class="card ani-up dl2" style="padding:12px 14px;border-left:3px solid var(--amber);">
+        <div class="card-title">🏢 Holdings e Grupos Econômicos</div>
+        <div class="card-text" style="margin-top:5px;">Participações pelo método de equivalência devem ser desagregadas por coligada quando os valores são materiais. Notas precisam informar a atividade principal de cada coligada relevante.</div>
+      </div>
+      <div class="card ani-up dl3" style="padding:12px 14px;border-left:3px solid var(--teal);">
+        <div class="card-title">⚡ Energia e Infraestrutura</div>
+        <div class="card-text" style="margin-top:5px;">Provisão para descomissionamento deve ser apresentada separadamente no não circulante. Notas: premissas de taxa de desconto e prazo estimado são estimativas com risco de ajuste material.</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div class="card ani-up dr1" style="padding:12px 14px;border-left:3px solid var(--green);">
+        <div class="card-title">🌱 Agronegócio</div>
+        <div class="card-text" style="margin-top:5px;">Ativos biológicos mensurados a valor justo devem ser separados daqueles ao custo. Notas: premissas de valor justo (preço de mercado, produtividade esperada) são estimativas materiais obrigatórias.</div>
+      </div>
+      <div class="card ani-up dr2" style="padding:12px 14px;border-left:3px solid var(--red);">
+        <div class="card-title">🛢️ Petróleo e Gás</div>
+        <div class="card-text" style="margin-top:5px;">Reservas e ativos de exploração devem ser desagregados por fase (exploração, desenvolvimento, produção). Política de capitalização de custos de exploração é material e obrigatória nas notas.</div>
+      </div>
+      <div class="card ani-up dr3" style="padding:12px 14px;border-left:3px solid var(--purple);">
+        <div class="card-title">💊 Saúde e Farmacêutico</div>
+        <div class="card-text" style="margin-top:5px;">Intangíveis de P&D capitalizado devem ser desagregados por fase de desenvolvimento. Notas: probabilidade de sucesso e vida útil esperada são estimativas com risco significativo de ajuste.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 22 — CHECKLIST ═══ -->
+<div class="slide" id="s22">
+  <div class="hdr"><span class="h-tag teal">Checklist</span><div class="h-sep"></div><span class="h-title">Implementação — Balanço e Notas Explicativas</span></div>
+  <div class="body" style="gap:9px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--teal);letter-spacing:1px;margin-bottom:2px;">BALANÇO PATRIMONIAL</div>
+        <div class="card teal ani-up dl1" style="padding:10px 13px;"><div class="card-text">☐ Revisar todas as linhas de "Outros" — identificar componentes com naturezas e funções distintas</div></div>
+        <div class="card teal ani-up dl2" style="padding:10px 13px;"><div class="card-text">☐ Separar ativos operacionais de ativos de investimento — coerência com categorias da DRE</div></div>
+        <div class="card teal ani-up dl3" style="padding:10px 13px;"><div class="card-text">☐ Separar passivos operacionais de passivos de financiamento</div></div>
+        <div class="card teal ani-up dl4" style="padding:10px 13px;"><div class="card-text">☐ Revisar classificação de passivos com covenants — verificar direito de diferir na data do balanço</div></div>
+        <div class="card teal ani-up dl5" style="padding:10px 13px;"><div class="card-text">☐ Identificar ativos com bases de mensuração distintas agrupados na mesma linha — desagregar</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--green);letter-spacing:1px;margin-bottom:2px;">NOTAS EXPLICATIVAS</div>
+        <div class="card green ani-up dr1" style="padding:10px 13px;"><div class="card-text">☐ Revisar todas as notas de políticas — eliminar as que não são materiais para esta entidade específica</div></div>
+        <div class="card green ani-up dr2" style="padding:10px 13px;"><div class="card-text">☐ Identificar julgamentos contábeis com efeito mais significativo e documentar a análise</div></div>
+        <div class="card green ani-up dr3" style="padding:10px 13px;"><div class="card-text">☐ Mapear estimativas com risco de ajuste material no próximo período — incluir análise de sensibilidade</div></div>
+        <div class="card green ani-up dr4" style="padding:10px 13px;"><div class="card-text">☐ Garantir que a desagregação nas notas complementa o que foi agregado nas demonstrações primárias</div></div>
+        <div class="card green ani-up dr5" style="padding:10px 13px;"><div class="card-text">☐ Incluir nota específica sobre a política de classificação da atividade principal (novo requisito IFRS 18)</div></div>
+      </div>
+    </div>
+    <div class="callout amber ani-up d6">
+      <span>⏱</span>
+      <span><strong>Cronograma:</strong> Para a primeira aplicação obrigatória em jan/2027, a reapresentação do Balanço de 2026 precisa seguir os critérios de desagregação do IFRS 18. Isso significa que os sistemas de registro precisam capturar as informações adicionais já durante 2026.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 23 — PONTOS DE ATENÇÃO ═══ -->
+<div class="slide" id="s23">
+  <div class="hdr"><span class="h-tag red">5.10</span><div class="h-sep"></div><span class="h-title">Pontos de atenção — auditores, analistas e gestores contábeis</span></div>
+  <div class="body" style="gap:9px;display:grid;grid-template-columns:1fr 1fr 1fr;align-items:start;">
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div style="background:rgba(192,57,43,0.12);border-radius:7px;padding:9px 12px;text-align:center;font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--red);">🔍 PARA AUDITORES</div>
+      <div class="card red ani-up dl1" style="padding:10px 12px;"><div class="card-text"><strong style="color:var(--white);">Teste de coerência:</strong> a desagregação do Balanço é consistente com as categorias da DRE? Um ativo operacional está gerando receita na categoria Operacional?</div></div>
+      <div class="card red ani-up dl2" style="padding:10px 12px;"><div class="card-text"><strong style="color:var(--white);">Políticas materiais:</strong> a entidade eliminou políticas imateriais ou simplesmente copiou o modelo anterior? O critério de materialidade foi documentado?</div></div>
+      <div class="card red ani-up dl3" style="padding:10px 12px;"><div class="card-text"><strong style="color:var(--white);">Covenants:</strong> passivos com covenants foram revisados quanto à data de verificação? A reclassificação para corrente foi avaliada?</div></div>
+      <div class="card red ani-up dl4" style="padding:10px 12px;"><div class="card-text"><strong style="color:var(--white);">Estimativas nas notas:</strong> as premissas divulgadas são específicas da entidade ou genéricas? A análise de sensibilidade cobre o risco real de ajuste?</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div style="background:rgba(59,130,246,0.12);border-radius:7px;padding:9px 12px;text-align:center;font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--blue);">📈 PARA ANALISTAS</div>
+      <div class="card ani-up d1" style="padding:10px 12px;border-left:3px solid var(--blue);"><div class="card-text"><strong style="color:var(--white);">Modelos de valuation:</strong> ativos operacionais e ativos de investimento agora estão separados — o cálculo de capital investido e ROIC fica mais preciso e direto.</div></div>
+      <div class="card ani-up d2" style="padding:10px 12px;border-left:3px solid var(--blue);"><div class="card-text"><strong style="color:var(--white);">Dívida líquida:</strong> com passivos de financiamento claramente identificados, o cálculo de dívida líquida e alavancagem é mais confiável e comparável entre empresas.</div></div>
+      <div class="card ani-up d3" style="padding:10px 12px;border-left:3px solid var(--blue);"><div class="card-text"><strong style="color:var(--white);">Qualidade das notas:</strong> notas com políticas materiais específicas e estimativas detalhadas são um sinal positivo de governança e transparência — inclua na análise qualitativa.</div></div>
+      <div class="card ani-up d4" style="padding:10px 12px;border-left:3px solid var(--blue);"><div class="card-text"><strong style="color:var(--white);">Comparabilidade histórica:</strong> a reapresentação retrospectiva do Balanço de 2026 permite comparação direta — mas séries mais longas precisam de ajuste manual.</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div style="background:rgba(0,169,157,0.12);border-radius:7px;padding:9px 12px;text-align:center;font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--teal);">⚙️ PARA GESTORES CONTÁBEIS</div>
+      <div class="card teal ani-up dr1" style="padding:10px 12px;"><div class="card-text"><strong style="color:var(--white);">Plano de contas:</strong> contas que hoje agrupam naturezas distintas precisam ser desmembradas para suportar a desagregação exigida no Balanço.</div></div>
+      <div class="card teal ani-up dr2" style="padding:10px 12px;"><div class="card-text"><strong style="color:var(--white);">Rotinas de fechamento:</strong> a classificação de cada ativo e passivo nas categorias do IFRS 18 precisa ocorrer no lançamento — não só na consolidação.</div></div>
+      <div class="card teal ani-up dr3" style="padding:10px 12px;"><div class="card-text"><strong style="color:var(--white);">Revisão de notas:</strong> o processo de elaboração das notas precisa incluir avaliação de materialidade por item — não mais produção automática de lista completa.</div></div>
+      <div class="card teal ani-up dr4" style="padding:10px 12px;"><div class="card-text"><strong style="color:var(--white);">Documentação de julgamentos:</strong> os julgamentos sobre atividade principal, classificação de ativos e materialidade de políticas precisam estar formalizados nas políticas contábeis internas.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 24 — O QUE MUDA PARA O ANALISTA (APROFUNDAMENTO) ═══ -->
+<div class="slide" id="s24">
+  <div class="hdr"><span class="h-tag purple">5.11</span><div class="h-sep"></div><span class="h-title">Impacto para o analista financeiro — visão quantitativa</span></div>
+  <div class="body" style="gap:9px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(10px,1.1vw,12px);font-weight:700;color:var(--teal);letter-spacing:1px;margin-bottom:2px;">INDICADORES AFETADOS PELA DESAGREGAÇÃO</div>
+        <div class="card teal ani-up dl1" style="padding:11px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:5px;">Capital Investido (ROIC)</div>
+          <div class="card-text">Com ativos operacionais e de investimento separados, o analista calcula o capital investido nas operações com mais precisão — excluindo participações e ativos de investimento que não fazem parte das operações principais.</div>
+        </div>
+        <div class="card teal ani-up dl2" style="padding:11px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:5px;">Dívida Líquida e Alavancagem</div>
+          <div class="card-text">Passivos de financiamento claramente identificados no Balanço eliminam a ambiguidade sobre o que entra no cálculo de dívida líquida — fornecedores e tributos nunca são dívida financeira.</div>
+        </div>
+        <div class="card teal ani-up dl3" style="padding:11px 13px;">
+          <div style="font-size:10px;font-weight:700;color:var(--white);margin-bottom:5px;">Working Capital Operacional</div>
+          <div class="card-text">Com clientes, estoques e fornecedores separados de ativos e passivos financeiros, o ciclo de capital de giro reflete exclusivamente a dinâmica operacional do negócio.</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--amber);margin-bottom:8px;letter-spacing:0.5px;text-align:center;">EXEMPLO — CÁLCULO DE ROIC ANTES × DEPOIS  (R$ MM)</div>
+        <table class="tbl" class="ani-up dr1">
+          <tr style="background:rgba(200,214,224,0.05);"><td style="color:var(--gray2);font-size:10px;">Componente</td><td style="text-align:right;color:var(--red);font-size:10px;">IAS 1</td><td style="text-align:right;color:var(--teal);font-size:10px;">IFRS 18</td></tr>
+          <tr class="item"><td>Imobilizado líquido</td><td style="text-align:right;">890</td><td style="text-align:right;">890</td></tr>
+          <tr class="item"><td>Clientes + Estoques</td><td style="text-align:right;">620</td><td style="text-align:right;">620</td></tr>
+          <tr class="item"><td>(-) Fornecedores + Tributos</td><td style="text-align:right;">(271)</td><td style="text-align:right;">(271)</td></tr>
+          <tr class="item hl"><td>Participações e ativos de invest.</td><td style="text-align:right;color:var(--red);">380 ←incluso</td><td style="text-align:right;color:var(--teal);">— ←excluído</td></tr>
+          <tr class="sub"><td>Capital Investido Operacional</td><td style="text-align:right;color:var(--red);">1.619</td><td style="text-align:right;color:var(--teal);">1.239</td></tr>
+          <tr class="item"><td>ROP / NOPAT (30%)</td><td style="text-align:right;">300</td><td style="text-align:right;">300</td></tr>
+          <tr class="tot"><td>ROIC</td><td style="text-align:right;color:var(--red);">18,5%</td><td style="text-align:right;color:var(--teal);">24,2%</td></tr>
+        </table>
+        <div style="margin-top:7px;padding:8px 10px;background:rgba(245,166,35,0.08);border-radius:5px;font-size:clamp(9px,1vw,11px);color:var(--amber);">
+          O ROIC operacional verdadeiro era 24,2% — mas calculado com o Balanço do IAS 1 (sem desagregação), o analista obtinha 18,5%. A desagregação obrigatória elimina essa distorção.
+        </div>
+        <div class="callout teal ani-up dr2" style="margin-top:8px;">
+          <span>💡</span>
+          <span>A mesma empresa, os mesmos valores — mas a qualidade da análise financeira melhora significativamente com a desagregação obrigatória do IFRS 18.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 25 — ENCERRAMENTO ═══ -->
+<div class="slide enc no-pad" id="s25">
+  <div class="bar"></div>
+  <div style="position:absolute;border-radius:50%;pointer-events:none;filter:blur(80px);width:600px;height:400px;background:rgba(59,130,246,0.06);top:-100px;right:-100px;"></div>
+  <div class="cnt">
+    <div class="eyebrow">Aula 05 — Pontos-chave</div>
+    <div class="title">O que levar<br>desta aula</div>
+    <div class="enc-items">
+      <div class="enc-item"><div class="enc-dot"></div><span>O IFRS 18 não muda valores no Balanço — muda como eles são apresentados: desagregação obrigatória por natureza, função, risco e base de mensuração</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>Linhas de "Outros ativos" e "Outros passivos" precisam ser desmembradas quando agrupam itens com características distintas — fim da agregação genérica</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>O Balanço precisa ser coerente com a DRE: ativos operacionais identificáveis, ativos de investimento separados, passivos de financiamento destacados</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>Notas explicativas: "políticas contábeis materiais" substituem "políticas significativas" — menos volume, mais relevância específica para a entidade</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>Julgamentos sobre atividade principal e estimativas com risco de ajuste material precisam ser divulgados de forma específica — não mais textos genéricos copiados dos pronunciamentos</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>A reapresentação retrospectiva do Balanço de 2026 exige que os sistemas de registro capturem as informações adicionais já durante 2026</span></div>
+    </div>
+    <div class="enc-next">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      Próximo: Aula 6 — Comparativos e Transição: abordagem retrospectiva
+    </div>
+  </div>
+</div>
+
+</div><!-- #slides -->
+
+<div id="nav-trigger"></div>
+<div id="nav">
+  <button class="nav-btn" id="btn-prev" onclick="go(-1)" disabled>&#8592;</button>
+  <div id="progress-dots"></div>
+  <span id="slide-counter">1 / 25</span>
+  <button class="nav-btn" id="btn-next" onclick="go(1)">&#8594;</button>
+</div>
+
+<script src="auth.js"></script>
+<script>
+window.CourseAuth.requireCourseAccess('ifrs18', { fallbackUrl: 'contabil.html' });
+
+const isMobileView = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+
+if (isMobileView) {
+  const navTriggerEl = document.getElementById('nav-trigger');
+  const navEl = document.getElementById('nav');
+  const hintEl = document.getElementById('kb-hint');
+  const homeBtnEl = document.getElementById('home-btn');
+  const slidesWrap = document.getElementById('slides');
+
+  if (navTriggerEl) navTriggerEl.style.display = 'none';
+  if (navEl) navEl.style.display = 'none';
+  if (hintEl) hintEl.style.display = 'none';
+  if (homeBtnEl) homeBtnEl.style.display = 'none';
+
+  if (slidesWrap) {
+    slidesWrap.style.width = '100%';
+    slidesWrap.style.height = 'auto';
+    slidesWrap.style.position = 'static';
+  }
+
+  document.querySelectorAll('.slide').forEach(slide => slide.classList.add('active'));
+  document.documentElement.style.height = 'auto';
+  document.body.style.height = 'auto';
+  document.documentElement.style.overflowX = 'hidden';
+  document.body.style.overflowX = 'hidden';
+  document.documentElement.style.overflowY = 'auto';
+  document.body.style.overflowY = 'auto';
+} else {
+const TOTAL = 25;
+let current = 1, busy = false;
+const dotsEl = document.getElementById('progress-dots');
+for (let i = 1; i <= TOTAL; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 1 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
+function showSlide(n) {
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  const old = document.getElementById('s' + n);
+  const clone = old.cloneNode(true);
+  old.parentNode.replaceChild(clone, old);
+  clone.classList.add('active');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i + 1 === n));
+  document.getElementById('slide-counter').textContent = n + ' / ' + TOTAL;
+  document.getElementById('btn-prev').disabled = n === 1;
+  document.getElementById('btn-next').disabled = n === TOTAL;
+}
+function go(dir) {
+  if (busy) return;
+  const n = current + dir;
+  if (n < 1 || n > TOTAL) return;
+  busy = true; current = n;
+  showSlide(current);
+  setTimeout(() => { busy = false; }, 350);
+}
+function goTo(n) {
+  if (n === current || busy) return;
+  busy = true; current = n;
+  showSlide(current);
+  setTimeout(() => { busy = false; }, 350);
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+});
+
+// NAV hover
+const navTrigger = document.getElementById('nav-trigger');
+const nav = document.getElementById('nav');
+const kbHint = document.getElementById('kb-hint');
+let hideTimer;
+function showNav() { clearTimeout(hideTimer); nav.classList.add('visible'); kbHint.classList.add('visible'); }
+function scheduleHide() { hideTimer = setTimeout(() => { nav.classList.remove('visible'); kbHint.classList.remove('visible'); }, 2000); }
+navTrigger.addEventListener('mouseenter', showNav);
+navTrigger.addEventListener('mouseleave', scheduleHide);
+nav.addEventListener('mouseenter', showNav);
+nav.addEventListener('mouseleave', scheduleHide);
+kbHint.addEventListener('mouseenter', showNav);
+showNav();
+setTimeout(() => { scheduleHide(); }, 3000);
+
+showSlide(1);
+}
+</script>
+</body>
+</html>
+
+
+

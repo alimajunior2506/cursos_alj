@@ -1,0 +1,644 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IFRS 18 — Aula 1: Contexto e Motivação</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --navy:#0D2137; --dark:#081929; --card:#112840;
+  --teal:#00A99D; --amber:#F5A623; --white:#FFFFFF;
+  --gray:#C8D6E0; --gray2:#7A9AB0; --red:#C0392B; --green:#27AE60;
+}
+html,body { width:100%; height:100%; background:var(--dark); font-family:'DM Sans',sans-serif; color:var(--white); }
+
+/* SLIDES */
+#slides { width:100%; height:100%; position:relative; }
+.slide { position:absolute; inset:0; display:flex; flex-direction:column; opacity:0; pointer-events:none; overflow:visible; padding-top:56px; padding-bottom:16px; }
+.slide.active { opacity:1; pointer-events:all; }
+
+/* NAV */
+#nav-trigger { position:fixed; bottom:0; left:0; right:0; height:80px; z-index:999; }
+#nav { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(100px); z-index:1000; display:flex; align-items:center; gap:14px; opacity:0; transition:opacity 0.3s ease, transform 0.3s ease; pointer-events:none; }
+#nav.visible { opacity:1; transform:translateX(-50%) translateY(0); pointer-events:all; }
+.nav-btn { width:42px; height:42px; border-radius:50%; border:1px solid rgba(0,169,157,0.35); background:rgba(17,40,64,0.92); color:var(--teal); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; backdrop-filter:blur(10px); }
+.nav-btn:hover { background:rgba(0,169,157,0.18); border-color:var(--teal); }
+.nav-btn:disabled { opacity:0.25; cursor:default; }
+#progress-dots { display:flex; gap:6px; align-items:center; }
+.dot { width:6px; height:6px; border-radius:50%; background:var(--gray2); transition:all 0.35s; cursor:pointer; }
+.dot.active { background:var(--teal); width:22px; border-radius:3px; }
+#slide-counter { font-family:'Syne',sans-serif; font-size:12px; font-weight:700; color:var(--gray2); min-width:52px; text-align:center; }
+#home-btn { position:fixed; top:10px; left:12px; z-index:2000; background:rgba(17,40,64,0.88); border:1px solid rgba(0,169,157,0.22); border-radius:7px; padding:8px 15px; font-size:12px; font-weight:500; color:var(--teal); text-decoration:none; display:flex; align-items:center; gap:6px; backdrop-filter:blur(10px); transition:all 0.2s; }
+#home-btn:hover { background:rgba(0,169,157,0.14); }
+#kb-hint { position:fixed; bottom:28px; right:28px; z-index:1000; font-size:11px; color:var(--gray2); display:flex; align-items:center; gap:6px; opacity:0; transition:opacity 0.3s ease; pointer-events:none; }
+#kb-hint.visible { opacity:0.6; pointer-events:all; }
+.kb { border:1px solid var(--gray2); border-radius:3px; padding:2px 6px; font-size:10px; }
+
+/* ANIMAÇÕES */
+@keyframes fadeUp    { from{opacity:0;transform:translateY(28px)}  to{opacity:1;transform:translateY(0)} }
+@keyframes fadeLeft  { from{opacity:0;transform:translateX(-28px)} to{opacity:1;transform:translateX(0)} }
+@keyframes fadeRight { from{opacity:0;transform:translateX(28px)}  to{opacity:1;transform:translateX(0)} }
+@keyframes scaleIn   { from{opacity:0;transform:scale(0.88)}       to{opacity:1;transform:scale(1)} }
+@keyframes slideBar  { from{transform:scaleY(0)} to{transform:scaleY(1)} }
+@keyframes drawLine  { from{width:0} to{width:100%} }
+@keyframes glowPulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+/* RESPONSIVIDADE MOBILE */
+@media (max-width:1024px) {
+  html,body { width:100% !important; height:auto !important; overflow-y:auto !important; overflow-x:hidden !important; }
+  #slides { width:100% !important; height:auto !important; }
+  .slide { position:static !important; inset:auto !important; opacity:1 !important; pointer-events:all !important; margin-bottom:20px !important; padding:40px 16px !important; min-height:auto !important; overflow:visible !important; transform:none !important; display:flex !important; flex-direction:column !important; width:100% !important; }
+  .slide .body { flex:none !important; height:auto !important; }
+  .slide.active { opacity:1 !important; }
+  #nav-trigger, #nav, #kb-hint, #home-btn { display:none !important; }
+  .hdr { padding:16px 12px !important; }
+  .h-title { font-size:16px !important; }
+  #s1 .t1 { font-size:clamp(36px,8vw,56px) !important; }
+  #s1 .t2, #s1 .t3 { font-size:clamp(20px,5vw,32px) !important; }
+  #s1 .t4 { font-size:clamp(14px,3vw,20px) !important; }
+  .ag-item, .prob-item, .scope-box, .inov, .ad-item { font-size:13px !important; }
+  #s2 .body, #s3 .body, #s4 .body, #s5 .body, #s6 .body, #s7 .body { grid-template-columns:1fr !important; padding:16px 12px !important; gap:12px !important; }
+  .ag-item { flex-direction:column !important; }
+  .ag-num { width:32px !important; height:32px !important; font-size:12px !important; }
+  .stat-box { padding:20px 12px !important; }
+  .stat-big { font-size:56px !important; }
+  .glow { display:none !important; }
+  .ad-col { width:100% !important; }
+  .meta { gap:16px !important; flex-direction:column !important; }
+}
+
+/* ═══ SLIDE 1 CAPA ═══ */
+#s1 { background:var(--dark); justify-content:flex-end; padding-top:0; padding-bottom:0; }
+#s1 .glow { position:absolute; border-radius:50%; pointer-events:none; filter:blur(90px); }
+#s1 .g1 { width:700px;height:500px;background:rgba(0,169,157,0.08);top:-150px;left:-150px; }
+#s1 .g2 { width:500px;height:500px;background:rgba(245,166,35,0.05);bottom:-100px;right:-100px; }
+#s1 .bar { position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--teal);transform:scaleY(0);transform-origin:top; }
+#s1.active .bar { animation:slideBar 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s forwards; }
+#s1 .content { padding:0 72px 80px 56px;position:relative;z-index:1; }
+#s1 .eyebrow { font-size:11px;font-weight:500;letter-spacing:3px;color:var(--teal);text-transform:uppercase;display:flex;align-items:center;gap:10px;margin-bottom:24px;opacity:0; }
+#s1 .eyebrow::before { content:'';width:24px;height:2px;background:var(--teal); }
+#s1.active .eyebrow { animation:fadeLeft 0.6s ease 0.35s forwards; }
+#s1 .t1 { font-family:'Syne',sans-serif;font-size:clamp(64px,8vw,108px);font-weight:800;letter-spacing:-3px;color:var(--teal);display:block;opacity:0;line-height:1; }
+#s1 .t2 { font-family:'Syne',sans-serif;font-size:clamp(26px,3.4vw,46px);font-weight:800;color:var(--white);display:block;opacity:0;letter-spacing:-1px;line-height:1.1; }
+#s1 .t3 { font-family:'Syne',sans-serif;font-size:clamp(26px,3.4vw,46px);font-weight:800;color:var(--white);display:block;opacity:0;letter-spacing:-1px;line-height:1.1; }
+#s1 .t4 { font-family:'Syne',sans-serif;font-size:clamp(16px,2vw,26px);font-weight:700;color:var(--amber);display:block;opacity:0;margin-top:10px; }
+#s1.active .t1 { animation:fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.5s  forwards; }
+#s1.active .t2 { animation:fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.68s forwards; }
+#s1.active .t3 { animation:fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.82s forwards; }
+#s1.active .t4 { animation:fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.96s forwards; }
+#s1 .meta { display:flex;gap:40px;padding-top:28px;border-top:1px solid rgba(200,214,224,0.1);margin-top:14px;opacity:0; }
+#s1.active .meta { animation:fadeUp 0.6s ease 1.18s forwards; }
+.meta-item { display:flex;flex-direction:column;gap:3px; }
+.meta-label { font-size:10px;letter-spacing:2px;color:var(--gray2);text-transform:uppercase; }
+.meta-val { font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--white); }
+.meta-val span { color:var(--amber); }
+#s1 .bg-num { position:absolute;right:-20px;top:50%;transform:translateY(-50%);font-family:'Syne',sans-serif;font-size:320px;font-weight:800;color:rgba(0,169,157,0.03);line-height:1;user-select:none;letter-spacing:-12px;pointer-events:none;z-index:0; }
+
+/* ═══ SLIDE 2 AGENDA ═══ */
+#s2 { background:var(--navy); }
+#s2 .hdr { background:var(--card);padding:22px 56px 22px 40px;display:flex;align-items:center;gap:14px;border-bottom:1px solid rgba(200,214,224,0.07);opacity:0; }
+#s2.active .hdr { animation:fadeUp 0.5s ease 0.1s forwards; }
+.h-tag { font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:2.5px;color:var(--teal);text-transform:uppercase; }
+.h-tag.amber{color:var(--amber);} .h-tag.green{color:var(--green);}
+.h-sep { width:1px;height:18px;background:rgba(200,214,224,0.18); }
+.h-title { font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--white); }
+#s2 .body { flex:1;padding:28px 56px 28px 40px;display:flex;flex-direction:column;justify-content:center;gap:10px; }
+.ag-item { display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid rgba(200,214,224,0.07);border-radius:10px;padding:14px 20px;opacity:0;transform:translateX(-32px); }
+#s2.active .ag-item:nth-child(1){animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.2s  forwards;}
+#s2.active .ag-item:nth-child(2){animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.33s forwards;}
+#s2.active .ag-item:nth-child(3){animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.46s forwards;}
+#s2.active .ag-item:nth-child(4){animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.59s forwards;}
+#s2.active .ag-item:nth-child(5){animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.72s forwards;}
+.ag-num { width:38px;height:38px;flex-shrink:0;background:var(--teal);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--white); }
+.ag-title { font-size:14px;font-weight:500;color:var(--white); }
+.ag-sub { font-size:12px;color:var(--gray2);margin-top:2px; }
+
+/* ═══ SLIDE 3 PROBLEMA ═══ */
+#s3 { background:var(--navy); }
+#s3 .hdr { background:var(--card);padding:22px 56px 22px 40px;display:flex;align-items:center;gap:14px;border-bottom:1px solid rgba(200,214,224,0.07);opacity:0; }
+#s3.active .hdr { animation:fadeUp 0.5s ease 0.1s forwards; }
+#s3 .body { flex:1;padding:24px 56px 24px 40px;display:grid;grid-template-columns:190px 1fr;gap:20px;align-items:center; }
+.stat-box { background:var(--card);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 16px;text-align:center;height:100%;gap:6px;opacity:0;transform:scale(0.85); }
+#s3.active .stat-box { animation:scaleIn 0.6s cubic-bezier(0.22,1,0.36,1) 0.25s forwards; }
+.stat-big { font-family:'Syne',sans-serif;font-size:88px;font-weight:800;color:var(--teal);line-height:1; }
+.stat-lbl { font-size:15px;color:var(--gray); }
+.stat-period { font-size:13px;color:var(--amber);font-weight:500;margin-top:4px; }
+.stat-small { font-size:11px;color:var(--gray2);margin-top:4px; }
+#s3 .items { display:flex;flex-direction:column;gap:9px; }
+.prob-item { background:var(--card);border-left:3px solid var(--amber);border-radius:0 9px 9px 0;padding:13px 18px;font-size:13.5px;color:var(--white);line-height:1.45;opacity:0;transform:translateX(32px); }
+#s3.active .prob-item:nth-child(1){animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.35s forwards;}
+#s3.active .prob-item:nth-child(2){animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.48s forwards;}
+#s3.active .prob-item:nth-child(3){animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.61s forwards;}
+#s3.active .prob-item:nth-child(4){animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.74s forwards;}
+.callout { background:var(--teal);border-radius:8px;padding:12px 18px;font-size:13px;font-weight:500;color:var(--white);text-align:center;margin-top:6px;opacity:0;transform:translateY(12px); }
+#s3.active .callout { animation:fadeUp 0.5s ease 0.9s forwards; }
+
+/* ═══ SLIDE 4 ANTES x DEPOIS ═══ */
+#s4 { background:var(--navy); }
+#s4 .hdr { background:var(--card);padding:22px 56px 22px 40px;display:flex;align-items:center;gap:14px;border-bottom:1px solid rgba(200,214,224,0.07);opacity:0; }
+#s4.active .hdr { animation:fadeUp 0.5s ease 0.1s forwards; }
+#s4 .body { flex:1;padding:20px 40px;display:grid;grid-template-columns:1fr 52px 1fr;gap:12px;align-items:start; }
+.ad-col { display:flex;flex-direction:column;gap:6px; }
+.ad-hdr { padding:12px 16px;border-radius:9px 9px 0 0;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;text-align:center;color:var(--white);letter-spacing:0.5px;opacity:0; }
+.ad-hdr.red{background:var(--red);}
+.ad-hdr.green{background:var(--green);}
+#s4.active .ad-hdr.red   { animation:fadeLeft  0.5s cubic-bezier(0.22,1,0.36,1) 0.2s forwards; }
+#s4.active .ad-hdr.green { animation:fadeRight 0.5s cubic-bezier(0.22,1,0.36,1) 0.2s forwards; }
+.ad-item { padding:11px 15px;border-radius:7px;font-size:13px;color:var(--white);line-height:1.4;opacity:0; }
+.ad-item.red   { background:rgba(192,57,43,0.13);border:1px solid rgba(192,57,43,0.28); }
+.ad-item.green { background:rgba(39,174,96,0.11);border:1px solid rgba(39,174,96,0.28); }
+#s4.active .ad-col:nth-child(1) .ad-item:nth-child(1){animation:fadeLeft 0.4s ease 0.35s forwards;}
+#s4.active .ad-col:nth-child(1) .ad-item:nth-child(2){animation:fadeLeft 0.4s ease 0.46s forwards;}
+#s4.active .ad-col:nth-child(1) .ad-item:nth-child(3){animation:fadeLeft 0.4s ease 0.57s forwards;}
+#s4.active .ad-col:nth-child(1) .ad-item:nth-child(4){animation:fadeLeft 0.4s ease 0.68s forwards;}
+#s4.active .ad-col:nth-child(1) .ad-item:nth-child(5){animation:fadeLeft 0.4s ease 0.79s forwards;}
+#s4.active .ad-col:nth-child(3) .ad-item:nth-child(1){animation:fadeRight 0.4s ease 0.40s forwards;}
+#s4.active .ad-col:nth-child(3) .ad-item:nth-child(2){animation:fadeRight 0.4s ease 0.51s forwards;}
+#s4.active .ad-col:nth-child(3) .ad-item:nth-child(3){animation:fadeRight 0.4s ease 0.62s forwards;}
+#s4.active .ad-col:nth-child(3) .ad-item:nth-child(4){animation:fadeRight 0.4s ease 0.73s forwards;}
+#s4.active .ad-col:nth-child(3) .ad-item:nth-child(5){animation:fadeRight 0.4s ease 0.84s forwards;}
+.ad-arrow { display:flex;align-items:center;justify-content:center;padding-top:52px;opacity:0; }
+#s4.active .ad-arrow { animation:scaleIn 0.4s ease 0.6s forwards; }
+.arrow-circle { width:42px;height:42px;background:var(--amber);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--white); }
+
+/* ═══ SLIDE 5 ESCOPO ═══ */
+#s5 { background:var(--navy); }
+#s5 .hdr { background:var(--card);padding:22px 56px 22px 40px;display:flex;align-items:center;gap:14px;border-bottom:1px solid rgba(200,214,224,0.07);opacity:0; }
+#s5.active .hdr { animation:fadeUp 0.5s ease 0.1s forwards; }
+#s5 .body { flex:1;padding:24px 40px;display:grid;grid-template-columns:1fr 52px 1fr;grid-template-rows:1fr auto;gap:16px; }
+.scope-box { display:flex;flex-direction:column;border-radius:12px;overflow:hidden;opacity:0; }
+#s5.active .scope-box:nth-child(1){animation:fadeLeft  0.6s cubic-bezier(0.22,1,0.36,1) 0.25s forwards;}
+#s5.active .scope-box:nth-child(3){animation:fadeRight 0.6s cubic-bezier(0.22,1,0.36,1) 0.35s forwards;}
+.scope-hdr { padding:14px 20px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;text-align:center;color:var(--white); }
+.scope-hdr.red{background:var(--red);}
+.scope-hdr.green{background:var(--green);}
+.scope-body { flex:1;padding:24px 20px;text-align:center;display:flex;flex-direction:column;gap:12px;justify-content:center; }
+.scope-body.red   { background:rgba(192,57,43,0.09);border:1px solid rgba(192,57,43,0.2);border-top:0;border-radius:0 0 12px 12px; }
+.scope-body.green { background:rgba(39,174,96,0.07);border:1px solid rgba(39,174,96,0.2);border-top:0;border-radius:0 0 12px 12px; }
+.scope-name { font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--white); }
+.scope-info { font-size:13px;color:var(--gray2);line-height:1.55; }
+.scope-arrow { display:flex;align-items:center;justify-content:center;opacity:0; }
+#s5.active .scope-arrow { animation:scaleIn 0.4s ease 0.5s forwards; }
+.scope-note { grid-column:1/-1;background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.3);border-left:3px solid var(--amber);border-radius:8px;padding:14px 20px;font-size:13px;font-weight:500;color:var(--amber);opacity:0;transform:translateY(14px);display:flex;align-items:center;gap:10px; }
+#s5.active .scope-note { animation:fadeUp 0.5s ease 0.65s forwards; }
+
+/* ═══ SLIDE 6 INOVAÇÕES ═══ */
+#s6 { background:var(--navy); }
+#s6 .hdr { background:var(--card);padding:22px 56px 22px 40px;display:flex;align-items:center;gap:14px;border-bottom:1px solid rgba(200,214,224,0.07);opacity:0; }
+#s6.active .hdr { animation:fadeUp 0.5s ease 0.1s forwards; }
+#s6 .body { flex:1;padding:24px 40px;display:flex;flex-direction:column;justify-content:center;gap:14px; }
+.inov { display:flex;gap:20px;align-items:flex-start;background:var(--card);border-radius:12px;padding:22px 24px;border:1px solid rgba(200,214,224,0.07);opacity:0;transform:translateY(24px);position:relative;overflow:hidden; }
+.inov::before { content:'';position:absolute;left:0;top:0;bottom:0;width:4px; }
+.inov.t1::before{background:var(--teal);}
+.inov.t2::before{background:var(--amber);}
+.inov.t3::before{background:var(--green);}
+#s6.active .inov:nth-child(1){animation:fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.2s  forwards;}
+#s6.active .inov:nth-child(2){animation:fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.38s forwards;}
+#s6.active .inov:nth-child(3){animation:fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) 0.56s forwards;}
+.inov-num { font-family:'Syne',sans-serif;font-size:40px;font-weight:800;line-height:1;width:52px;flex-shrink:0; }
+.inov-num.t1{color:var(--teal);}
+.inov-num.t2{color:var(--amber);}
+.inov-num.t3{color:var(--green);}
+.inov-title { font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--white);margin-bottom:6px; }
+.inov-desc  { font-size:13px;color:var(--gray2);line-height:1.55; }
+
+/* ═══ SLIDE 7 TIMELINE ═══ */
+#s7 { background:var(--navy); }
+#s7 .hdr { background:var(--card);padding:22px 56px 22px 40px;display:flex;align-items:center;gap:14px;border-bottom:1px solid rgba(200,214,224,0.07);opacity:0; }
+#s7.active .hdr { animation:fadeUp 0.5s ease 0.1s forwards; }
+#s7 .body { flex:1;padding:24px 56px;display:flex;flex-direction:column;justify-content:center; }
+.tl-top { display:flex;justify-content:space-between;padding:0 9px;margin-bottom:4px; }
+.tl-top-lbl { width:110px;text-align:center;opacity:0;transform:translateY(-12px); }
+#s7.active .tl-top-lbl:nth-child(1){animation:fadeUp 0.4s ease 0.3s  forwards;}
+#s7.active .tl-top-lbl:nth-child(3){animation:fadeUp 0.4s ease 0.55s forwards;}
+#s7.active .tl-top-lbl:nth-child(5){animation:fadeUp 0.4s ease 0.8s  forwards;}
+.tl-year { font-family:'Syne',sans-serif;font-size:15px;font-weight:700; }
+.tl-desc { font-size:12px;color:var(--gray2);line-height:1.35;margin-top:2px; }
+.tl-year.gray{color:var(--gray2);}
+.tl-year.amber{color:var(--amber);}
+.tl-year.teal{color:var(--teal);}
+.tl-year.green{color:var(--green);}
+.tl-track { position:relative;height:50px;margin:4px 0;display:flex;align-items:center; }
+.tl-line { position:absolute;left:0;top:50%;transform:translateY(-50%);height:4px;border-radius:2px;width:0;background:linear-gradient(90deg,var(--gray2) 0%,var(--amber) 55%,var(--green) 100%); }
+#s7.active .tl-line { animation:drawLine 1.2s cubic-bezier(0.22,1,0.36,1) 0.4s forwards; }
+.tl-dots { position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);display:flex;justify-content:space-between;padding:0 9px; }
+.tl-dot { width:20px;height:20px;border-radius:50%;border:3px solid var(--dark);opacity:0; }
+.tl-dot.gray{background:var(--gray2);}
+.tl-dot.amber{background:var(--amber);}
+.tl-dot.teal{background:var(--teal);}
+.tl-dot.green{background:var(--green);}
+#s7.active .tl-dot:nth-child(1){animation:scaleIn 0.35s ease 0.6s  forwards;}
+#s7.active .tl-dot:nth-child(2){animation:scaleIn 0.35s ease 0.85s forwards;}
+#s7.active .tl-dot:nth-child(3){animation:scaleIn 0.35s ease 1.0s  forwards;}
+#s7.active .tl-dot:nth-child(4){animation:scaleIn 0.35s ease 1.15s forwards;}
+#s7.active .tl-dot:nth-child(5){animation:scaleIn 0.35s ease 1.3s  forwards;}
+.tl-bot { display:flex;justify-content:space-between;padding:0 9px;margin-top:4px; }
+.tl-bot-lbl { width:110px;text-align:center;opacity:0;transform:translateY(12px); }
+#s7.active .tl-bot-lbl:nth-child(2){animation:fadeUp 0.4s ease 0.7s  forwards;}
+#s7.active .tl-bot-lbl:nth-child(4){animation:fadeUp 0.4s ease 0.95s forwards;}
+.tl-table { margin-top:28px;background:var(--card);border-radius:10px;overflow:hidden;border:1px solid rgba(200,214,224,0.08);opacity:0;transform:translateY(16px); }
+#s7.active .tl-table { animation:fadeUp 0.5s ease 1.4s forwards; }
+.tl-row { display:grid;grid-template-columns:1fr 1fr;font-size:13px; }
+.tl-row:not(:last-child){border-bottom:1px solid rgba(200,214,224,0.07);}
+.tl-row div{padding:10px 18px;}
+.tl-row div:first-child{color:var(--gray2);}
+.tl-row div:last-child{color:var(--white);font-weight:500;}
+.tl-row div.green{color:var(--green);font-weight:700;}
+.tl-row div.amber{color:var(--amber);}
+.tl-row div.muted{color:var(--gray2);font-style:italic;font-weight:400;}
+
+/* ═══ SLIDE 8 IMPACTO ═══ */
+#s8 { background:var(--navy); }
+#s8 .hdr { background:var(--card);padding:22px 56px 22px 40px;display:flex;align-items:center;gap:14px;border-bottom:1px solid rgba(200,214,224,0.07);opacity:0; }
+#s8.active .hdr { animation:fadeUp 0.5s ease 0.1s forwards; }
+#s8 .body { flex:1;padding:24px 40px;display:flex;flex-direction:column;justify-content:center;gap:12px; }
+.impact { background:var(--card);border-radius:11px;overflow:hidden;border:1px solid rgba(200,214,224,0.07);opacity:0;transform:translateX(-24px); }
+#s8.active .impact:nth-child(1){animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.2s  forwards;}
+#s8.active .impact:nth-child(2){animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.35s forwards;}
+#s8.active .impact:nth-child(3){animation:fadeLeft 0.5s cubic-bezier(0.22,1,0.36,1) 0.5s  forwards;}
+.impact-hdr { padding:9px 18px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase; }
+.impact-hdr.green{background:rgba(39,174,96,0.28);color:#7DEFA0;}
+.impact-hdr.amber{background:rgba(245,166,35,0.2);color:var(--amber);}
+.impact-hdr.teal{background:rgba(0,169,157,0.2);color:var(--teal);}
+.impact-body { padding:10px 18px;display:flex;flex-direction:column;gap:5px; }
+.impact-row { display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--white);line-height:1.45; }
+.impact-row::before{content:'›';font-weight:700;flex-shrink:0;}
+.impact-row.green::before{color:var(--green);}
+.impact-row.amber::before{color:var(--amber);}
+.impact-row.teal::before{color:var(--teal);}
+
+/* ═══ SLIDE 9 ENCERRAMENTO ═══ */
+#s9 { background:var(--dark);justify-content:flex-end; padding-top:0; padding-bottom:0; }
+#s9 .glow { position:absolute;pointer-events:none;filter:blur(80px);border-radius:50%; }
+#s9 .g1 { width:600px;height:400px;background:rgba(0,169,157,0.07);top:-100px;right:-100px; }
+#s9 .bar { position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--teal);transform:scaleY(0);transform-origin:top; }
+#s9.active .bar { animation:slideBar 0.6s cubic-bezier(0.22,1,0.36,1) 0.1s forwards; }
+#s9 .content { padding:0 72px 72px 56px;position:relative;z-index:1; }
+#s9 .eyebrow { font-size:11px;font-weight:500;letter-spacing:3px;color:var(--amber);text-transform:uppercase;margin-bottom:16px;opacity:0; }
+#s9.active .eyebrow { animation:fadeUp 0.5s ease 0.2s forwards; }
+#s9 .title { font-family:'Syne',sans-serif;font-size:clamp(32px,4vw,50px);font-weight:800;line-height:1.05;letter-spacing:-1.5px;color:var(--white);margin-bottom:28px;opacity:0; }
+#s9.active .title { animation:fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.35s forwards; }
+.enc-items { display:flex;flex-direction:column;gap:10px; }
+.enc-item { display:flex;align-items:flex-start;gap:14px;font-size:14px;color:var(--white);line-height:1.5;opacity:0;transform:translateX(-20px); }
+.enc-dot { width:10px;height:10px;flex-shrink:0;border-radius:50%;background:var(--teal);margin-top:5px; }
+#s9.active .enc-item:nth-child(1){animation:fadeLeft 0.45s ease 0.55s forwards;}
+#s9.active .enc-item:nth-child(2){animation:fadeLeft 0.45s ease 0.68s forwards;}
+#s9.active .enc-item:nth-child(3){animation:fadeLeft 0.45s ease 0.81s forwards;}
+#s9.active .enc-item:nth-child(4){animation:fadeLeft 0.45s ease 0.94s forwards;}
+#s9.active .enc-item:nth-child(5){animation:fadeLeft 0.45s ease 1.07s forwards;}
+.enc-next { margin-top:24px;background:var(--card);border:1px solid rgba(0,169,157,0.28);border-radius:9px;padding:14px 20px;display:flex;align-items:center;gap:12px;font-size:13px;color:var(--teal);font-weight:500;opacity:0;transform:translateY(12px); }
+#s9.active .enc-next { animation:fadeUp 0.5s ease 1.25s forwards; }
+</style>
+</head>
+<body>
+
+<a href="index-ifrs-19.html" id="home-btn">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+  Índice do curso
+</a>
+
+<div id="kb-hint">
+  <span class="kb">←</span><span class="kb">→</span> ou <span class="kb">Espaço</span>
+</div>
+
+<div id="slides">
+
+<!-- SLIDE 1 CAPA -->
+<div class="slide" id="s1">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div class="bar"></div>
+  <div class="bg-num">18</div>
+  <div class="content">
+    <div class="eyebrow">Aula 01 — Contexto e Motivação</div>
+    <span class="t1">IFRS 18</span>
+    <span class="t2">O que muda na apresentação</span>
+    <span class="t3">das demonstrações financeiras</span>
+    <span class="t4">a partir de 2027</span>
+    <div class="meta">
+      <div class="meta-item"><span class="meta-label">Substitui</span><span class="meta-val">IAS <span>1</span></span></div>
+      <div class="meta-item"><span class="meta-label">Emitido em</span><span class="meta-val">Abr <span>/2024</span></span></div>
+      <div class="meta-item"><span class="meta-label">Vigência obrigatória</span><span class="meta-val">Jan <span>/2027</span></span></div>
+      <div class="meta-item"><span class="meta-label">Comparativos</span><span class="meta-val">Retro<span>spectivos</span></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 2 AGENDA -->
+<div class="slide" id="s2">
+  <div class="hdr"><span class="h-tag">Aula 01</span><div class="h-sep"></div><span class="h-title">Agenda</span></div>
+  <div class="body">
+    <div class="ag-item"><div class="ag-num">01</div><div><div class="ag-title">O problema que o IASB quis resolver</div><div class="ag-sub">Por que o IAS 1 deixou de ser suficiente?</div></div></div>
+    <div class="ag-item"><div class="ag-num">02</div><div><div class="ag-title">O que o IFRS 18 substitui</div><div class="ag-sub">Escopo da norma e o que permanece inalterado</div></div></div>
+    <div class="ag-item"><div class="ag-num">03</div><div><div class="ag-title">As três grandes inovações</div><div class="ag-sub">Categorias, subtotais e medidas gerenciais</div></div></div>
+    <div class="ag-item"><div class="ag-num">04</div><div><div class="ag-title">Linha do tempo e vigência</div><div class="ag-sub">Datas, adoção antecipada e comparativos</div></div></div>
+    <div class="ag-item"><div class="ag-num">05</div><div><div class="ag-title">Quem é impactado no Brasil</div><div class="ag-sub">CVM, CPC e demais entidades</div></div></div>
+  </div>
+</div>
+
+<!-- SLIDE 3 PROBLEMA -->
+<div class="slide" id="s3">
+  <div class="hdr"><span class="h-tag amber">1.1</span><div class="h-sep"></div><span class="h-title">O problema que o IASB quis resolver</span></div>
+  <div class="body">
+    <div class="stat-box">
+      <div class="stat-big" id="counter30">0</div>
+      <div class="stat-lbl">anos de IAS 1</div>
+      <div class="stat-period">1997 → 2027</div>
+      <div class="stat-small">vigência da norma substituída</div>
+    </div>
+    <div class="items">
+      <div class="prob-item">Liberdade excessiva na criação de subtotais intermediários na DRE</div>
+      <div class="prob-item">EBITDA e métricas gerenciais sem padronização nem obrigação de reconciliação</div>
+      <div class="prob-item">Comparabilidade comprometida entre empresas do mesmo setor</div>
+      <div class="prob-item">Resultado financeiro em posições distintas conforme critério de cada empresa</div>
+      <div class="callout">Demonstrações financeiras comparáveis apenas na superfície — conteúdo divergente entre entidades.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4 ANTES x DEPOIS -->
+<div class="slide" id="s4">
+  <div class="hdr"><span class="h-tag">1.1</span><div class="h-sep"></div><span class="h-title">Antes × Depois na DRE</span></div>
+  <div class="body">
+    <div class="ad-col">
+      <div class="ad-hdr red">ANTES — IAS 1</div>
+      <div class="ad-item red">Subtotais criados livremente pela administração</div>
+      <div class="ad-item red">EBITDA ajustado sem obrigação de reconciliação</div>
+      <div class="ad-item red">Resultado financeiro em qualquer posição da DRE</div>
+      <div class="ad-item red">Itens incomuns classificados sem critério uniforme</div>
+      <div class="ad-item red">Comparabilidade dependia da boa vontade da empresa</div>
+    </div>
+    <div class="ad-arrow"><div class="arrow-circle">→</div></div>
+    <div class="ad-col">
+      <div class="ad-hdr green">DEPOIS — IFRS 18</div>
+      <div class="ad-item green">Categorias obrigatórias definidas pela norma</div>
+      <div class="ad-item green">MPMs com divulgação e reconciliação obrigatória</div>
+      <div class="ad-item green">Resultado financeiro em categoria específica e definida</div>
+      <div class="ad-item green">Critérios objetivos para classificação de receitas e despesas</div>
+      <div class="ad-item green">Comparabilidade estrutural garantida pela norma</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5 ESCOPO -->
+<div class="slide" id="s5">
+  <div class="hdr"><span class="h-tag">1.2</span><div class="h-sep"></div><span class="h-title">O que o IFRS 18 efetivamente substitui</span></div>
+  <div class="body">
+    <div class="scope-box">
+      <div class="scope-hdr red">IAS 1 — REVOGADO</div>
+      <div class="scope-body red">
+        <div class="scope-name">Apresentação das Demonstrações Financeiras</div>
+        <div class="scope-info">Vigente desde 1997<br>Revisado em 2007<br><br>Revogado pelo IFRS 18</div>
+      </div>
+    </div>
+    <div class="scope-arrow"><div class="arrow-circle">→</div></div>
+    <div class="scope-box">
+      <div class="scope-hdr green">IFRS 18 — NOVO</div>
+      <div class="scope-body green">
+        <div class="scope-name">Apresentação e Divulgação nas Demonstrações Financeiras</div>
+        <div class="scope-info">Emitido em abril de 2024<br>Vigência: jan/2027<br><br>Norma construída do zero</div>
+      </div>
+    </div>
+    <div class="scope-note">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+      O IFRS 18 não altera reconhecimento nem mensuração. Cuida exclusivamente de apresentação e divulgação.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6 INOVAÇÕES -->
+<div class="slide" id="s6">
+  <div class="hdr"><span class="h-tag amber">1.3</span><div class="h-sep"></div><span class="h-title">As três grandes inovações do IFRS 18</span></div>
+  <div class="body">
+    <div class="inov t1">
+      <div class="inov-num t1">1ª</div>
+      <div><div class="inov-title">Categorias obrigatórias na DRE</div><div class="inov-desc">A DRE passa a ter estrutura definida pela norma. Cada receita e despesa classificada em categoria específica com critérios objetivos — não mais pela administração.</div></div>
+    </div>
+    <div class="inov t2">
+      <div class="inov-num t2">2ª</div>
+      <div><div class="inov-title">Subtotais obrigatórios e definidos</div><div class="inov-desc">Eliminação da situação em que cada empresa apresentava os subtotais que melhor a representavam — ou que melhor a favoreciam. Agora todos seguem os mesmos subtotais.</div></div>
+    </div>
+    <div class="inov t3">
+      <div class="inov-num t3">3ª</div>
+      <div><div class="inov-title">Disciplina sobre medidas gerenciais (MPMs)</div><div class="inov-desc">EBITDA ajustado e similares passam a ter status normativo: obrigação de identificação, rotulação e reconciliação com os números auditados — sujeitos à auditoria.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7 TIMELINE -->
+<div class="slide" id="s7">
+  <div class="hdr"><span class="h-tag">1.4</span><div class="h-sep"></div><span class="h-title">Linha do tempo e vigência</span></div>
+  <div class="body">
+    <div class="tl-top">
+      <div class="tl-top-lbl"><div class="tl-year gray">1997</div><div class="tl-desc">IAS 1 emitido</div></div>
+      <div style="width:110px"></div>
+      <div class="tl-top-lbl"><div class="tl-year amber">Abr/2024</div><div class="tl-desc">IFRS 18 emitido</div></div>
+      <div style="width:110px"></div>
+      <div class="tl-top-lbl"><div class="tl-year green">Jan/2027</div><div class="tl-desc">Vigência obrigatória</div></div>
+    </div>
+    <div class="tl-track">
+      <div class="tl-line"></div>
+      <div class="tl-dots">
+        <div class="tl-dot gray"></div>
+        <div class="tl-dot gray"></div>
+        <div class="tl-dot amber"></div>
+        <div class="tl-dot teal"></div>
+        <div class="tl-dot green"></div>
+      </div>
+    </div>
+    <div class="tl-bot">
+      <div style="width:110px"></div>
+      <div class="tl-bot-lbl"><div class="tl-year gray">2007</div><div class="tl-desc">IAS 1 revisado</div></div>
+      <div style="width:110px"></div>
+      <div class="tl-bot-lbl"><div class="tl-year teal">2024+</div><div class="tl-desc">Adoção antecipada</div></div>
+      <div style="width:110px"></div>
+    </div>
+    <div class="tl-table">
+      <div class="tl-row"><div>Emissão pelo IASB</div><div>Abril de 2024</div></div>
+      <div class="tl-row"><div>Adoção antecipada</div><div>Permitida a partir de abr/2024</div></div>
+      <div class="tl-row"><div>Vigência obrigatória</div><div class="green">Jan/2027</div></div>
+      <div class="tl-row"><div>Reapresentação de comparativos</div><div class="amber">Obrigatória — abordagem retrospectiva</div></div>
+      <div class="tl-row"><div>CPC equivalente (Brasil)</div><div class="muted">Aguardado</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 8 IMPACTO BRASIL -->
+<div class="slide" id="s8">
+  <div class="hdr"><span class="h-tag green">1.5</span><div class="h-sep"></div><span class="h-title">Quem é impactado no Brasil</span></div>
+  <div class="body">
+    <div class="impact">
+      <div class="impact-hdr green">Impacto Direto</div>
+      <div class="impact-body">
+        <div class="impact-row green">Companhias abertas com demonstrações consolidadas em IFRS pleno (CVM)</div>
+        <div class="impact-row green">Vigência imediata em jan/2027 — sem aguardar pronunciamento do CPC</div>
+      </div>
+    </div>
+    <div class="impact">
+      <div class="impact-hdr amber">Impacto Indireto</div>
+      <div class="impact-body">
+        <div class="impact-row amber">Demais entidades que seguem os CPCs — aguardando CPC 26 revisado</div>
+        <div class="impact-row amber">Defasagem histórica: CPC costuma convergir após emissão do IASB</div>
+      </div>
+    </div>
+    <div class="impact">
+      <div class="impact-hdr teal">Aguardando Reguladores</div>
+      <div class="impact-body">
+        <div class="impact-row teal">Entidades de interesse público — Banco Central e Susep</div>
+        <div class="impact-row teal">Atualização depende de norma específica de cada regulador</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 9 ENCERRAMENTO -->
+<div class="slide" id="s9">
+  <div class="glow g1"></div>
+  <div class="bar"></div>
+  <div class="content">
+    <div class="eyebrow">Aula 01 — Pontos-chave</div>
+    <div class="title">O que levar<br>desta aula</div>
+    <div class="enc-items">
+      <div class="enc-item"><div class="enc-dot"></div><span>O IFRS 18 substitui integralmente o IAS 1 — não é uma emenda</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>Não muda reconhecimento nem mensuração — só apresentação e divulgação</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>Três inovações centrais: categorias obrigatórias, subtotais definidos e disciplina sobre MPMs</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>Vigência obrigatória jan/2027, com reapresentação retrospectiva dos comparativos</span></div>
+      <div class="enc-item"><div class="enc-dot"></div><span>No Brasil: impacto direto já em 2027 para companhias abertas em IFRS pleno</span></div>
+    </div>
+    <div class="enc-next">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      Próximo: Aula 2 — Nova estrutura da DRE e categorias obrigatórias
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- CONTROLES -->
+<div id="nav-trigger"></div>
+<div id="nav">
+  <button class="nav-btn" id="btn-prev" onclick="go(-1)" disabled>&#8592;</button>
+  <div id="progress-dots"></div>
+  <span id="slide-counter">1 / 9</span>
+  <button class="nav-btn" id="btn-next" onclick="go(1)">&#8594;</button>
+</div>
+
+<script src="auth.js"></script>
+<script>
+window.CourseAuth.requireCourseAccess('ifrs18', { fallbackUrl: 'contabil.html' });
+
+const isMobileView = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+
+if (isMobileView) {
+  const navTriggerEl = document.getElementById('nav-trigger');
+  const navEl = document.getElementById('nav');
+  const hintEl = document.getElementById('kb-hint');
+  const homeBtnEl = document.getElementById('home-btn');
+
+  if (navTriggerEl) navTriggerEl.style.display = 'none';
+  if (navEl) navEl.style.display = 'none';
+  if (hintEl) hintEl.style.display = 'none';
+  if (homeBtnEl) homeBtnEl.style.display = 'none';
+
+  const slidesWrap = document.getElementById('slides');
+  if (slidesWrap) {
+    slidesWrap.style.width = '100%';
+    slidesWrap.style.height = 'auto';
+    slidesWrap.style.position = 'static';
+  }
+
+  document.querySelectorAll('.slide').forEach(s => s.classList.add('active'));
+  document.documentElement.style.height = 'auto';
+  document.body.style.height = 'auto';
+  document.documentElement.style.overflowX = 'hidden';
+  document.body.style.overflowX = 'hidden';
+  document.documentElement.style.overflowY = 'auto';
+  document.body.style.overflowY = 'auto';
+} else {
+const TOTAL = 9;
+let current = 1;
+let busy = false;
+
+const dotsEl = document.getElementById('progress-dots');
+for (let i = 1; i <= TOTAL; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 1 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
+
+function showSlide(n) {
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  const old = document.getElementById('s' + n);
+  const clone = old.cloneNode(true);
+  old.parentNode.replaceChild(clone, old);
+  clone.classList.add('active');
+  if (n === 3) animateCounter();
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i + 1 === n));
+  document.getElementById('slide-counter').textContent = n + ' / ' + TOTAL;
+  document.getElementById('btn-prev').disabled = n === 1;
+  document.getElementById('btn-next').disabled = n === TOTAL;
+}
+
+function animateCounter() {
+  setTimeout(() => {
+    const el = document.getElementById('counter30');
+    if (!el) return;
+    let value = 0;
+    const run = () => {
+      el.textContent = ++value;
+      if (value < 30) setTimeout(run, 38);
+    };
+    setTimeout(run, 380);
+  }, 20);
+}
+
+function go(dir) {
+  if (busy) return;
+  const n = current + dir;
+  if (n < 1 || n > TOTAL) return;
+  busy = true;
+  current = n;
+  showSlide(current);
+  setTimeout(() => { busy = false; }, 350);
+}
+
+function goTo(n) {
+  if (n === current || busy) return;
+  busy = true;
+  current = n;
+  showSlide(current);
+  setTimeout(() => { busy = false; }, 350);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+});
+
+showSlide(1);
+
+const navTrigger = document.getElementById('nav-trigger');
+const nav = document.getElementById('nav');
+const kbHint = document.getElementById('kb-hint');
+let hideTimer;
+function showNav() { clearTimeout(hideTimer); nav.classList.add('visible'); kbHint.classList.add('visible'); }
+function scheduleHide() { hideTimer = setTimeout(() => { nav.classList.remove('visible'); kbHint.classList.remove('visible'); }, 2000); }
+navTrigger.addEventListener('mouseenter', showNav);
+navTrigger.addEventListener('mouseleave', scheduleHide);
+nav.addEventListener('mouseenter', showNav);
+nav.addEventListener('mouseleave', scheduleHide);
+kbHint.addEventListener('mouseenter', showNav);
+showNav();
+setTimeout(() => { scheduleHide(); }, 3000);
+}
+</script>
+</body>
+</html>
+
+
+

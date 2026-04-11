@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IFRS 18 — Aula 7: Case Embalagens Lira S.A.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --dark:#081929;--navy:#0D2137;--card:#112840;
+  --teal:#00A99D;--amber:#F5A623;--white:#fff;
+  --gray:#C8D6E0;--gray2:#7A9AB0;
+  --red:#C0392B;--green:#27AE60;--blue:#3B82F6;--purple:#8B5CF6;
+  --lira:#4ECBA8;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--dark);font-family:'DM Sans',sans-serif;color:var(--white);}
+#slides{width:100%;height:100%;position:relative;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;overflow:hidden;}
+.slide.active{opacity:1;pointer-events:all;}
+
+/* ── NAV ── */
+#nav-trigger{position:fixed;bottom:0;left:0;right:0;height:80px;z-index:999;}
+#nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);z-index:1000;display:flex;align-items:center;gap:12px;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;}
+#nav.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
+.nb{width:40px;height:40px;border-radius:50%;border:1px solid rgba(0,169,157,.35);background:rgba(17,40,64,.92);color:var(--teal);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;backdrop-filter:blur(10px);}
+.nb:hover{background:rgba(0,169,157,.18);}
+.nb:disabled{opacity:.25;cursor:default;}
+#dots{display:flex;gap:4px;align-items:center;flex-wrap:wrap;max-width:300px;justify-content:center;}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--gray2);transition:all .3s;cursor:pointer;}
+.dot.on{background:var(--lira);width:16px;border-radius:3px;}
+#ctr{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--gray2);min-width:50px;text-align:center;}
+#hbtn{position:fixed;top:10px;left:12px;z-index:2000;background:rgba(17,40,64,.92);border:1px solid rgba(0,169,157,.25);border-radius:7px;padding:7px 14px;font-size:11px;font-weight:500;color:var(--teal);text-decoration:none;display:flex;align-items:center;gap:6px;backdrop-filter:blur(10px);transition:all .2s;}
+#hbtn:hover{background:rgba(0,169,157,.14);}
+
+/* ── ANIMAÇÕES ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeLeft{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes fadeRight{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+@keyframes glow{0%,100%{opacity:.06}50%{opacity:.16}}
+@keyframes bar{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes drawW{from{width:0}to{width:100%}}
+@keyframes count{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes flipIn{from{opacity:0;transform:rotateY(-90deg)}to{opacity:1;transform:rotateY(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+@keyframes slideBarV{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+.slide.active .u1{animation:fadeUp .5s cubic-bezier(.22,1,.36,1) .15s both}
+.slide.active .u2{animation:fadeUp .5s cubic-bezier(.22,1,.36,1) .28s both}
+.slide.active .u3{animation:fadeUp .5s cubic-bezier(.22,1,.36,1) .41s both}
+.slide.active .u4{animation:fadeUp .5s cubic-bezier(.22,1,.36,1) .54s both}
+.slide.active .u5{animation:fadeUp .5s cubic-bezier(.22,1,.36,1) .67s both}
+.slide.active .u6{animation:fadeUp .5s cubic-bezier(.22,1,.36,1) .80s both}
+.slide.active .l1{animation:fadeLeft .5s cubic-bezier(.22,1,.36,1) .15s both}
+.slide.active .l2{animation:fadeLeft .5s cubic-bezier(.22,1,.36,1) .28s both}
+.slide.active .l3{animation:fadeLeft .5s cubic-bezier(.22,1,.36,1) .41s both}
+.slide.active .l4{animation:fadeLeft .5s cubic-bezier(.22,1,.36,1) .54s both}
+.slide.active .l5{animation:fadeLeft .5s cubic-bezier(.22,1,.36,1) .67s both}
+.slide.active .r1{animation:fadeRight .5s cubic-bezier(.22,1,.36,1) .15s both}
+.slide.active .r2{animation:fadeRight .5s cubic-bezier(.22,1,.36,1) .28s both}
+.slide.active .r3{animation:fadeRight .5s cubic-bezier(.22,1,.36,1) .41s both}
+.slide.active .r4{animation:fadeRight .5s cubic-bezier(.22,1,.36,1) .54s both}
+.slide.active .r5{animation:fadeRight .5s cubic-bezier(.22,1,.36,1) .67s both}
+.slide.active .sc1{animation:scaleIn .5s cubic-bezier(.22,1,.36,1) .15s both}
+.slide.active .sc2{animation:scaleIn .5s cubic-bezier(.22,1,.36,1) .30s both}
+.slide.active .sc3{animation:scaleIn .5s cubic-bezier(.22,1,.36,1) .45s both}
+.slide.active .sc4{animation:scaleIn .5s cubic-bezier(.22,1,.36,1) .60s both}
+
+/* ── LAYOUT BASE ── */
+.hdr{background:var(--card);padding:clamp(10px,1.5vh,16px) clamp(20px,4vw,48px);display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(200,214,224,.07);flex-shrink:0;}
+.htag{font-family:'Syne',sans-serif;font-size:clamp(9px,.95vw,11px);font-weight:700;letter-spacing:2px;color:var(--teal);text-transform:uppercase;white-space:nowrap;}
+.htag.am{color:var(--amber);}.htag.gr{color:var(--green);}.htag.rd{color:var(--red);}.htag.bl{color:var(--blue);}.htag.li{color:var(--lira);}
+.hsep{width:1px;height:14px;background:rgba(200,214,224,.15);flex-shrink:0;}
+.htit{font-family:'Syne',sans-serif;font-size:clamp(13px,1.6vw,18px);font-weight:700;color:var(--white);}
+.hbg{margin-left:auto;background:rgba(78,203,168,.1);border:1px solid rgba(78,203,168,.25);border-radius:5px;padding:3px 9px;font-size:clamp(9px,.9vw,11px);font-weight:700;color:var(--lira);font-family:'Syne',sans-serif;white-space:nowrap;}
+.hdr.anim{opacity:0;}.slide.active .hdr.anim{animation:fadeUp .5s ease .05s forwards;}
+
+.body{flex:1;padding:clamp(10px,1.5vh,18px) clamp(18px,3vw,48px) clamp(8px,1.2vh,14px);display:flex;flex-direction:column;gap:8px;overflow:hidden;min-height:0;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.4vw,18px);overflow:hidden;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(8px,1.1vw,14px);overflow:hidden;}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:clamp(8px,1vw,12px);overflow:hidden;}
+
+.card{background:var(--card);border-radius:10px;padding:clamp(10px,1.2vh,16px) clamp(12px,1.3vw,18px);border:1px solid rgba(200,214,224,.07);}
+.card.tl{border-left:3px solid var(--teal);}
+.card.am{border-left:3px solid var(--amber);}
+.card.gr{border-left:3px solid var(--green);}
+.card.rd{border-left:3px solid var(--red);}
+.card.bl{border-left:3px solid var(--blue);}
+.card.li{border-left:3px solid var(--lira);}
+.ctit{font-family:'Syne',sans-serif;font-size:clamp(11px,1.2vw,14px);font-weight:700;color:var(--white);margin-bottom:4px;}
+.ctxt{font-size:clamp(10px,1.05vw,12px);color:var(--gray2);line-height:1.55;}
+
+.callout{border-radius:8px;padding:clamp(8px,1vh,12px) clamp(10px,1.2vw,16px);font-size:clamp(10px,1.1vw,12.5px);font-weight:500;line-height:1.5;display:flex;align-items:flex-start;gap:8px;flex-shrink:0;}
+.callout.tl{background:rgba(0,169,157,.1);border:1px solid rgba(0,169,157,.25);border-left:3px solid var(--teal);color:var(--white);}
+.callout.am{background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.25);border-left:3px solid var(--amber);color:var(--amber);}
+.callout.gr{background:rgba(39,174,96,.1);border:1px solid rgba(39,174,96,.25);border-left:3px solid var(--green);color:var(--white);}
+.callout.rd{background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.25);border-left:3px solid var(--red);color:var(--white);}
+.callout.li{background:rgba(78,203,168,.08);border:1px solid rgba(78,203,168,.25);border-left:3px solid var(--lira);color:var(--white);}
+
+/* ANTES → DEPOIS */
+.adrow{display:grid;grid-template-columns:1fr 36px 1fr;gap:8px;align-items:stretch;}
+.adbox{padding:clamp(10px,1.3vh,16px) clamp(12px,1.4vw,18px);border-radius:9px;font-size:clamp(10px,1.1vw,12.5px);line-height:1.5;}
+.adbox.before{background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.25);}
+.adbox.after{background:rgba(39,174,96,.1);border:1px solid rgba(39,174,96,.25);}
+.adbox-tag{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+.adbox.before .adbox-tag{color:var(--red);}
+.adbox.after .adbox-tag{color:var(--green);}
+.adarrow{display:flex;align-items:center;justify-content:center;}
+.adarrow-circle{width:28px;height:28px;background:var(--amber);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--dark);flex-shrink:0;}
+
+.tbl{width:100%;border-collapse:collapse;font-size:clamp(9px,1vw,12px);}
+.tbl th,.tbl td{padding:clamp(4px,.55vh,7px) clamp(6px,.8vw,10px);border-bottom:1px solid rgba(200,214,224,.06);}
+.tbl th{font-weight:600;font-size:clamp(8px,.85vw,10px);color:var(--gray2);background:rgba(200,214,224,.03);text-align:right;}
+.tbl th:first-child{text-align:left;}
+.tbl .op td{background:rgba(0,169,157,.1);color:var(--teal);font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;}
+.tbl .inv td{background:rgba(59,130,246,.1);color:var(--blue);font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;}
+.tbl .fin td{background:rgba(245,166,35,.1);color:var(--amber);font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;}
+.tbl .ir td{background:rgba(139,92,246,.1);color:var(--purple);font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;}
+.tbl .it td{color:var(--gray2);}
+.tbl .it td:last-child{text-align:right;color:var(--white);}
+.tbl .it.neg td:last-child{color:#F87171;}
+.tbl .it.mv td{color:var(--lira);}
+.tbl .it.mv td:last-child{color:var(--lira);}
+.tbl .it.mv.neg td:last-child{color:#F87171;}
+.tbl .sub td{color:var(--white);font-weight:700;background:rgba(200,214,224,.03);}
+.tbl .sub td:last-child{text-align:right;color:var(--teal);}
+.tbl .sub.am td:last-child{color:var(--amber);}
+.tbl .sub.bl td:last-child{color:var(--blue);}
+.tbl .sub.rd td:last-child{color:var(--red);}
+.tbl .tot td{font-family:'Syne',sans-serif;font-weight:800;color:var(--white);background:rgba(0,169,157,.08);}
+.tbl .tot td:last-child{text-align:right;color:var(--teal);}
+.tbl .tot.am td:last-child{color:var(--amber);}
+.tbl .ind td:first-child{padding-left:clamp(14px,2vw,24px);}
+
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:clamp(8px,.82vw,10px);font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.badge.tl{background:rgba(0,169,157,.12);color:var(--teal);border:1px solid rgba(0,169,157,.25);}
+.badge.am{background:rgba(245,166,35,.12);color:var(--amber);border:1px solid rgba(245,166,35,.25);}
+.badge.gr{background:rgba(39,174,96,.12);color:var(--green);border:1px solid rgba(39,174,96,.25);}
+.badge.rd{background:rgba(192,57,43,.12);color:var(--red);border:1px solid rgba(192,57,43,.25);}
+.badge.bl{background:rgba(59,130,246,.12);color:var(--blue);border:1px solid rgba(59,130,246,.25);}
+.badge.li{background:rgba(78,203,168,.12);color:var(--lira);border:1px solid rgba(78,203,168,.25);}
+
+/* ── CAPA ── */
+.capa{background:var(--dark);justify-content:flex-end;position:relative;overflow:hidden;}
+.glow-blob{position:absolute;border-radius:50%;filter:blur(110px);animation:glow 6s ease infinite;pointer-events:none;}
+.capa .bar{position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--lira);transform:scaleY(0);transform-origin:top;}
+.capa.active .bar{animation:bar .7s cubic-bezier(.22,1,.36,1) .1s forwards;}
+.capa .bgtext{position:absolute;right:clamp(20px,3vw,50px);bottom:clamp(20px,4vh,50px);font-family:'Syne',sans-serif;font-size:clamp(60px,12vw,160px);font-weight:800;color:rgba(78,203,168,.04);line-height:1;user-select:none;pointer-events:none;letter-spacing:-4px;}
+.capa .cnt{padding:0 clamp(28px,4.5vw,60px) clamp(36px,6vh,64px) clamp(24px,3.8vw,48px);position:relative;z-index:1;}
+.eye{font-size:clamp(9px,.95vw,11px);font-weight:500;letter-spacing:3px;color:var(--lira);text-transform:uppercase;display:flex;align-items:center;gap:10px;margin-bottom:14px;opacity:0;}
+.eye::before{content:'';width:20px;height:2px;background:var(--lira);}
+.capa.active .eye{animation:fadeLeft .6s ease .35s forwards;}
+.t1{font-family:'Syne',sans-serif;font-size:clamp(15px,2vw,26px);font-weight:400;color:var(--gray2);display:block;opacity:0;}
+.t2{font-family:'Syne',sans-serif;font-size:clamp(36px,5.5vw,74px);font-weight:800;letter-spacing:-3px;color:var(--lira);display:block;opacity:0;line-height:1;}
+.t3{font-family:'Syne',sans-serif;font-size:clamp(16px,2.6vw,38px);font-weight:800;letter-spacing:-1.5px;color:var(--white);display:block;opacity:0;line-height:1.1;}
+.t4{font-size:clamp(11px,1.4vw,17px);font-weight:400;color:var(--amber);display:block;opacity:0;margin-top:8px;}
+.capa.active .t1{animation:fadeUp .6s cubic-bezier(.22,1,.36,1) .45s forwards;}
+.capa.active .t2{animation:fadeUp .7s cubic-bezier(.22,1,.36,1) .58s forwards;}
+.capa.active .t3{animation:fadeUp .7s cubic-bezier(.22,1,.36,1) .72s forwards;}
+.capa.active .t4{animation:fadeUp .6s cubic-bezier(.22,1,.36,1) .88s forwards;}
+.meta{display:flex;flex-wrap:wrap;gap:clamp(16px,2.6vw,32px);padding-top:16px;border-top:1px solid rgba(78,203,168,.18);margin-top:12px;opacity:0;}
+.capa.active .meta{animation:fadeUp .6s ease 1.05s forwards;}
+.ml{font-size:clamp(8px,.85vw,10px);letter-spacing:2px;color:var(--gray2);text-transform:uppercase;}
+.mv{font-family:'Syne',sans-serif;font-size:clamp(12px,1.3vw,15px);font-weight:700;color:var(--white);}
+.mv em{color:var(--amber);font-style:normal;}
+
+/* ── SLIDE FINAL ── */
+.final{background:var(--dark);justify-content:flex-end;position:relative;overflow:hidden;}
+.final .bar{position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--amber);transform:scaleY(0);transform-origin:top;}
+.final.active .bar{animation:bar .7s cubic-bezier(.22,1,.36,1) .1s forwards;}
+.final .cnt{padding:0 clamp(28px,4.5vw,60px) clamp(32px,5.5vh,56px) clamp(24px,3.8vw,48px);position:relative;z-index:1;max-width:900px;}
+
+/* FRASE IMPACTO */
+.impacto{background:var(--dark);justify-content:center;align-items:center;position:relative;overflow:hidden;}
+.impacto .cnt{text-align:center;padding:clamp(40px,6vh,80px) clamp(40px,8vw,120px);position:relative;z-index:1;}
+.impacto .quote{font-family:'Syne',sans-serif;font-size:clamp(22px,3.5vw,52px);font-weight:800;letter-spacing:-1.5px;color:var(--white);line-height:1.15;opacity:0;}
+.impacto.active .quote{animation:scaleIn .8s cubic-bezier(.22,1,.36,1) .3s forwards;}
+.impacto .quote em{color:var(--teal);font-style:normal;}
+.impacto .attr{font-size:clamp(11px,1.2vw,14px);color:var(--gray2);margin-top:20px;letter-spacing:2px;text-transform:uppercase;opacity:0;}
+.impacto.active .attr{animation:fadeUp .5s ease .9s forwards;}
+.impacto .linedec{width:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--amber));border-radius:2px;margin:18px auto 0;opacity:0;}
+.impacto.active .linedec{animation:drawW .7s ease .6s forwards,count .5s ease .6s forwards;}
+
+/* CONTADOR ANIMADO */
+.bignum{font-family:'Syne',sans-serif;font-size:clamp(36px,5vw,68px);font-weight:800;line-height:1;transition:all .8s ease;}
+</style>
+</head>
+<body>
+<a href="index.html" id="hbtn">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+  Índice
+</a>
+<div id="slides">
+
+<!-- S1 CAPA -->
+<div class="slide capa" id="s1">
+  <div class="glow-blob" style="width:800px;height:600px;background:rgba(26,107,90,.22);top:-280px;left:-180px;"></div>
+  <div class="glow-blob" style="width:500px;height:400px;background:rgba(0,169,157,.1);bottom:-100px;right:-80px;animation-delay:3s;"></div>
+  <div class="bar"></div>
+  <div class="bgtext">LIRA</div>
+  <div class="cnt">
+    <div class="eye">Aula 07 — Estudo de Caso Integrado</div>
+    <span class="t1">IFRS 18 — Da teoria à prática</span>
+    <span class="t2">Embalagens<br>Lira S.A.</span>
+    <span class="t3">O case que une tudo<br>que vimos juntos</span>
+    <span class="t4">Aulas 1 a 6 aplicadas em um único case integrado — visual, prático e direto</span>
+    <div class="meta">
+      <div><div class="ml">Slides</div><div class="mv">19 <em>slides</em></div></div>
+      <div><div class="ml">Empresa</div><div class="mv">Fictícia <em>— didático</em></div></div>
+      <div><div class="ml">Método</div><div class="mv">IAS 1 <em>→ IFRS 18</em></div></div>
+      <div><div class="ml">Foco</div><div class="mv">Visual <em>e prático</em></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S2 PERFIL -->
+<div class="slide" id="s2">
+  <div class="hdr anim"><span class="htag li">Case</span><div class="hsep"></div><span class="htit">Embalagens Lira S.A. — Quem é a empresa?</span><div class="hbg">Empresa fictícia</div></div>
+  <div class="body">
+    <div class="callout li u1"><span>🏭</span><span><strong>Embalagens Lira S.A.</strong> — indústria de embalagens plásticas em Goiás. Atende agronegócio, alimentos e farmacêutico. Capital fechado, demonstrações em IFRS pleno para credores internacionais. 30% de participação na LogPack Ltda. (distribuidora).</span></div>
+    <div class="g2" style="flex:1;min-height:0;">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div class="g2" style="gap:8px;">
+          <div class="card sc1" style="text-align:center;padding:16px 10px;">
+            <div class="bignum" style="color:var(--lira);">1.240</div>
+            <div style="font-size:10px;color:var(--gray2);margin-top:4px;letter-spacing:1px;text-transform:uppercase;">Receita (R$ MM)</div>
+          </div>
+          <div class="card sc1" style="text-align:center;padding:16px 10px;">
+            <div class="bignum" style="color:var(--white);">156</div>
+            <div style="font-size:10px;color:var(--gray2);margin-top:4px;letter-spacing:1px;text-transform:uppercase;">Resultado (R$ MM)</div>
+          </div>
+        </div>
+        <div class="g2" style="gap:8px;">
+          <div class="card sc2" style="text-align:center;padding:16px 10px;">
+            <div class="bignum" style="color:var(--amber);">2.762</div>
+            <div style="font-size:10px;color:var(--gray2);margin-top:4px;letter-spacing:1px;text-transform:uppercase;">Total Ativo (R$ MM)</div>
+          </div>
+          <div class="card sc2" style="text-align:center;padding:16px 10px;">
+            <div class="bignum" style="color:var(--blue);">30%</div>
+            <div style="font-size:10px;color:var(--gray2);margin-top:4px;letter-spacing:1px;text-transform:uppercase;">LogPack Ltda.</div>
+          </div>
+        </div>
+        <div class="callout tl u3"><span>🎯</span><span>Este case ativa <strong>5 temas</strong> que estudamos — equivalência patrimonial, câmbio por origem, hedge, MPM e notas. Cada reclassificação tem um fundamento normativo.</span></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--amber);letter-spacing:1px;margin-bottom:2px;" class="r1">O QUE ATIVA O IFRS 18 NA LIRA</div>
+        <div class="card am r1" style="padding:12px 14px;display:flex;align-items:center;gap:12px;">
+          <div style="font-size:24px;">📊</div>
+          <div><div style="font-size:12px;font-weight:700;color:var(--white);margin-bottom:3px;">30% na LogPack → Aulas 2 e 3</div><div class="ctxt">Equiv. patrimonial sai do EBIT → categoria Investimento §60</div></div>
+        </div>
+        <div class="card am r2" style="padding:12px 14px;display:flex;align-items:center;gap:12px;">
+          <div style="font-size:24px;">💱</div>
+          <div><div style="font-size:12px;font-weight:700;color:var(--white);margin-bottom:3px;">Exportações + dívida USD → Aula 2</div><div class="ctxt">3 origens de câmbio em 1 linha → segregação obrigatória §B65</div></div>
+        </div>
+        <div class="card am r3" style="padding:12px 14px;display:flex;align-items:center;gap:12px;">
+          <div style="font-size:24px;">🔄</div>
+          <div><div style="font-size:12px;font-weight:700;color:var(--white);margin-bottom:3px;">Swap de taxa → Aula 3</div><div class="ctxt">Hedge de dívida → categoria Financiamento §B77</div></div>
+        </div>
+        <div class="card am r4" style="padding:12px 14px;display:flex;align-items:center;gap:12px;">
+          <div style="font-size:24px;">📋</div>
+          <div><div style="font-size:12px;font-weight:700;color:var(--white);margin-bottom:3px;">EBITDA Ajustado Lira → Aula 4</div><div class="ctxt">Divulgado publicamente → vira MPM com reconciliação §117</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3 PROBLEMA -->
+<div class="slide" id="s3">
+  <div class="hdr anim"><span class="htag rd">Diagnóstico</span><div class="hsep"></div><span class="htit">O problema — o que a DRE IAS 1 escondia</span><div class="hbg">Ponto de partida</div></div>
+  <div class="body">
+    <div class="callout am u1"><span>⚠️</span><span><strong>Uma linha esconde três origens.</strong> O "resultado financeiro" do IAS 1 juntava câmbio de exportações, câmbio de aplicações e câmbio de dívida numa única linha — como se fossem a mesma coisa. Não são.</span></div>
+    <div class="g3" style="flex:1;min-height:0;align-items:stretch;">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--red);letter-spacing:1.5px;margin-bottom:2px;" class="l1">❌ PROBLEMA 1</div>
+        <div class="card rd l1" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:16px 14px;">
+          <div style="font-size:28px;text-align:center;">🔀</div>
+          <div class="ctit" style="text-align:center;">Equiv. patrimonial<br>dentro do EBIT</div>
+          <div class="ctxt" style="text-align:center;">R$ 52 MM da LogPack dentro do resultado operacional. Não é operação de embalagens — é retorno de investimento.</div>
+          <div style="text-align:center;margin-top:4px;">
+            <span style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--red);">290</span>
+            <span style="font-size:11px;color:var(--gray2);"> MM → EBIT inflado</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--red);letter-spacing:1.5px;margin-bottom:2px;" class="u2">❌ PROBLEMA 2</div>
+        <div class="card rd u2" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:16px 14px;">
+          <div style="font-size:28px;text-align:center;">🌐</div>
+          <div class="ctit" style="text-align:center;">3 câmbios<br>em 1 linha</div>
+          <div class="ctxt" style="text-align:center;">Câmbio de exportações (+28), aplicações (+6) e dívida (−55) somados em "Variações cambiais líquidas: (R$ 21 MM)". Origens opostas, invisíveis.</div>
+          <div style="text-align:center;margin-top:4px;">
+            <span style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--red);">(21)</span>
+            <span style="font-size:11px;color:var(--gray2);"> MM → 3 origens misturadas</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--red);letter-spacing:1.5px;margin-bottom:2px;" class="r1">❌ PROBLEMA 3</div>
+        <div class="card rd r1" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:16px 14px;">
+          <div style="font-size:28px;text-align:center;">🔒</div>
+          <div class="ctit" style="text-align:center;">Swap e juros<br>sem identificação</div>
+          <div class="ctxt" style="text-align:center;">Swap de taxa de juros (hedge de dívida) e juros recebidos de aplicações apareciam misturados no "resultado financeiro" — naturezas opostas, mesma linha.</div>
+          <div style="text-align:center;margin-top:4px;">
+            <span style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--amber);">Opaco</span>
+            <span style="font-size:11px;color:var(--gray2);"> → ninguém enxerga</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="callout tl u4"><span>✅</span><span><strong>O IFRS 18 resolve cada um desses problemas.</strong> Os próximos 3 slides mostram a correção, uma por vez — visual, rápido e com o impacto em números.</span></div>
+  </div>
+</div>
+
+<!-- S4 RECLASSIFICAÇÃO 1 -->
+<div class="slide" id="s4">
+  <div class="hdr anim"><span class="htag bl">Reclassificação 1</span><div class="hsep"></div><span class="htit">Equivalência patrimonial — LogPack sai do EBIT</span><div class="hbg">§60 IFRS 18</div></div>
+  <div class="body" style="gap:10px;">
+    <div class="adrow u1" style="flex:1;min-height:0;">
+      <div class="adbox before" style="display:flex;flex-direction:column;justify-content:center;gap:12px;">
+        <div class="adbox-tag">IAS 1 — antes</div>
+        <div style="font-size:28px;text-align:center;">😕</div>
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(14px,1.8vw,22px);font-weight:800;text-align:center;color:var(--white);">EBIT = R$ 290 MM</div>
+        <div style="font-size:clamp(11px,1.2vw,14px);color:var(--gray2);text-align:center;line-height:1.5;">Inclui R$ 52 MM de<br>equivalência patrimonial<br>da <strong style="color:var(--white);">LogPack Ltda.</strong><br><br>→ O analista não consegue separar o resultado das embalagens do retorno da coligada</div>
+      </div>
+      <div class="adarrow"><div class="adarrow-circle" style="width:36px;height:36px;font-size:18px;">→</div></div>
+      <div class="adbox after" style="display:flex;flex-direction:column;justify-content:center;gap:12px;">
+        <div class="adbox-tag">IFRS 18 — depois · §60</div>
+        <div style="font-size:28px;text-align:center;">✅</div>
+        <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin:4px 0;">
+          <div style="text-align:center;">
+            <div style="font-family:'Syne',sans-serif;font-size:clamp(14px,1.8vw,22px);font-weight:800;color:var(--teal);">ROP = 266 MM</div>
+            <div style="font-size:11px;color:var(--teal);">Só operações de embalagens</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:'Syne',sans-serif;font-size:clamp(14px,1.8vw,22px);font-weight:800;color:var(--blue);">+ 52 MM</div>
+            <div style="font-size:11px;color:var(--blue);">Categoria Investimento</div>
+          </div>
+        </div>
+        <div style="font-size:clamp(11px,1.2vw,14px);color:var(--gray2);text-align:center;line-height:1.5;">A LogPack não é atividade principal da Lira → §60 exige categoria <strong style="color:var(--blue);">Investimento</strong><br><br>→ Resultado das embalagens isolado. Analista enxerga cada fonte separada.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;" class="u2">
+      <div class="card" style="flex:1;padding:10px 14px;display:flex;align-items:center;gap:10px;border-left:3px solid var(--amber);">
+        <div style="font-size:18px;">📉</div>
+        <div><div style="font-size:10px;color:var(--gray2);letter-spacing:1px;">IMPACTO NO MÚLTIPLO</div><div style="font-size:13px;color:var(--white);">EV/EBIT: <span style="color:var(--red);">11,0x</span> → EV/ROP: <span style="color:var(--amber);">11,9x</span> — a empresa aparece "mais cara" mas o número é mais preciso</div></div>
+      </div>
+      <div class="card" style="flex:1;padding:10px 14px;display:flex;align-items:center;gap:10px;border-left:3px solid var(--teal);">
+        <div style="font-size:18px;">💡</div>
+        <div><div style="font-size:10px;color:var(--gray2);letter-spacing:1px;">RESULTADO LÍQUIDO</div><div style="font-size:13px;color:var(--white);">R$ 156 MM — <span style="color:var(--teal);">idêntico antes e depois</span>. A transição não muda o lucro, muda a transparência</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5 RECLASSIFICAÇÃO 2 -->
+<div class="slide" id="s5">
+  <div class="hdr anim"><span class="htag bl">Reclassificação 2</span><div class="hsep"></div><span class="htit">Variações cambiais — 1 linha vira 3</span><div class="hbg">§B65 IFRS 18</div></div>
+  <div class="body" style="gap:10px;">
+    <div class="adrow" style="margin-bottom:4px;" >
+      <div class="adbox before u1" style="text-align:center;padding:14px;">
+        <div class="adbox-tag">IAS 1 — 1 linha só</div>
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,52px);font-weight:800;color:var(--red);margin:8px 0;">(21)</div>
+        <div style="font-size:12px;color:var(--gray2);">Variações cambiais líquidas (R$ MM)<br>Origem: invisível</div>
+      </div>
+      <div class="adarrow"><div class="adarrow-circle" style="width:36px;height:36px;font-size:18px;">→</div></div>
+      <div class="adbox after u2" style="text-align:center;padding:14px;">
+        <div class="adbox-tag">IFRS 18 — 3 linhas por origem</div>
+        <div style="display:flex;justify-content:center;gap:16px;margin:8px 0;flex-wrap:wrap;">
+          <div><div style="font-family:'Syne',sans-serif;font-size:clamp(18px,2.5vw,32px);font-weight:800;color:var(--teal);">+28</div><div style="font-size:11px;color:var(--teal);">Operacional</div></div>
+          <div><div style="font-family:'Syne',sans-serif;font-size:clamp(18px,2.5vw,32px);font-weight:800;color:var(--blue);">+6</div><div style="font-size:11px;color:var(--blue);">Investimento</div></div>
+          <div><div style="font-family:'Syne',sans-serif;font-size:clamp(18px,2.5vw,32px);font-weight:800;color:var(--red);">(55)</div><div style="font-size:11px;color:var(--amber);">Financiamento</div></div>
+        </div>
+        <div style="font-size:12px;color:var(--gray2);">Mesmo resultado. Origem totalmente visível.</div>
+      </div>
+    </div>
+    <div class="g3" style="flex:1;min-height:0;align-items:stretch;">
+      <div class="card tl sc1" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:16px;">
+        <div style="width:44px;height:44px;background:rgba(0,169,157,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;">📦</div>
+        <div class="ctit">Recebíveis de exportação</div>
+        <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--teal);">+28</div>
+        <div class="ctxt">Clientes no exterior em USD. Segue o ativo operacional.</div>
+        <div class="badge tl" style="margin-top:4px;">Categoria Operacional</div>
+      </div>
+      <div class="card bl sc2" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:16px;">
+        <div style="width:44px;height:44px;background:rgba(59,130,246,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;">💰</div>
+        <div class="ctit">Aplicações em USD</div>
+        <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--blue);">+6</div>
+        <div class="ctxt">Reserva estratégica. Segue o ativo de investimento.</div>
+        <div class="badge bl" style="margin-top:4px;">Categoria Investimento</div>
+      </div>
+      <div class="card am sc3" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:16px;">
+        <div style="width:44px;height:44px;background:rgba(245,166,35,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;">🏦</div>
+        <div class="ctit">Dívida em USD (80 MM)</div>
+        <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#F87171;">(55)</div>
+        <div class="ctxt">Empréstimo de credor internacional. Segue o passivo de captação.</div>
+        <div class="badge am" style="margin-top:4px;">Categoria Financiamento</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S6 RECLASSIFICAÇÃO 3 -->
+<div class="slide" id="s6">
+  <div class="hdr anim"><span class="htag bl">Reclassificação 3</span><div class="hsep"></div><span class="htit">Swap e juros recebidos — cada um no seu lugar</span><div class="hbg">§B77 · §57</div></div>
+  <div class="body" style="gap:10px;">
+    <div class="g2" style="flex:1;min-height:0;align-items:stretch;">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--amber);letter-spacing:1.5px;" class="l1">SWAP DE TAXA DE JUROS — §B77</div>
+        <div class="adrow l1" style="flex:1;min-height:0;">
+          <div class="adbox before" style="display:flex;flex-direction:column;justify-content:center;gap:8px;">
+            <div class="adbox-tag">IAS 1</div>
+            <div style="font-size:12px;color:var(--gray2);line-height:1.5;">Swap de R$ 12 MM aparecia em "resultado financeiro" — sem identificação de que é hedge de dívida.</div>
+          </div>
+          <div class="adarrow"><div class="adarrow-circle">→</div></div>
+          <div class="adbox after" style="display:flex;flex-direction:column;justify-content:center;gap:8px;">
+            <div class="adbox-tag">IFRS 18 §B77</div>
+            <div style="font-size:12px;color:var(--gray2);line-height:1.5;">Hedge de dívida → mesmo lugar da dívida.</div>
+            <div class="badge am" style="align-self:flex-start;">Financiamento</div>
+          </div>
+        </div>
+        <div class="card" style="padding:12px 14px;border-left:3px solid var(--amber);" class="l2">
+          <div style="font-size:10px;color:var(--gray2);letter-spacing:1px;margin-bottom:6px;">RESULTADO CONSOLIDADO DA CATEGORIA FINANCIAMENTO</div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <div style="text-align:center;"><div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#F87171;">(82)</div><div style="font-size:10px;color:var(--gray2);">Juros dívida</div></div>
+            <div style="text-align:center;"><div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#F87171;">(55)</div><div style="font-size:10px;color:var(--gray2);">Câmbio dívida</div></div>
+            <div style="text-align:center;"><div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--teal);">+12</div><div style="font-size:10px;color:var(--gray2);">Swap (hedge)</div></div>
+            <div style="text-align:center;border-left:2px solid rgba(200,214,224,.15);padding-left:12px;"><div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--amber);">(125)</div><div style="font-size:10px;color:var(--amber);">Custo total captação</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--blue);letter-spacing:1.5px;" class="r1">JUROS RECEBIDOS — §57</div>
+        <div class="adrow r1" style="flex:1;min-height:0;">
+          <div class="adbox before" style="display:flex;flex-direction:column;justify-content:center;gap:8px;">
+            <div class="adbox-tag">IAS 1</div>
+            <div style="font-size:12px;color:var(--gray2);line-height:1.5;">R$ 38 MM de juros de aplicações misturado com despesas de juros da dívida no "resultado financeiro".</div>
+          </div>
+          <div class="adarrow"><div class="adarrow-circle">→</div></div>
+          <div class="adbox after" style="display:flex;flex-direction:column;justify-content:center;gap:8px;">
+            <div class="adbox-tag">IFRS 18 §57</div>
+            <div style="font-size:12px;color:var(--gray2);line-height:1.5;">Juros de aplicações = retorno de ativo financeiro → categoria Investimento.</div>
+            <div class="badge bl" style="align-self:flex-start;">Investimento</div>
+          </div>
+        </div>
+        <div class="callout tl r2">
+          <span>💡</span>
+          <span>Com tudo segregado: o analista enxerga <strong>R$ 96 MM</strong> vindo de investimentos (equiv. + juros + câmbio aplicações) e <strong>R$ 125 MM</strong> de custo de captação — antes tudo estava escondido.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S7 DRE NOVA -->
+<div class="slide" id="s7">
+  <div class="hdr anim"><span class="htag tl">DRE Reapresentada</span><div class="hsep"></div><span class="htit">DRE 2026 — formato IFRS 18 completo</span><div class="hbg">Embalagens Lira S.A.</div></div>
+  <div class="body g2" style="gap:14px;">
+    <div class="l1">
+      <div style="font-size:10px;font-weight:700;color:var(--red);text-align:center;padding:5px;background:rgba(192,57,43,.1);border-radius:5px;margin-bottom:8px;letter-spacing:1px;">IAS 1 — REFERÊNCIA (R$ MM)</div>
+      <table class="tbl">
+        <tr class="it"><td>Receita líquida</td><td>1.240</td></tr>
+        <tr class="it neg"><td>CPV + despesas operacionais</td><td>(1.006)</td></tr>
+        <tr class="it"><td style="color:var(--amber);">Equiv. patrimonial LogPack ←</td><td style="color:var(--amber);text-align:right;">52</td></tr>
+        <tr class="sub rd"><td>EBIT (resultado operacional)</td><td>290 ←</td></tr>
+        <tr class="it"><td style="color:var(--amber);">Resultado financeiro (misturado) ←</td><td style="color:var(--amber);text-align:right;">(33)</td></tr>
+        <tr class="sub"><td>Resultado antes do IR</td><td>237</td></tr>
+        <tr class="it neg"><td>IR e CSLL</td><td>(81)</td></tr>
+        <tr class="tot"><td>Resultado do período</td><td>156</td></tr>
+      </table>
+    </div>
+    <div class="r1">
+      <div style="font-size:10px;font-weight:700;color:var(--teal);text-align:center;padding:5px;background:rgba(0,169,157,.1);border-radius:5px;margin-bottom:8px;letter-spacing:1px;">IFRS 18 — REAPRESENTADO (R$ MM)</div>
+      <table class="tbl">
+        <tr class="op"><td colspan="2">① OPERACIONAL</td></tr>
+        <tr class="it"><td>Receita líquida</td><td>1.240</td></tr>
+        <tr class="it neg"><td>CPV + despesas</td><td>(986)</td></tr>
+        <tr class="it mv"><td>Var. câmbio — exportações</td><td>28</td></tr>
+        <tr class="sub"><td>⭐ Resultado das Operações Principais</td><td>266 ✓</td></tr>
+        <tr class="inv"><td colspan="2">② INVESTIMENTO</td></tr>
+        <tr class="it mv"><td>Equiv. patrimonial LogPack</td><td>52</td></tr>
+        <tr class="it mv"><td>Juros recebidos — aplicações</td><td>38</td></tr>
+        <tr class="it mv"><td>Var. câmbio — aplicações</td><td>6</td></tr>
+        <tr class="sub bl"><td>Resultado antes do financiamento</td><td>362</td></tr>
+        <tr class="fin"><td colspan="2">③ FINANCIAMENTO</td></tr>
+        <tr class="it neg"><td>Juros s/ dívidas</td><td>(82)</td></tr>
+        <tr class="it mv neg"><td>Var. câmbio — dívida USD</td><td>(55)</td></tr>
+        <tr class="it mv"><td>Swap de taxa (hedge)</td><td>12</td></tr>
+        <tr class="sub am"><td>Resultado antes do IR</td><td>237</td></tr>
+        <tr class="ir"><td colspan="2">④ IR E CSLL</td></tr>
+        <tr class="it neg"><td>IR e CSLL — corrente e diferido</td><td>(81)</td></tr>
+        <tr class="tot"><td>Resultado do período</td><td>156 ✓</td></tr>
+      </table>
+      <div style="margin-top:6px;font-size:11px;color:var(--lira);padding:6px 8px;background:rgba(78,203,168,.06);border-radius:5px;">✓ Resultado idêntico — itens em verde = reclassificados</div>
+    </div>
+  </div>
+</div>
+
+<!-- S8 IMPACTO NOS NÚMEROS -->
+<div class="slide" id="s8">
+  <div class="hdr anim"><span class="htag tl">Impacto</span><div class="hsep"></div><span class="htit">O que mudou — 4 números que você precisa saber</span><div class="hbg">Antes × Depois</div></div>
+  <div class="body" style="gap:10px;">
+    <div class="g4" style="flex:1;min-height:0;align-items:stretch;">
+      <div class="card sc1" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:20px 12px;border-top:3px solid var(--red);border-left:none;">
+        <div style="font-size:11px;color:var(--gray2);letter-spacing:1px;">EBIT / ROP</div>
+        <div style="display:flex;align-items:baseline;gap:8px;justify-content:center;">
+          <span style="font-family:'Syne',sans-serif;font-size:clamp(20px,2.5vw,32px);font-weight:800;color:var(--red);">290</span>
+          <span style="font-size:18px;color:var(--gray2);">→</span>
+          <span style="font-family:'Syne',sans-serif;font-size:clamp(20px,2.5vw,32px);font-weight:800;color:var(--teal);">266</span>
+        </div>
+        <div style="font-size:11px;color:var(--amber);">−R$ 24 MM</div>
+        <div class="ctxt">Não é piora. É precisão.</div>
+      </div>
+      <div class="card sc2" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:20px 12px;border-top:3px solid var(--blue);border-left:none;">
+        <div style="font-size:11px;color:var(--gray2);letter-spacing:1px;">RESULTADO INVESTIMENTO</div>
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(20px,2.5vw,32px);font-weight:800;color:var(--blue);">96</div>
+        <div style="font-size:11px;color:var(--gray2);">R$ MM — antes: invisível</div>
+        <div class="ctxt">Equiv. + juros + câmbio aplic. agora visíveis.</div>
+      </div>
+      <div class="card sc3" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:20px 12px;border-top:3px solid var(--amber);border-left:none;">
+        <div style="font-size:11px;color:var(--gray2);letter-spacing:1px;">CUSTO DE CAPTAÇÃO</div>
+        <div style="font-family:'Syne',sans-serif;font-size:clamp(20px,2.5vw,32px);font-weight:800;color:var(--amber);">(125)</div>
+        <div style="font-size:11px;color:var(--gray2);">R$ MM — antes: não calculável</div>
+        <div class="ctxt">Juros + câmbio + swap consolidados.</div>
+      </div>
+      <div class="card sc4" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:20px 12px;border-top:3px solid var(--green);border-left:none;">
+        <div style="font-size:11px;color:var(--gray2);letter-spacing:1px;">RESULTADO LÍQUIDO</div>
+        <div style="display:flex;align-items:baseline;gap:8px;justify-content:center;">
+          <span style="font-family:'Syne',sans-serif;font-size:clamp(20px,2.5vw,32px);font-weight:800;color:var(--white);">156</span>
+          <span style="font-size:18px;color:var(--green);">=</span>
+          <span style="font-family:'Syne',sans-serif;font-size:clamp(20px,2.5vw,32px);font-weight:800;color:var(--white);">156</span>
+        </div>
+        <div style="font-size:11px;color:var(--green);">Idêntico</div>
+        <div class="ctxt">A transição não muda o lucro.</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;" class="u5">
+      <div class="callout am">
+        <span>⚠️</span>
+        <span><strong>Para credores:</strong> Covenants baseados em "resultado operacional" precisam ser revistos. O ROP de 266 é menor que o EBIT de 290. Renegociar antes de publicar a DRE em IFRS 18.</span>
+      </div>
+      <div class="callout tl">
+        <span>📊</span>
+        <span><strong>Múltiplo:</strong> EV/EBIT era 11,0x. EV/ROP passa a ser 11,9x — a empresa parece mais cara, mas o denominador é mais limpo. Modelos precisam ser ajustados.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S9 BALANÇO DIAGNÓSTICO -->
+<div class="slide" id="s9">
+  <div class="hdr anim"><span class="htag rd">Balanço — Diagnóstico</span><div class="hsep"></div><span class="htit">O que o Balanço IAS 1 escondia</span><div class="hbg">§41–43 · §103–105</div></div>
+  <div class="body" style="gap:10px;">
+    <div class="callout rd u1"><span>🔍</span><span><strong>4 linhas com itens misturados.</strong> "Outros ativos", "Outros passivos", "Investimentos" e "Realizável a LP" agrupavam itens de naturezas opostas — bases de mensuração diferentes na mesma linha.</span></div>
+    <div class="g2" style="flex:1;min-height:0;">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--red);letter-spacing:1.5px;" class="l1">ATIVO — LINHAS PROBLEMÁTICAS</div>
+        <div class="card rd l1" style="display:flex;align-items:center;gap:12px;padding:12px 14px;">
+          <div style="font-size:22px;">📦</div>
+          <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--white);">Aplicações financeiras — R$ 220 MM</div><div class="ctxt">CDBs operacionais (95) + fundos estratégicos (80) + debêntures (45) — propósitos diferentes, mesma linha</div></div>
+        </div>
+        <div class="card rd l2" style="display:flex;align-items:center;gap:12px;padding:12px 14px;">
+          <div style="font-size:22px;">📁</div>
+          <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--white);">Outros ativos circulantes — R$ 104 MM</div><div class="ctxt">Impostos a recuperar (62) + adiantamentos (24) + derivativo a receber / swap (18) — mistura operacional com financeiro</div></div>
+        </div>
+        <div class="card rd l3" style="display:flex;align-items:center;gap:12px;padding:12px 14px;">
+          <div style="font-size:22px;">🏢</div>
+          <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--white);">Investimentos — R$ 440 MM</div><div class="ctxt">LogPack em equiv. patrimonial (348) + ações de terceiros a VJ (92) — <strong style="color:var(--amber);">bases de mensuração distintas</strong> — §105 obriga separação</div></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--red);letter-spacing:1.5px;" class="r1">PASSIVO — LINHAS PROBLEMÁTICAS</div>
+        <div class="card rd r1" style="display:flex;align-items:center;gap:12px;padding:12px 14px;">
+          <div style="font-size:22px;">⚖️</div>
+          <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--white);">Outras obrigações não circulantes — R$ 242 MM</div><div class="ctxt">Provisão de descomissionamento (95) + IR diferido passivo (88) + passivo de pensão IAS 19 (59) — naturezas completamente distintas</div></div>
+        </div>
+        <div class="card rd r2" style="display:flex;align-items:center;gap:12px;padding:12px 14px;">
+          <div style="font-size:22px;">🗂️</div>
+          <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--white);">Realizável a longo prazo — R$ 178 MM</div><div class="ctxt">Depósitos judiciais (62) + IR diferido ativo (116) — naturezas distintas na mesma rubrica</div></div>
+        </div>
+        <div class="callout tl r3" style="margin-top:4px;">
+          <span>✅</span>
+          <span>A solução é simples: <strong>desagregar cada linha</strong> nos seus componentes reais. O total do balanço não muda — R$ 2.762 MM antes e depois.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S10 BALANÇO NOVO -->
+<div class="slide" id="s10">
+  <div class="hdr anim"><span class="htag tl">Balanço Reapresentado</span><div class="hsep"></div><span class="htit">Balanço 31/dez/2026 — após IFRS 18</span><div class="hbg">Embalagens Lira S.A.</div></div>
+  <div class="body g2" style="gap:14px;">
+    <div class="l1">
+      <div style="font-size:10px;font-weight:700;color:var(--teal);text-align:center;padding:5px;background:rgba(0,169,157,.1);border-radius:5px;margin-bottom:8px;letter-spacing:1px;">ATIVO (R$ MM)</div>
+      <table class="tbl">
+        <tr class="op"><td colspan="2">CIRCULANTE</td></tr>
+        <tr class="it"><td>Caixa e equivalentes</td><td>185</td></tr>
+        <tr class="it mv"><td>At. financeiros — CDBs gestão de caixa</td><td>95</td></tr>
+        <tr class="it mv"><td>At. financeiros — fundos estratégicos</td><td>80</td></tr>
+        <tr class="it mv"><td>At. financeiros — debêntures terceiros</td><td>45</td></tr>
+        <tr class="it"><td>Clientes e contas a receber</td><td>348</td></tr>
+        <tr class="it"><td>Estoques</td><td>312</td></tr>
+        <tr class="it mv"><td>Impostos a recuperar</td><td>62</td></tr>
+        <tr class="it mv"><td>Adiantamentos a fornecedores</td><td>24</td></tr>
+        <tr class="it mv"><td>Derivativo a receber (swap)</td><td>18</td></tr>
+        <tr class="sub"><td>Total Circulante</td><td>1.169</td></tr>
+        <tr class="op"><td colspan="2">NÃO CIRCULANTE</td></tr>
+        <tr class="it mv"><td>Depósitos judiciais</td><td>62</td></tr>
+        <tr class="it mv"><td>IR diferido ativo</td><td>116</td></tr>
+        <tr class="it mv"><td>Investimento — LogPack (equiv. patrimonial)</td><td>348</td></tr>
+        <tr class="it mv"><td>At. financeiros — ações terceiros (VJ)</td><td>92</td></tr>
+        <tr class="it"><td>Imobilizado líquido</td><td>860</td></tr>
+        <tr class="it"><td>Intangível</td><td>115</td></tr>
+        <tr class="sub"><td>Total Não Circulante</td><td>1.593</td></tr>
+        <tr class="tot"><td>TOTAL ATIVO</td><td>2.762 ✓</td></tr>
+      </table>
+    </div>
+    <div class="r1">
+      <div style="font-size:10px;font-weight:700;color:var(--amber);text-align:center;padding:5px;background:rgba(245,166,35,.1);border-radius:5px;margin-bottom:8px;letter-spacing:1px;">PASSIVO + PL (R$ MM)</div>
+      <table class="tbl">
+        <tr class="op"><td colspan="2">PASSIVO CIRCULANTE</td></tr>
+        <tr class="it"><td>Fornecedores</td><td>198</td></tr>
+        <tr class="it"><td>Empréstimos e financiamentos c/p</td><td>245</td></tr>
+        <tr class="it mv"><td>Obrigações trabalhistas e sociais</td><td>86</td></tr>
+        <tr class="it mv"><td>Impostos e contribuições a recolher</td><td>48</td></tr>
+        <tr class="it mv"><td>Adiantamentos de clientes</td><td>28</td></tr>
+        <tr class="sub"><td>Total Passivo Circulante</td><td>605</td></tr>
+        <tr class="op"><td colspan="2">PASSIVO NÃO CIRCULANTE</td></tr>
+        <tr class="it"><td>Empréstimos e financiamentos l/p</td><td>625</td></tr>
+        <tr class="it mv"><td>Provisão p/ descomissionamento</td><td>95</td></tr>
+        <tr class="it mv"><td>IR diferido passivo</td><td>88</td></tr>
+        <tr class="it mv"><td>Passivo de plano de pensão (IAS 19)</td><td>59</td></tr>
+        <tr class="sub"><td>Total Passivo Não Circulante</td><td>867</td></tr>
+        <tr class="tot am"><td>PATRIMÔNIO LÍQUIDO</td><td>1.290</td></tr>
+        <tr class="tot am"><td>TOTAL PASSIVO + PL</td><td>2.762 ✓</td></tr>
+      </table>
+      <div style="margin-top:8px;padding:8px 10px;background:rgba(78,203,168,.06);border-radius:5px;font-size:11px;color:var(--lira);">
+        ✓ Total idêntico · LogPack separada das ações VJ · Descomissionamento, IR diferido e pensão separados<br>
+        <span style="color:var(--lira);">Itens em verde = desagregados ou reclassificados</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S11 MPM -->
+<div class="slide" id="s11">
+  <div class="hdr anim"><span class="htag" style="color:var(--purple);">MPM — Aula 4</span><div class="hsep"></div><span class="htit">EBITDA Ajustado Lira — de release a nota obrigatória</span><div class="hbg">§117 IFRS 18</div></div>
+  <div class="body" style="gap:10px;">
+    <div class="adrow u1" style="flex:0 0 auto;">
+      <div class="adbox before" style="padding:14px;">
+        <div class="adbox-tag">IAS 1 — antes</div>
+        <div style="font-size:13px;color:var(--gray2);line-height:1.6;">EBITDA Ajustado Lira divulgado livremente em releases e apresentações ao conselho — sem nota formal nas demonstrações, sem auditoria.</div>
+      </div>
+      <div class="adarrow"><div class="adarrow-circle">→</div></div>
+      <div class="adbox after" style="padding:14px;">
+        <div class="adbox-tag">IFRS 18 §117 — depois</div>
+        <div style="font-size:13px;color:var(--gray2);line-height:1.6;">Passa a ser <strong style="color:var(--white);">MPM obrigatória</strong>: nota nas demonstrações com rótulo, valor e reconciliação com o subtotal IFRS mais próximo — sujeita à auditoria.</div>
+      </div>
+    </div>
+    <div class="g2" style="flex:1;min-height:0;align-items:start;">
+      <div class="card u2" style="padding:16px;border-left:3px solid var(--purple);">
+        <div style="font-size:10px;color:var(--gray2);letter-spacing:1.5px;margin-bottom:10px;">NOTA DE MPM — RECONCILIAÇÃO OBRIGATÓRIA</div>
+        <table class="tbl">
+          <tr class="sub"><td>⭐ Resultado das Operações Principais</td><td>266</td></tr>
+          <tr class="it mv"><td>(+) Depreciação e amortização</td><td>72</td></tr>
+          <tr class="sub bl"><td>EBITDA contábil (ROP + D&A)</td><td>338</td></tr>
+          <tr class="it mv"><td>(+) Plano de opções — IFRS 2</td><td>14</td></tr>
+          <tr class="it mv"><td>(+) Provisão para reestruturação</td><td>18</td></tr>
+          <tr class="tot" style="background:rgba(139,92,246,.1);"><td style="color:var(--purple);">EBITDA Ajustado Lira (MPM)</td><td style="color:var(--purple);">370</td></tr>
+        </table>
+        <div style="margin-top:8px;font-size:11px;color:var(--gray2);">Sujeita à revisão dos auditores independentes. Critério consistente entre períodos.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div class="card u3" style="padding:14px;border-top:3px solid var(--purple);border-left:none;">
+          <div style="font-size:10px;color:var(--gray2);letter-spacing:1.5px;margin-bottom:8px;">POR QUE É MPM?</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--gray2);">
+              <span style="color:var(--teal);flex-shrink:0;">✓</span>Divulgado publicamente em releases e apresentações de RI — critério §117(a)
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--gray2);">
+              <span style="color:var(--teal);flex-shrink:0;">✓</span>Exclui itens reconhecidos nas IFRS (opções e reestruturação) — não pode ser subtotal na DRE
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--gray2);">
+              <span style="color:var(--teal);flex-shrink:0;">✓</span>Comunica visão da administração sobre desempenho recorrente — critério §117(b)
+            </div>
+          </div>
+        </div>
+        <div class="callout am u4">
+          <span>💡</span>
+          <span>O EBITDA Ajustado não desaparece — ele <strong>ganha transparência</strong>. O analista passa a saber exatamente como chegar nele a partir dos números auditados.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S12 NOTAS -->
+<div class="slide" id="s12">
+  <div class="hdr anim"><span class="htag gr">Notas — Aula 5</span><div class="hsep"></div><span class="htit">Políticas contábeis — menos texto, mais relevância</span><div class="hbg">Embalagens Lira S.A.</div></div>
+  <div class="body" style="gap:10px;">
+    <div class="adrow u1" style="flex:1;min-height:0;">
+      <div class="adbox before" style="display:flex;flex-direction:column;gap:6px;">
+        <div class="adbox-tag">IAS 1 — 21 políticas (lista exaustiva)</div>
+        <div style="display:flex;flex-direction:column;gap:4px;font-size:11px;">
+          <div style="padding:5px 8px;background:rgba(192,57,43,.08);border-radius:4px;color:var(--gray2);">3.1 Consolidação e combinações</div>
+          <div style="padding:5px 8px;background:rgba(192,57,43,.08);border-radius:4px;color:var(--gray2);">3.2 Transações em moeda estrangeira</div>
+          <div style="padding:5px 8px;background:rgba(192,57,43,.08);border-radius:4px;color:var(--gray2);">3.3 Instrumentos financeiros</div>
+          <div style="padding:5px 8px;background:rgba(192,57,43,.08);border-radius:4px;color:var(--gray2);">3.4 Imobilizado</div>
+          <div style="padding:5px 8px;background:rgba(192,57,43,.08);border-radius:4px;color:var(--gray2);">3.5 Propriedades para investimento</div>
+          <div style="padding:5px 8px;background:rgba(192,57,43,.08);border-radius:4px;color:var(--amber);">⚠ 3.6 Ativos biológicos — Lira não tem</div>
+          <div style="padding:5px 8px;background:rgba(192,57,43,.08);border-radius:4px;color:var(--amber);">⚠ 3.7 Contratos de seguro — Lira não tem</div>
+          <div style="padding:5px 8px;background:rgba(192,57,43,.08);border-radius:4px;color:var(--amber);">⚠ 3.8 Exploração mineral — Lira não tem</div>
+          <div style="padding:5px 8px;background:rgba(192,57,43,.06);border-radius:4px;color:var(--gray2);">... + 13 itens imateriais para a Lira</div>
+        </div>
+        <div style="font-size:10px;color:var(--red);margin-top:4px;">Volume alto, relevância baixa para quem analisa a Lira</div>
+      </div>
+      <div class="adarrow"><div class="adarrow-circle" style="width:36px;height:36px;font-size:18px;">→</div></div>
+      <div class="adbox after" style="display:flex;flex-direction:column;gap:6px;">
+        <div class="adbox-tag">IFRS 18 — 6 políticas materiais</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:11px;">
+          <div style="padding:6px 10px;background:rgba(78,203,168,.08);border-radius:5px;border-left:2px solid var(--lira);color:var(--white);">
+            3.1 Classificação das categorias DRE <span style="color:var(--amber);font-size:9px;font-weight:700;">NOVO</span>
+            <div style="font-size:10px;color:var(--gray2);margin-top:2px;">Julgamento atividade principal + critérios de classificação</div>
+          </div>
+          <div style="padding:6px 10px;background:rgba(78,203,168,.08);border-radius:5px;border-left:2px solid var(--lira);color:var(--white);">3.2 Reconhecimento de receita (IFRS 15)</div>
+          <div style="padding:6px 10px;background:rgba(78,203,168,.08);border-radius:5px;border-left:2px solid var(--lira);color:var(--white);">3.3 Imobilizado e provisão de descomissionamento</div>
+          <div style="padding:6px 10px;background:rgba(78,203,168,.08);border-radius:5px;border-left:2px solid var(--lira);color:var(--white);">3.4 Hedge accounting e instrumentos financeiros</div>
+          <div style="padding:6px 10px;background:rgba(78,203,168,.08);border-radius:5px;border-left:2px solid var(--lira);color:var(--white);">3.5 Investimento LogPack — equiv. patrimonial</div>
+          <div style="padding:6px 10px;background:rgba(78,203,168,.08);border-radius:5px;border-left:2px solid var(--lira);color:var(--white);">3.6 Provisões para litígios e contingências</div>
+        </div>
+        <div style="font-size:10px;color:var(--green);margin-top:4px;">Apenas o que importa para entender os números da Lira</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S13 DASHBOARD -->
+<div class="slide" id="s13">
+  <div class="hdr anim"><span class="htag li">Dashboard</span><div class="hsep"></div><span class="htit">Indicadores comparativos — IAS 1 vs IFRS 18</span><div class="hbg">Embalagens Lira S.A.</div></div>
+  <div class="body" style="gap:10px;">
+    <div class="g4 sc1" style="flex:0 0 auto;">
+      <div style="background:var(--card);border-radius:10px;padding:14px;text-align:center;border-top:3px solid var(--teal);">
+        <div style="font-size:10px;color:var(--gray2);letter-spacing:1px;margin-bottom:6px;">ROP / EBIT</div>
+        <div style="display:flex;justify-content:center;align-items:baseline;gap:6px;">
+          <span style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--red);">290</span>
+          <span style="font-size:14px;color:var(--gray2);">→</span>
+          <span style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--teal);">266</span>
+        </div>
+        <div style="font-size:10px;color:var(--amber);margin-top:4px;">−8,3% · não é piora</div>
+      </div>
+      <div style="background:var(--card);border-radius:10px;padding:14px;text-align:center;border-top:3px solid var(--blue);">
+        <div style="font-size:10px;color:var(--gray2);letter-spacing:1px;margin-bottom:6px;">EBITDA Ajustado</div>
+        <div style="display:flex;justify-content:center;align-items:baseline;gap:6px;">
+          <span style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--red);">392</span>
+          <span style="font-size:14px;color:var(--gray2);">→</span>
+          <span style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--blue);">370</span>
+        </div>
+        <div style="font-size:10px;color:var(--gray2);margin-top:4px;">R$ MM (MPM)</div>
+      </div>
+      <div style="background:var(--card);border-radius:10px;padding:14px;text-align:center;border-top:3px solid var(--amber);">
+        <div style="font-size:10px;color:var(--gray2);letter-spacing:1px;margin-bottom:6px;">EV / ROP</div>
+        <div style="display:flex;justify-content:center;align-items:baseline;gap:6px;">
+          <span style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--red);">11,0x</span>
+          <span style="font-size:14px;color:var(--gray2);">→</span>
+          <span style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--amber);">11,9x</span>
+        </div>
+        <div style="font-size:10px;color:var(--gray2);margin-top:4px;">denominador mais limpo</div>
+      </div>
+      <div style="background:var(--card);border-radius:10px;padding:14px;text-align:center;border-top:3px solid var(--green);">
+        <div style="font-size:10px;color:var(--gray2);letter-spacing:1px;margin-bottom:6px;">Resultado Líquido</div>
+        <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--white);">156 = 156</div>
+        <div style="font-size:10px;color:var(--green);margin-top:4px;">Idêntico — sem alteração</div>
+      </div>
+    </div>
+    <div class="g2" style="flex:1;min-height:0;align-items:start;">
+      <div class="card tl u2" style="padding:14px;">
+        <div style="font-size:10px;color:var(--gray2);letter-spacing:1.5px;margin-bottom:10px;">RECONCILIAÇÃO RÁPIDA DO ROP (R$ MM)</div>
+        <table class="tbl">
+          <tr class="it"><td>EBIT IAS 1</td><td style="color:var(--red);text-align:right;">290</td></tr>
+          <tr class="it mv neg"><td>(−) Equiv. patrimonial → Investimento</td><td style="text-align:right;">(52)</td></tr>
+          <tr class="it mv"><td>(+) Câmbio exportações → Operacional</td><td style="color:var(--teal);text-align:right;">+28</td></tr>
+          <tr class="sub"><td>⭐ ROP — IFRS 18</td><td style="text-align:right;">266</td></tr>
+          <tr class="it mv"><td>(+) Invest.: equiv. + juros + câmbio aplic.</td><td style="color:var(--blue);text-align:right;">+96</td></tr>
+          <tr class="sub bl"><td>Antes financ. e IR</td><td style="text-align:right;">362</td></tr>
+          <tr class="it neg"><td>(−) Financiamento líquido</td><td style="color:#F87171;text-align:right;">(125)</td></tr>
+          <tr class="sub am"><td>Antes do IR</td><td style="text-align:right;">237</td></tr>
+          <tr class="it neg"><td>(−) IR e CSLL</td><td style="color:#F87171;text-align:right;">(81)</td></tr>
+          <tr class="tot"><td>Resultado do período</td><td style="text-align:right;">156 ✓</td></tr>
+        </table>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div class="card am u3" style="padding:14px;">
+          <div style="font-size:10px;color:var(--gray2);letter-spacing:1.5px;margin-bottom:8px;">PARA O ANALISTA — O QUE MUDA</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--gray2);"><span style="color:var(--amber);">→</span>Modelos com EBIT precisam ser ajustados para usar ROP</div>
+            <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--gray2);"><span style="color:var(--amber);">→</span>Séries históricas anteriores a 2026 precisam de ajuste manual</div>
+            <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--gray2);"><span style="color:var(--amber);">→</span>ROIC operacional muda — ativos de invest. separados no Balanço</div>
+            <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--gray2);"><span style="color:var(--amber);">→</span>Custo de captação agora calculável direto da DRE: R$ 125 MM</div>
+          </div>
+        </div>
+        <div class="callout tl u4">
+          <span>🎯</span>
+          <span>O IFRS 18 <strong>não deteriorou o desempenho</strong> da Lira. O lucro é o mesmo. O que mudou é que agora o analista consegue separar o que veio das embalagens, dos investimentos e da dívida.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S14 LIÇÕES DO CASE -->
+<div class="slide" id="s14">
+  <div class="hdr anim"><span class="htag li">Lições</span><div class="hsep"></div><span class="htit">O que a Lira precisou fazer — ponta a ponta</span><div class="hbg">Embalagens Lira S.A.</div></div>
+  <div class="body g3" style="gap:9px;align-items:stretch;">
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div style="padding:7px 10px;background:rgba(0,169,157,.1);border-radius:6px;text-align:center;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--teal);letter-spacing:1px;" class="l1">⚙️ SISTEMAS</div>
+      <div class="card tl l1" style="padding:11px 12px;flex:0 0 auto;"><div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:3px;">3 contas de câmbio</div><div class="ctxt">Criou contas separadas por origem no ERP em jan/2026. Antes: 1 conta só.</div></div>
+      <div class="card tl l2" style="padding:11px 12px;flex:0 0 auto;"><div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:3px;">Derivativos mapeados</div><div class="ctxt">Cada derivativo vinculado ao item protegido no sistema de tesouraria.</div></div>
+      <div class="card tl l3" style="padding:11px 12px;flex:0 0 auto;"><div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:3px;">"Outros" desmembrados</div><div class="ctxt">4 linhas "Outros" do Balanço decompostas em linhas específicas.</div></div>
+      <div class="card tl l4" style="padding:11px 12px;flex:0 0 auto;"><div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:3px;">Templates de fechamento</div><div class="ctxt">Todos os templates de closing atualizados para as 5 categorias.</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div style="padding:7px 10px;background:rgba(245,166,35,.1);border-radius:6px;text-align:center;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--amber);letter-spacing:1px;" class="u1">📋 DOCUMENTAÇÃO</div>
+      <div class="card am u1" style="padding:11px 12px;"><div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:3px;">Julgamento formal</div><div class="ctxt">Atividade principal documentada, aprovada pelo conselho e alinhada com auditores.</div></div>
+      <div class="card am u2" style="padding:11px 12px;"><div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:3px;">Política de MPM</div><div class="ctxt">EBITDA Ajustado Lira formalizado com critérios claros e consistência entre períodos.</div></div>
+      <div class="card am u3" style="padding:11px 12px;"><div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:3px;">Nota de transição</div><div class="ctxt">Reconciliação IAS 1 → IFRS 18 preparada em dez/2026, antes do fechamento anual.</div></div>
+      <div class="card am u4" style="padding:11px 12px;"><div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:3px;">Notas revisadas</div><div class="ctxt">15 políticas imateriais removidas. Nova política de categorias adicionada.</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div style="padding:7px 10px;background:rgba(59,130,246,.1);border-radius:6px;text-align:center;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--blue);letter-spacing:1px;" class="r1">📢 COMUNICAÇÃO</div>
+      <div class="card bl r1" style="padding:11px 12px;"><div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:3px;">Credores notificados</div><div class="ctxt">3 bancos principais avisados em 2026. Covenants renegociados antes da publicação.</div></div>
+      <div class="card bl r2" style="padding:11px 12px;"><div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:3px;">Equipe treinada</div><div class="ctxt">Contabilidade, FP&A, tesouraria e RI treinados em 2025 com foco na Lira.</div></div>
+      <div class="card bl r3" style="padding:11px 12px;"><div style="font-size:11px;font-weight:700;color:var(--white);margin-bottom:3px;">Auditores alinhados</div><div class="ctxt">Cada posição de julgamento discutida com auditores em 2026 — sem surpresas no fechamento.</div></div>
+      <div class="callout tl r4" style="font-size:clamp(10px,1.05vw,12px);margin-top:2px;">
+        <span>⏱</span><span>A Lira começou em <strong>2025</strong>. Quem começar só em 2027 terá os mesmos desafios com metade do tempo.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S15 CHECKLIST -->
+<div class="slide" id="s15">
+  <div class="hdr anim"><span class="htag gr">Checklist</span><div class="hsep"></div><span class="htit">Sua empresa está pronta? — lista de verificação</span><div class="hbg">Baseado no case Lira</div></div>
+  <div class="body g3" style="gap:9px;align-items:stretch;">
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--teal);letter-spacing:1px;margin-bottom:3px;" class="l1">DRE</div>
+      <div class="card l1" style="padding:9px 12px;display:flex;align-items:flex-start;gap:8px;"><span style="font-size:16px;">☐</span><div class="ctxt">Mapeei itens no EBIT que não são da atividade principal (equiv. patrimonial, juros recebidos)</div></div>
+      <div class="card l2" style="padding:9px 12px;display:flex;align-items:flex-start;gap:8px;"><span style="font-size:16px;">☐</span><div class="ctxt">Identifiquei as 3 origens de variação cambial: exportações, aplicações e dívida</div></div>
+      <div class="card l3" style="padding:9px 12px;display:flex;align-items:flex-start;gap:8px;"><span style="font-size:16px;">☐</span><div class="ctxt">Mapeei todos os derivativos e seus itens protegidos para classificar o resultado de hedge</div></div>
+      <div class="card l4" style="padding:9px 12px;display:flex;align-items:flex-start;gap:8px;"><span style="font-size:16px;">☐</span><div class="ctxt">Defini e documentei o critério de atividade principal da empresa</div></div>
+      <div class="card l5" style="padding:9px 12px;display:flex;align-items:flex-start;gap:8px;"><span style="font-size:16px;">☐</span><div class="ctxt">Preparei DRE teste em IFRS 18 com dados de um trimestre para validar</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--blue);letter-spacing:1px;margin-bottom:3px;" class="u1">BALANÇO E SISTEMAS</div>
+      <div class="card u1" style="padding:9px 12px;display:flex;align-items:flex-start;gap:8px;"><span style="font-size:16px;">☐</span><div class="ctxt">Identifiquei todas as linhas "Outros" com componentes de naturezas distintas</div></div>
+      <div class="card u2" style="padding:9px 12px;display:flex;align-items:flex-start;gap:8px;"><span style="font-size:16px;">☐</span><div class="ctxt">Separei ativos de investimento dos operacionais — coerência com as categorias da DRE</div></div>
+      <div class="card u3" style="padding:9px 12px;display:flex;align-items:flex-start;gap:8px;"><span style="font-size:16px;">☐</span><div class="ctxt">Criei contas segregadas de variação cambial por origem no plano de contas</div></div>
+      <div class="card u4" style="padding:9px 12px;display:flex;align-items:flex-start;gap:8px;"><span style="font-size:16px;">☐</span><div class="ctxt">Avaliei ativos com bases de mensuração distintas agrupados na mesma linha</div></div>
+      <div class="card u5" style="padding:9px 12px;display:flex;align-items:flex-start;gap:8px;"><span style="font-size:16px;">☐</span><div class="ctxt">Verifiquei classificação de passivos com covenants: corrente vs não circulante</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--green);letter-spacing:1px;margin-bottom:3px;" class="r1">NOTAS E COMUNICAÇÃO</div>
+      <div class="card r1" style="padding:9px 12px;display:flex;align-items:flex-start;gap:8px;"><span style="font-size:16px;">☐</span><div class="ctxt">Revisei políticas contábeis: eliminei as imateriais, aprofundei as materiais</div></div>
+      <div class="card r2" style="padding:9px 12px;display:flex;align-items:flex-start;gap:8px;"><span style="font-size:16px;">☐</span><div class="ctxt">Identifiquei métricas divulgadas externamente que viram MPM obrigatória</div></div>
+      <div class="card r3" style="padding:9px 12px;display:flex;align-items:flex-start;gap:8px;"><span style="font-size:16px;">☐</span><div class="ctxt">Preparei reconciliação de cada MPM com o subtotal IFRS 18 mais próximo</div></div>
+      <div class="card r4" style="padding:9px 12px;display:flex;align-items:flex-start;gap:8px;"><span style="font-size:16px;">☐</span><div class="ctxt">Notifiquei credores sobre impacto nos covenants e negociei adequação se necessário</div></div>
+      <div class="card r5" style="padding:9px 12px;display:flex;align-items:flex-start;gap:8px;"><span style="font-size:16px;">☐</span><div class="ctxt">Alinhei posições de julgamento com auditores externos antes do fechamento de 2026</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S16 O QUE FICA -->
+<div class="slide" id="s16">
+  <div class="hdr anim"><span class="htag li">O que fica</span><div class="hsep"></div><span class="htit">O case Lira em 7 pontos — síntese do curso completo</span><div class="hbg">IFRS 18 — Aulas 1 a 7</div></div>
+  <div class="body" style="gap:8px;">
+    <div style="display:flex;flex-direction:column;gap:7px;flex:1;min-height:0;">
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 14px;background:var(--card);border-radius:8px;border-left:3px solid var(--teal);" class="l1">
+        <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--teal);flex-shrink:0;">01</div>
+        <div class="ctxt">O IFRS 18 <strong style="color:var(--white);">não muda o lucro</strong> — muda a transparência. A Lira encerrou com R$ 156 MM antes e depois da reapresentação.</div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 14px;background:var(--card);border-radius:8px;border-left:3px solid var(--lira);" class="l2">
+        <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--lira);flex-shrink:0;">02</div>
+        <div class="ctxt">O <strong style="color:var(--white);">ROP substitui o EBIT</strong> — mais restrito e mais preciso. Excluiu R$ 24 MM que não vinham das operações de embalagens.</div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 14px;background:var(--card);border-radius:8px;border-left:3px solid var(--blue);" class="l3">
+        <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--blue);flex-shrink:0;">03</div>
+        <div class="ctxt"><strong style="color:var(--white);">Variações cambiais por origem</strong> — a linha única do IAS 1 misturava +28, +6 e −55 MM de origens completamente distintas. Agora são 3 linhas.</div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 14px;background:var(--card);border-radius:8px;border-left:3px solid var(--amber);" class="r1">
+        <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--amber);flex-shrink:0;">04</div>
+        <div class="ctxt"><strong style="color:var(--white);">Hedge segue o item protegido</strong> — o swap de taxa foi para Financiamento porque a dívida está lá. Vale para qualquer instrumento de hedge.</div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 14px;background:var(--card);border-radius:8px;border-left:3px solid var(--purple);" class="r2">
+        <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--purple);flex-shrink:0;">05</div>
+        <div class="ctxt"><strong style="color:var(--white);">MPM com reconciliação obrigatória</strong> — o EBITDA Ajustado Lira passou a ter nota formal, auditada, com rastreio até o ROP.</div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 14px;background:var(--card);border-radius:8px;border-left:3px solid var(--green);" class="r3">
+        <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--green);flex-shrink:0;">06</div>
+        <div class="ctxt"><strong style="color:var(--white);">Balanço espelha a DRE</strong> — ativos operacionais, de investimento e passivos de financiamento separados e coerentes com as categorias.</div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 14px;background:rgba(78,203,168,.08);border-radius:8px;border-left:3px solid var(--lira);" class="r4">
+        <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--lira);flex-shrink:0;">07</div>
+        <div style="font-size:clamp(10px,1.1vw,12.5px);color:var(--white);line-height:1.55;font-weight:500;"><strong>A transição começa em 2025</strong> — dados de 2026 precisam de granularidade certa para reapresentação retrospectiva. Quem começar em 2027 terá os mesmos desafios com metade do tempo.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S17 FRASE DE IMPACTO -->
+<div class="slide impacto" id="s17">
+  <div class="glow-blob" style="width:700px;height:500px;background:rgba(0,169,157,.1);top:-200px;left:50%;transform:translateX(-50%);"></div>
+  <div class="cnt">
+    <div class="quote">
+      "Conhecimento só tem valor<br>quando transforma<br><em>o que você faz amanhã.</em>"
+    </div>
+    <div class="linedec"></div>
+    <div class="attr">Equipe ALJ Cursos</div>
+  </div>
+</div>
+
+<!-- S18 AGRADECIMENTO -->
+<div class="slide final" id="s18">
+  <div class="glow-blob" style="width:600px;height:400px;background:rgba(78,203,168,.07);top:-150px;right:-80px;"></div>
+  <div class="glow-blob" style="width:400px;height:350px;background:rgba(245,166,35,.05);bottom:-80px;left:-80px;animation-delay:2.5s;"></div>
+  <div class="bar"></div>
+  <div class="cnt">
+    <div style="font-size:clamp(9px,.95vw,11px);font-weight:500;letter-spacing:3px;color:var(--amber);text-transform:uppercase;margin-bottom:8px;opacity:0;" class="u1">Obrigado</div>
+    <div style="font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,54px);font-weight:800;letter-spacing:-2px;color:var(--white);margin-bottom:6px;opacity:0;line-height:1.05;" class="u2">Até a próxima<br>jornada.</div>
+    <div style="font-size:clamp(13px,1.5vw,17px);color:var(--gray2);line-height:1.7;margin-bottom:22px;max-width:620px;opacity:0;" class="u3">
+      Sete aulas, dezenas de conceitos, um case completo. Mas o que fica não está nos slides — está em você, na próxima DRE que você analisar, no próximo Balanço que apresentar, na próxima nota explicativa que revisar.
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;opacity:0;" class="u4">
+      <div style="display:flex;align-items:flex-start;gap:10px;font-size:clamp(12px,1.3vw,14px);color:var(--white);line-height:1.5;"><div style="width:7px;height:7px;background:var(--amber);border-radius:50%;flex-shrink:0;margin-top:6px;"></div>Obrigado pela atenção, pela presença e pela disposição em aprender algo que, de verdade, vai fazer diferença no seu trabalho.</div>
+      <div style="display:flex;align-items:flex-start;gap:10px;font-size:clamp(12px,1.3vw,14px);color:var(--white);line-height:1.5;"><div style="width:7px;height:7px;background:var(--amber);border-radius:50%;flex-shrink:0;margin-top:6px;"></div>Compartilhe o que aprendeu. Discuta com seus colegas. Aplique nas suas demonstrações. O IFRS 18 entra em vigor em 2027 — e você já sabe o que esperar.</div>
+      <div style="display:flex;align-items:flex-start;gap:10px;font-size:clamp(12px,1.3vw,14px);color:var(--white);line-height:1.5;"><div style="width:7px;height:7px;background:var(--amber);border-radius:50%;flex-shrink:0;margin-top:6px;"></div>Novos cursos chegam em breve — fiscal, financeiro e trilhas de carreira. Fique de olho na plataforma.</div>
+    </div>
+    <div style="margin-top:20px;background:rgba(78,203,168,.08);border:1px solid rgba(78,203,168,.25);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;opacity:0;" class="u5">
+      <span style="font-size:24px;">🤝</span>
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--lira);margin-bottom:3px;">Equipe ALJ Cursos</div>
+        <div style="font-size:12px;color:var(--gray2);">Antonio Junior · Leandro Falco · e toda a equipe por trás deste projeto</div>
+      </div>
+      <div style="margin-left:auto;text-align:right;">
+        <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--white);">cursos-alj.vercel.app</div>
+        <div style="font-size:11px;color:var(--gray2);">Aula 7 — IFRS 18 concluído ✓</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /slides -->
+
+<!-- NAV -->
+<div id="nav-trigger"></div>
+<div id="nav">
+  <button class="nb" id="bp" onclick="go(-1)" disabled>&#8592;</button>
+  <div id="dots"></div>
+  <span id="ctr">1 / 18</span>
+  <button class="nb" id="bn" onclick="go(1)">&#8594;</button>
+</div>
+
+<script>
+const TOTAL=18;
+let cur=1,busy=false;
+const dotsEl=document.getElementById('dots');
+for(let i=1;i<=TOTAL;i++){const d=document.createElement('div');d.className='dot'+(i===1?' on':'');d.onclick=()=>goTo(i);dotsEl.appendChild(d);}
+function show(n){
+  document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
+  const old=document.getElementById('s'+n);
+  const clone=old.cloneNode(true);
+  old.parentNode.replaceChild(clone,old);
+  clone.classList.add('active');
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on',i+1===n));
+  document.getElementById('ctr').textContent=n+' / '+TOTAL;
+  document.getElementById('bp').disabled=n===1;
+  document.getElementById('bn').disabled=n===TOTAL;
+}
+function go(d){if(busy)return;const n=cur+d;if(n<1||n>TOTAL)return;busy=true;cur=n;show(cur);setTimeout(()=>{busy=false;},350);}
+function goTo(n){if(n===cur||busy)return;busy=true;cur=n;show(cur);setTimeout(()=>{busy=false;},350);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}});
+const nav=document.getElementById('nav');const navT=document.getElementById('nav-trigger');
+let ht;
+function showNav(){clearTimeout(ht);nav.classList.add('show');}
+function hideNav(){ht=setTimeout(()=>nav.classList.remove('show'),2000);}
+navT.addEventListener('mouseenter',showNav);navT.addEventListener('mouseleave',hideNav);
+nav.addEventListener('mouseenter',showNav);nav.addEventListener('mouseleave',hideNav);
+showNav();setTimeout(hideNav,3000);
+show(1);
+</script>
+</body>
+</html>
