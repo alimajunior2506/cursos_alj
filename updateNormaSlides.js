@@ -14,8 +14,8 @@ const files = [
 ];
 
 // Badge HTML
-const badgeCPC = `<span style="background:#1a237e;color:#fff;padding:2px 8px;border-radius:12px;font-size:0.9em;margin-right:8px;vertical-align:middle;">CPC 51</span>`;
-const badgeNBC = `<span style=\"background:#00695c;color:#fff;padding:2px 8px;border-radius:12px;font-size:0.9em;margin-right:8px;vertical-align:middle;\">NBC TG 23</span>`;
+const badgeCPC = '<span style="background:#1a237e;color:#fff;padding:2px 8px;border-radius:12px;font-size:0.9em;margin-right:8px;vertical-align:middle;">CPC 51</span>';
+const badgeNBC = '<span style="background:#00695c;color:#fff;padding:2px 8px;border-radius:12px;font-size:0.9em;margin-right:8px;vertical-align:middle;">NBC TG 23</span>';
 
 // Função para atualizar cada arquivo
 function updateFile(file) {
