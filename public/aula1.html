@@ -170,13 +170,22 @@ html,body { width:100%; height:100%; background:var(--dark); font-family:'DM San
 #s5 { background:var(--navy); }
 #s5 .hdr { background:var(--card);padding:22px 56px 22px 40px;display:flex;align-items:center;gap:14px;border-bottom:1px solid rgba(200,214,224,0.07);opacity:0; }
 #s5.active .hdr { animation:fadeUp 0.5s ease 0.1s forwards; }
-#s5 .body { flex:1;padding:24px 40px;display:grid;grid-template-columns:1fr 52px 1fr;grid-template-rows:1fr auto;gap:16px; }
+#s5 .body { flex:1;padding:20px 40px;display:grid;grid-template-columns:108px 1fr 52px 1fr;grid-template-rows:1fr 1fr auto;gap:14px;align-items:center; }
 .scope-box { display:flex;flex-direction:column;border-radius:12px;overflow:hidden;opacity:0; }
-#s5.active .scope-box:nth-child(1){animation:fadeLeft  0.6s cubic-bezier(0.22,1,0.36,1) 0.25s forwards;}
-#s5.active .scope-box:nth-child(3){animation:fadeRight 0.6s cubic-bezier(0.22,1,0.36,1) 0.35s forwards;}
+#s5.active .scope-lvl:nth-child(1){animation:fadeLeft 0.5s ease 0.15s forwards;}
+#s5.active .scope-box:nth-child(2){animation:fadeLeft  0.6s cubic-bezier(0.22,1,0.36,1) 0.25s forwards;}
+#s5.active .scope-box:nth-child(4){animation:fadeRight 0.6s cubic-bezier(0.22,1,0.36,1) 0.35s forwards;}
+#s5.active .scope-lvl:nth-child(5){animation:fadeLeft 0.5s ease 0.45s forwards;}
+#s5.active .scope-box:nth-child(6){animation:fadeLeft  0.6s cubic-bezier(0.22,1,0.36,1) 0.55s forwards;}
+#s5.active .scope-box:nth-child(8){animation:fadeRight 0.6s cubic-bezier(0.22,1,0.36,1) 0.65s forwards;}
 .scope-hdr { padding:14px 20px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;text-align:center;color:var(--white); }
 .scope-hdr.red{background:var(--red);}
 .scope-hdr.green{background:var(--green);}
+.scope-hdr.teal{background:var(--teal);}
+.scope-body.teal{background:rgba(0,169,157,0.07);border:1px solid rgba(0,169,157,0.2);border-top:0;border-radius:0 0 12px 12px;}
+.scope-lvl{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:10px 8px;background:rgba(200,214,224,0.04);border:1px solid rgba(200,214,224,0.08);border-radius:10px;opacity:0;text-align:center;}
+.scope-lvl .lvl-txt{font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;color:var(--gray2);text-transform:uppercase;line-height:1.6;}
+.scope-lvl.br .lvl-txt{color:var(--teal);}
 .scope-body { flex:1;padding:24px 20px;text-align:center;display:flex;flex-direction:column;gap:12px;justify-content:center; }
 .scope-body.red   { background:rgba(192,57,43,0.09);border:1px solid rgba(192,57,43,0.2);border-top:0;border-radius:0 0 12px 12px; }
 .scope-body.green { background:rgba(39,174,96,0.07);border:1px solid rgba(39,174,96,0.2);border-top:0;border-radius:0 0 12px 12px; }
@@ -185,7 +194,7 @@ html,body { width:100%; height:100%; background:var(--dark); font-family:'DM San
 .scope-arrow { display:flex;align-items:center;justify-content:center;opacity:0; }
 #s5.active .scope-arrow { animation:scaleIn 0.4s ease 0.5s forwards; }
 .scope-note { grid-column:1/-1;background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.3);border-left:3px solid var(--amber);border-radius:8px;padding:14px 20px;font-size:13px;font-weight:500;color:var(--amber);opacity:0;transform:translateY(14px);display:flex;align-items:center;gap:10px; }
-#s5.active .scope-note { animation:fadeUp 0.5s ease 0.65s forwards; }
+#s5.active .scope-note { animation:fadeUp 0.5s ease 0.75s forwards; }
 
 /* ═══ SLIDE 6 INOVAÇÕES ═══ */
 #s6 { background:var(--navy); }
@@ -387,30 +396,53 @@ html,body { width:100%; height:100%; background:var(--dark); font-family:'DM San
 
 <!-- SLIDE 5 ESCOPO -->
 <div class="slide" id="s5">
-  <div class="hdr"><span class="h-tag">1.2</span><div class="h-sep"></div><span class="h-title">O que o IFRS 18 efetivamente substitui</span></div>
+  <div class="hdr"><span class="h-tag">1.2</span><div class="h-sep"></div><span class="h-title">O que o IFRS 18 / CPC 51 efetivamente substitui</span></div>
   <div class="body">
+
+    <div class="scope-lvl">
+      <span class="lvl-txt">INTER-<br>NACIONAL<br><span style="font-size:8px;opacity:0.55;letter-spacing:0.5px;">IASB</span></span>
+    </div>
     <div class="scope-box">
-      <div class="scope-hdr red">IAS 1 — REVOGADO</div>
+      <div class="scope-hdr red">IAS 1 &mdash; REVOGADO</div>
       <div class="scope-body red">
-        <div class="scope-name">Apresentação das Demonstrações Financeiras</div>
-        <div class="scope-info">Vigente desde 1997<br>Revisado em 2007<br><br>Revogado pelo IFRS 18</div>
+        <div class="scope-name">Apresenta&ccedil;&atilde;o das Demonstra&ccedil;&otilde;es Financeiras</div>
+        <div class="scope-info">Vigente desde 1997 &middot; Revisado em 2007<br>Revogado pelo IFRS 18</div>
       </div>
     </div>
-    <div class="scope-arrow"><div class="arrow-circle">→</div></div>
+    <div class="scope-arrow"><div class="arrow-circle">&rarr;</div></div>
     <div class="scope-box">
-      <div class="scope-hdr green">IFRS 18 — NOVO</div>
+      <div class="scope-hdr green">IFRS 18 &mdash; NOVO</div>
       <div class="scope-body green">
-        <div class="scope-name">Apresentação e Divulgação nas Demonstrações Financeiras</div>
-        <div class="scope-info">Emitido em abril de 2024<br>Vigência: jan/2027<br><br>Norma construída do zero</div>
+        <div class="scope-name">Apresenta&ccedil;&atilde;o e Divulga&ccedil;&atilde;o nas Demonstra&ccedil;&otilde;es Financeiras</div>
+        <div class="scope-info">Emitido em abril de 2024<br>Vig&ecirc;ncia: jan/2027 &middot; Norma constru&iacute;da do zero</div>
       </div>
     </div>
+
+    <div class="scope-lvl br">
+      <span class="lvl-txt">BRASIL<br><span style="font-size:8px;opacity:0.55;letter-spacing:0.5px;">CFC / CVM</span></span>
+    </div>
+    <div class="scope-box">
+      <div class="scope-hdr red">CPC 26 (R1) &mdash; REVOGADO</div>
+      <div class="scope-body red">
+        <div class="scope-name">Apresenta&ccedil;&atilde;o das Demonstra&ccedil;&otilde;es Cont&aacute;beis</div>
+        <div class="scope-info">Emitido em 2009 &middot; Revisado (R1) em 2011<br>Revogado pelo CPC 51</div>
+      </div>
+    </div>
+    <div class="scope-arrow"><div class="arrow-circle">&rarr;</div></div>
+    <div class="scope-box">
+      <div class="scope-hdr teal">CPC 51 &mdash; NOVO</div>
+      <div class="scope-body teal">
+        <div class="scope-name">Apresenta&ccedil;&atilde;o e Divulga&ccedil;&atilde;o das Demonstra&ccedil;&otilde;es Cont&aacute;beis</div>
+        <div class="scope-info">Aprovado em out/2025 &middot; CVM Res. 237/2025<br>Vig&ecirc;ncia obrigat&oacute;ria: jan/2027</div>
+      </div>
+    </div>
+
     <div class="scope-note">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
-      O IFRS 18 não altera reconhecimento nem mensuração. Cuida exclusivamente de apresentação e divulgação. No Brasil, o equivalente é o CPC 51, que substitui o CPC 26 (R1) — aprovado em 2025, vigência obrigatória jan/2027.
+      O IFRS 18 / CPC 51 n&atilde;o alteram reconhecimento nem mensura&ccedil;&atilde;o &mdash; cuidam exclusivamente de apresenta&ccedil;&atilde;o e divulga&ccedil;&atilde;o. O CPC 51 revoga o CPC 26 (R1), assim como o IFRS 18 revoga o IAS 1. Vig&ecirc;ncia obrigat&oacute;ria: 1&ordm; de janeiro de 2027, com foco na comparabilidade e transpar&ecirc;ncia dos resultados.
     </div>
   </div>
 </div>
-
 <!-- SLIDE 6 INOVAÇÕES -->
 <div class="slide" id="s6">
   <div class="hdr"><span class="h-tag amber">1.3</span><div class="h-sep"></div><span class="h-title">As três grandes inovações do IFRS 18</span></div>
