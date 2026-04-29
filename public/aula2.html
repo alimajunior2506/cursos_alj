@@ -1114,7 +1114,8 @@ html,body { width:100%; height:100%; background:var(--dark); font-family:'DM San
         <tr class="item neg"><td>Despesas comerciais</td><td>(90)</td></tr>
         <tr class="item neg"><td>Despesas administrativas</td><td>(60)</td></tr>
         <tr class="item"><td style="color:var(--amber)">Equiv. patrimonial (coligada)</td><td style="color:var(--amber)">30</td></tr>
-        <tr class="subtotal"><td>EBIT / "Resultado Operacional"</td><td>280</td></tr>
+        <tr class="item" style="background:rgba(192,57,43,0.08)"><td style="color:var(--red);font-style:italic;">Resultado descontinuado &#x2190; dentro do operacional</td><td style="color:var(--red);">18</td></tr>
+        <tr class="subtotal"><td>EBIT / "Resultado Operacional"</td><td>298</td></tr>
         <tr class="item"><td style="color:var(--amber)">Receitas financeiras</td><td style="color:var(--amber)">15</td></tr>
         <tr class="item neg"><td style="color:var(--amber)">Despesas financeiras</td><td style="color:var(--amber)">(95)</td></tr>
         <tr class="subtotal"><td>Resultado antes do IR</td><td>200</td></tr>
@@ -1122,9 +1123,9 @@ html,body { width:100%; height:100%; background:var(--dark); font-family:'DM San
         <tr class="total"><td>Resultado do período</td><td>132</td></tr>
       </table>
       <div style="margin-top:8px;font-size:11px;color:var(--red);padding:8px 10px;background:rgba(192,57,43,0.08);border-radius:6px;">
-        ⚠ EBIT de R$ 280 MM inclui equiv. patrimonial de R$ 30 MM<br>
-        ⚠ Resultado financeiro mistura juros, dividendos e variação cambial<br>
-        ⚠ Estrutura varia por empresa — comparabilidade comprometida
+        &#x26A0; EBIT de R$ 298 MM mistura operacional, equival&ecirc;ncia e descontinuadas<br>
+        &#x26A0; Resultado descontinuado dentro do operacional &mdash; sem posi&ccedil;&atilde;o obrigat&oacute;ria<br>
+        &#x26A0; IR calculado sobre base que inclui descontinuadas &mdash; sem segrega&ccedil;&atilde;o
       </div>
     </div>
     <div class="ani-up d2">
@@ -1143,13 +1144,16 @@ html,body { width:100%; height:100%; background:var(--dark); font-family:'DM San
         <tr class="item neg"><td>Despesas de juros sobre dívidas</td><td>(95)</td></tr>
         <tr class="subtotal amber"><td>Resultado antes do IR</td><td>200</td></tr>
         <tr class="cat-hdr purple"><td colspan="2">④ CATEGORIA IR E CSLL</td></tr>
-        <tr class="item neg"><td>IR e CSLL corrente e diferido</td><td>(68)</td></tr>
-        <tr class="total"><td>Resultado do período</td><td>132</td></tr>
+        <tr class="item neg"><td>IR e CSLL corrente e diferido &mdash; s&oacute; continuadas</td><td>(68)</td></tr>
+        <tr class="subtotal" style="border-top:2px solid rgba(200,214,224,0.15)"><td>Resultado das opera&ccedil;&otilde;es continuadas</td><td>132</td></tr>
+        <tr class="cat-hdr" style="background:rgba(200,214,224,0.06);"><td colspan="2" style="color:var(--gray2);">&#x2464; OPERA&Ccedil;&Otilde;ES DESCONTINUADAS</td></tr>
+        <tr class="item"><td>Resultado l&iacute;quido descontinuado &mdash; l&iacute;q. de IR</td><td>18</td></tr>
+        <tr class="total"><td>Resultado do per&iacute;odo</td><td>150</td></tr>
       </table>
       <div style="margin-top:8px;font-size:11px;color:var(--teal);padding:8px 10px;background:rgba(0,169,157,0.08);border-radius:6px;">
-        ✓ Resultado das Operações Principais: R$ 250 MM — exclusivamente operacional<br>
-        ✓ Resultado líquido idêntico: R$ 132 MM<br>
-        ✓ Estrutura padronizada — comparável entre todas as entidades
+        &#x2713; Resultado das Opera&ccedil;&otilde;es Principais: R$ 250 MM &mdash; s&oacute; operacional, sem descontinuadas<br>
+        &#x2713; Descontinuadas: linha &uacute;nica l&iacute;quida de IR &mdash; sempre ap&oacute;s as opera&ccedil;&otilde;es continuadas<br>
+        &#x2713; IR calculado separadamente &mdash; s&oacute; sobre opera&ccedil;&otilde;es continuadas
       </div>
     </div>
   </div>
