@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Administração — ALJ Cursos</title>
+<title>Administração, ALJ Cursos</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -327,7 +327,7 @@ tr:hover td{background:rgba(200,214,224,0.02);}
         <!-- Corpo -->
         <div class="email-body">
           <p>Olá, <strong id="ep-name" style="color:var(--white);"></strong>,</p>
-          <p>Parabéns — a partir de agora você está investindo na sua carreira. Este é o primeiro passo de uma jornada que fará diferença real no seu desenvolvimento profissional, e estamos muito felizes em ter você aqui.</p>
+          <p>Parabéns, a partir de agora você está investindo na sua carreira. Este é o primeiro passo de uma jornada que fará diferença real no seu desenvolvimento profissional, e estamos muito felizes em ter você aqui.</p>
           <p>Seu acesso está liberado e você já pode começar. Veja abaixo os detalhes do seu cadastro:</p>
 
           <div class="email-data-card">
@@ -339,11 +339,11 @@ tr:hover td{background:rgba(200,214,224,0.02);}
 
           <a class="email-cta" href="#">Acessar meu curso agora →</a>
 
-          <p>Ao longo do curso você encontrará aulas com exemplos práticos, casos reais e referências diretas às normas — conteúdo desenvolvido por especialistas que atuam no mercado todos os dias.</p>
+          <p>Ao longo do curso você encontrará aulas com exemplos práticos, casos reais e referências diretas às normas, conteúdo desenvolvido por especialistas que atuam no mercado todos os dias.</p>
           <p style="margin-bottom:4px;">Qualquer dúvida, é só responder a este e-mail. Bons estudos,</p>
           <p style="font-weight:500;color:var(--white);">Equipe ALJ Cursos</p>
         </div>
-        <div class="email-footer-bar">ALJ Cursos — Educação técnica de alto nível<br>Este e-mail foi gerado automaticamente após o cadastro na plataforma.</div>
+        <div class="email-footer-bar">ALJ Cursos, Educação técnica de alto nível<br>Este e-mail foi gerado automaticamente após o cadastro na plataforma.</div>
       </div>
 
       <button class="btn-send-email" id="btn-copy-email">📋 Copiar e-mail como texto para envio manual</button>
@@ -359,8 +359,8 @@ const USERS_KEY = 'cursos_alj_users_v1';
 const PLATFORM_URL = 'https://cursos-alj.vercel.app';
 
 const COURSES = [
-  {id:'ifrs18',    name:'IFRS 18 — Demonstrações Financeiras', cat:'Contábil',   badge:'badge-cont'},
-  {id:'cpc48',     name:'CPC 48 — Instrumentos Financeiros',   cat:'Contábil',   badge:'badge-cont'},
+  {id:'ifrs18',    name:'IFRS 18, Demonstrações Financeiras', cat:'Contábil',   badge:'badge-cont'},
+  {id:'cpc48',     name:'CPC 48, Instrumentos Financeiros',   cat:'Contábil',   badge:'badge-cont'},
   {id:'fiscal_ref',name:'Reforma Tributária 2026',             cat:'Fiscal',     badge:'badge-fisc'},
   {id:'valuation', name:'Valuation na Prática',                cat:'Financeiro', badge:'badge-fin'},
   {id:'controladoria',name:'Controladoria Estratégica',        cat:'Gestão',     badge:'badge-gest'},
@@ -386,7 +386,7 @@ function saveUsers(u){ localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
 function norm(s){ return String(s||'').toLowerCase().trim(); }
 function isValidEmail(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e||'').toLowerCase().trim()); }
 function formatDate(iso){
-  if(!iso) return '—';
+  if(!iso) return '';
   const d = new Date(iso);
   return d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
 }
@@ -491,7 +491,7 @@ function renderUsers(){
     const tr=document.createElement('tr');
     tr.innerHTML=`
       <td><div style="font-weight:500;">${u.username}</div>${u.notes?`<div style="font-size:11px;color:var(--gray2);margin-top:2px;">${u.notes}</div>`:''}</td>
-      <td style="font-size:12px;color:var(--gray2);">${u.email||'—'}</td>
+      <td style="font-size:12px;color:var(--gray2);">${u.email||''}</td>
       <td><span class="tag ${u.role}">${u.role==='admin'?'Admin':'Aluno'}</span></td>
       <td><div class="courses-mini">${cb}</div></td>
       <td><div>${formatDate(u.accessExpiresAt)}</div><div class="expires-info">${dInfo}</div></td>
@@ -629,9 +629,9 @@ function openEmailModal(u){
 
   document.getElementById('email-modal-dest').textContent = u.email||'(sem e-mail)';
   document.getElementById('ep-name').textContent  = u.username;
-  document.getElementById('ep-email').textContent = u.email||'—';
+  document.getElementById('ep-email').textContent = u.email||'';
   document.getElementById('ep-senha').textContent = u.password ? '(definida no cadastro)' : '(conforme cadastro)';
-  document.getElementById('ep-expira').textContent= u.accessExpiresAt ? new Date(u.accessExpiresAt).toLocaleDateString('pt-BR') : '—';
+  document.getElementById('ep-expira').textContent= u.accessExpiresAt ? new Date(u.accessExpiresAt).toLocaleDateString('pt-BR') : '';
   document.getElementById('ep-cursos').textContent= courseNames;
   document.getElementById('copy-msg').className='msg';
   document.getElementById('copy-msg').textContent='';
@@ -646,13 +646,13 @@ document.getElementById('modal-close-email').addEventListener('click',closeEmail
 document.getElementById('email-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeEmailModal();});
 
 function copyEmailText(u, courseNames){
-  const expira = u.accessExpiresAt ? new Date(u.accessExpiresAt).toLocaleDateString('pt-BR') : '—';
+  const expira = u.accessExpiresAt ? new Date(u.accessExpiresAt).toLocaleDateString('pt-BR') : '';
   const text = `
-ALJ Cursos — Acesso liberado
+ALJ Cursos, Acesso liberado
 
 Olá, ${u.username},
 
-Parabéns — a partir de agora você está investindo na sua carreira. Este é o primeiro passo de uma jornada que fará diferença real no seu desenvolvimento profissional, e estamos muito felizes em ter você aqui.
+Parabéns, a partir de agora você está investindo na sua carreira. Este é o primeiro passo de uma jornada que fará diferença real no seu desenvolvimento profissional, e estamos muito felizes em ter você aqui.
 
 Seu acesso está liberado e você já pode começar:
 
@@ -663,7 +663,7 @@ Curso(s) liberado(s): ${courseNames}
 
 Acesse agora: ${PLATFORM_URL}
 
-Ao longo do curso você encontrará aulas com exemplos práticos, casos reais e referências diretas às normas — conteúdo desenvolvido por especialistas que atuam no mercado todos os dias.
+Ao longo do curso você encontrará aulas com exemplos práticos, casos reais e referências diretas às normas, conteúdo desenvolvido por especialistas que atuam no mercado todos os dias.
 
 Qualquer dúvida, é só responder a este e-mail. Bons estudos,
 
