@@ -167,7 +167,7 @@ html,body { width:100%; height:100%; overflow:hidden; background:var(--dark); fo
 .capa .g2 { width:500px;height:400px;background:rgba(245,166,35,1);bottom:-100px;right:-100px;animation-delay:2.5s; }
 .capa .bar { position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--teal);transform:scaleY(0);transform-origin:top; }
 .capa.active .bar { animation:slideBar 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s forwards; }
-.capa .cnt { padding:0 clamp(32px,5vw,64px) clamp(40px,7vh,72px) clamp(28px,4vw,52px); position:relative; z-index:1; }
+.capa .cnt { padding:0 clamp(32px,5vw,64px) clamp(40px,7vh,72px) clamp(28px,4vw,52px); position:relative; z-index:1; margin-bottom:clamp(100px,16vh,180px); }
 .capa .eyebrow { font-size:clamp(9px,1vw,11px);font-weight:500;letter-spacing:3px;color:var(--teal);text-transform:uppercase;display:flex;align-items:center;gap:10px;margin-bottom:18px;opacity:0; }
 .capa .eyebrow::before { content:'';width:22px;height:2px;background:var(--teal); }
 .capa.active .eyebrow { animation:fadeLeft 0.6s ease 0.35s forwards; }
@@ -213,7 +213,7 @@ html,body { width:100%; height:100%; overflow:hidden; background:var(--dark); fo
 .enc-final .g2 { width:400px;height:400px;background:rgba(245,166,35,0.05);bottom:-100px;left:-100px;animation-delay:2.5s; }
 .enc-final .bar { position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--amber);transform:scaleY(0);transform-origin:top; }
 .enc-final.active .bar { animation:slideBar 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s forwards; }
-.enc-final .cnt { padding:0 clamp(32px,5vw,64px) clamp(36px,6vh,64px) clamp(28px,4vw,52px); position:relative; z-index:1; }
+.enc-final .cnt { padding:0 clamp(32px,5vw,64px) clamp(36px,6vh,64px) clamp(28px,4vw,52px); position:relative; z-index:1; margin-bottom:clamp(40px,7vh,80px); }
 .enc-final .eyebrow { font-size:clamp(9px,1vw,11px);font-weight:500;letter-spacing:3px;color:var(--amber);text-transform:uppercase;margin-bottom:10px;opacity:0; }
 .enc-final.active .eyebrow { animation:fadeUp 0.5s ease 0.2s forwards; }
 .enc-final .title { font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,52px);font-weight:800;letter-spacing:-2px;color:var(--white);margin-bottom:6px;opacity:0; }
@@ -804,8 +804,14 @@ html,body { width:100%; height:100%; overflow:hidden; background:var(--dark); fo
   </div>
 </div>
 
-<!-- ═══ SLIDE 12, NOTA DE TRANSIÇÃO ═══ -->
-<div class="slide" id="s12">
+<!-- ═══ SLIDE 12, PAUSA PARA O CAFÉ ═══ -->
+<div class="slide no-pad" id="s12" style="overflow:hidden;background:#000;">
+  <img src="Pausa para o café aula 6.jpeg" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(24px) brightness(0.75);transform:scale(1.1);">
+  <img src="Pausa para o café aula 6.jpeg" alt="Pausa para o Café" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;">
+</div>
+
+<!-- ═══ SLIDE 13, NOTA DE TRANSIÇÃO ═══ -->
+<div class="slide" id="s13">
   <div class="hdr"><span class="h-tag green">6.5</span><div class="h-sep"></div><span class="h-title">Notas dos períodos comparativos, a nota de transição obrigatória</span></div>
   <div class="body" style="gap:9px;">
     <div class="callout teal ani-up d1">
@@ -856,8 +862,8 @@ html,body { width:100%; height:100%; overflow:hidden; background:var(--dark); fo
   </div>
 </div>
 
-<!-- ═══ SLIDE 13, REF §31–33 ═══ -->
-<div class="slide ref-slide" id="s13">
+<!-- ═══ SLIDE 14, REF §31–33 ═══ -->
+<div class="slide ref-slide" id="s14">
   <div class="ref-bar"></div><div class="ref-bg-par">§31</div><div class="ref-conn"></div>
   <div class="ref-hdr">
     <div class="ref-badge"><span>📜</span><span class="ref-badge-text">O que diz a norma</span></div>
@@ -892,8 +898,8 @@ html,body { width:100%; height:100%; overflow:hidden; background:var(--dark); fo
   </div>
 </div>
 
-<!-- ═══ SLIDE 14, COMUNICAÇÃO COM O MERCADO ═══ -->
-<div class="slide" id="s14">
+<!-- ═══ SLIDE 15, COMUNICAÇÃO COM O MERCADO ═══ -->
+<div class="slide" id="s15">
   <div class="hdr"><span class="h-tag amber">6.6</span><div class="h-sep"></div><span class="h-title">Comunicação com o mercado, como informar investidores</span></div>
   <div class="body" style="gap:9px;">
     <div class="callout teal ani-up d1">
@@ -939,8 +945,8 @@ html,body { width:100%; height:100%; overflow:hidden; background:var(--dark); fo
   </div>
 </div>
 
-<!-- ═══ SLIDE 15, DESAFIOS POR TIPO DE EMPRESA ═══ -->
-<div class="slide" id="s15">
+<!-- ═══ SLIDE 16, DESAFIOS POR TIPO DE EMPRESA ═══ -->
+<div class="slide" id="s16">
   <div class="hdr"><span class="h-tag purple">6.7</span><div class="h-sep"></div><span class="h-title">Desafios práticos de transição por tipo de empresa</span></div>
   <div class="body" style="gap:9px;display:grid;grid-template-columns:1fr 1fr;align-items:start;">
     <div style="display:flex;flex-direction:column;gap:7px;">
@@ -992,8 +998,8 @@ html,body { width:100%; height:100%; overflow:hidden; background:var(--dark); fo
   </div>
 </div>
 
-<!-- ═══ SLIDE 16, PONTOS DE ATENÇÃO ═══ -->
-<div class="slide" id="s16">
+<!-- ═══ SLIDE 17, PONTOS DE ATENÇÃO ═══ -->
+<div class="slide" id="s17">
   <div class="hdr"><span class="h-tag red">6.8</span><div class="h-sep"></div><span class="h-title">Pontos de atenção, auditores, analistas e gestores contábeis</span></div>
   <div class="body" style="gap:9px;display:grid;grid-template-columns:1fr 1fr 1fr;align-items:start;">
     <div style="display:flex;flex-direction:column;gap:7px;">
@@ -1020,8 +1026,8 @@ html,body { width:100%; height:100%; overflow:hidden; background:var(--dark); fo
   </div>
 </div>
 
-<!-- ═══ SLIDE 17, CRONOGRAMA 2025–2027 ═══ -->
-<div class="slide" id="s17">
+<!-- ═══ SLIDE 18, CRONOGRAMA 2025–2027 ═══ -->
+<div class="slide" id="s18">
   <div class="hdr"><span class="h-tag amber">6.9</span><div class="h-sep"></div><span class="h-title">Cronograma de preparação 2025–2027</span></div>
   <div class="body" style="gap:9px;">
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
@@ -1066,8 +1072,8 @@ html,body { width:100%; height:100%; overflow:hidden; background:var(--dark); fo
   </div>
 </div>
 
-<!-- ═══ SLIDE 18, REF IAS 8 §19–26 ═══ -->
-<div class="slide ref-slide" id="s18">
+<!-- ═══ SLIDE 19, REF IAS 8 §19–26 ═══ -->
+<div class="slide ref-slide" id="s19">
   <div class="ref-bar"></div><div class="ref-bg-par">IAS8</div><div class="ref-conn"></div>
   <div class="ref-hdr">
     <div class="ref-badge"><span>📜</span><span class="ref-badge-text">O que diz a norma</span></div>
@@ -1102,8 +1108,8 @@ html,body { width:100%; height:100%; overflow:hidden; background:var(--dark); fo
   </div>
 </div>
 
-<!-- ═══ SLIDE 19, SLIDE FINAL: O QUE FICA desta aula ═══ -->
-<div class="slide enc-final no-pad" id="s19">
+<!-- ═══ SLIDE 20, SLIDE FINAL: O QUE FICA desta aula ═══ -->
+<div class="slide enc-final no-pad" id="s20">
   <div class="glow g1"></div><div class="glow g2"></div>
   <div class="bar"></div>
   <div class="cnt">
@@ -1132,7 +1138,7 @@ html,body { width:100%; height:100%; overflow:hidden; background:var(--dark); fo
 <div id="nav">
   <button class="nav-btn" id="btn-prev" onclick="go(-1)" disabled>&#8592;</button>
   <div id="progress-dots"></div>
-  <span id="slide-counter">1 / 19</span>
+  <span id="slide-counter">1 / 20</span>
   <button class="nav-btn" id="btn-next" onclick="go(1)">&#8594;</button>
 </div>
 
@@ -1168,7 +1174,7 @@ if (isMobileView) {
   document.documentElement.style.overflowY = 'auto';
   document.body.style.overflowY = 'auto';
 } else {
-const TOTAL = 19;
+const TOTAL = 20;
 let current = 1, busy = false;
 const dotsEl = document.getElementById('progress-dots');
 for (let i = 1; i <= TOTAL; i++) {
