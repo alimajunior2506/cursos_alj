@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Administração, ALJ Cursos</title>
+<title>Administração, Scout Cursos</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -159,8 +159,7 @@ tr:hover td{background:rgba(200,214,224,0.02);}
 
 <div class="top-bar">
   <a class="top-logo" href="home.html">
-    <div class="top-mark">A</div>
-    <span class="top-title">ALJ <span>Cursos</span></span>
+    <img src="Logo/scout_nav_dark.svg" alt="Scout Cursos" style="height:36px;">
   </a>
   <div class="top-right">
     <span class="top-badge">Admin</span>
@@ -316,8 +315,7 @@ tr:hover td{background:rgba(200,214,224,0.02);}
       <div class="email-preview">
         <!-- Cabeçalho -->
         <div class="email-header-bar" style="display:flex;align-items:center;gap:10px;">
-          <div style="width:28px;height:28px;background:var(--teal);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:#081929;">A</div>
-          <span style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--white);">ALJ <span style="color:var(--teal);">Cursos</span></span>
+          <img src="Logo/scout_nav_dark.svg" alt="Scout Cursos" style="height:28px;">
         </div>
         <!-- Banner -->
         <div class="email-banner">
@@ -341,9 +339,9 @@ tr:hover td{background:rgba(200,214,224,0.02);}
 
           <p>Ao longo do curso você encontrará aulas com exemplos práticos, casos reais e referências diretas às normas, conteúdo desenvolvido por especialistas que atuam no mercado todos os dias.</p>
           <p style="margin-bottom:4px;">Qualquer dúvida, é só responder a este e-mail. Bons estudos,</p>
-          <p style="font-weight:500;color:var(--white);">Equipe ALJ Cursos</p>
+          <p style="font-weight:500;color:var(--white);">Equipe Scout Cursos</p>
         </div>
-        <div class="email-footer-bar">ALJ Cursos, Educação técnica de alto nível<br>Este e-mail foi gerado automaticamente após o cadastro na plataforma.</div>
+        <div class="email-footer-bar">Scout Cursos, Educação técnica de alto nível<br>Este e-mail foi gerado automaticamente após o cadastro na plataforma.</div>
       </div>
 
       <button class="btn-send-email" id="btn-copy-email">📋 Copiar e-mail como texto para envio manual</button>
@@ -648,7 +646,7 @@ document.getElementById('email-modal').addEventListener('click',e=>{if(e.target=
 function copyEmailText(u, courseNames){
   const expira = u.accessExpiresAt ? new Date(u.accessExpiresAt).toLocaleDateString('pt-BR') : '';
   const text = `
-ALJ Cursos, Acesso liberado
+Scout Cursos, Acesso liberado
 
 Olá, ${u.username},
 
@@ -667,7 +665,7 @@ Ao longo do curso você encontrará aulas com exemplos práticos, casos reais e 
 
 Qualquer dúvida, é só responder a este e-mail. Bons estudos,
 
-Equipe ALJ Cursos
+Equipe Scout Cursos
 ${PLATFORM_URL}
 `.trim();
 
