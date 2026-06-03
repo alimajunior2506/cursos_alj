@@ -156,6 +156,15 @@ h2{font-family:'Syne';font-weight:800;color:var(--navy);line-height:1.05;letter-
 .instr-grid{display:grid;grid-template-columns:auto 1fr;gap:38px;align-items:center}
 .cafe-img{width:100%;max-width:min(1000px,94%);border-radius:18px;box-shadow:var(--shadow);display:block;margin:0 auto}
 @media(max-width:760px){.instr-grid{grid-template-columns:1fr;gap:20px;text-align:center;justify-items:center}}
+/* ── ENCERRAMENTO ── */
+.close-hero{background:linear-gradient(145deg,#17283f,#0f2236 55%,#0c2a41);border-radius:28px;padding:clamp(26px,4vw,52px);position:relative;overflow:hidden;box-shadow:0 36px 80px -34px rgba(20,40,63,.6)}
+.close-hero::before{content:"";position:absolute;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(14,155,130,.32),transparent 70%);top:-130px;right:-70px;pointer-events:none}
+.close-hero::after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(239,156,18,.2),transparent 70%);bottom:-120px;left:-70px;pointer-events:none}
+.close-hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(20px,3vw,40px);align-items:center;position:relative;z-index:1}
+.close-svg{width:100%;max-width:360px;height:auto;display:block;margin:0 auto}
+.close-chip{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);color:#dce7f0;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.close-chip.star{background:rgba(239,156,18,.18);border-color:rgba(239,156,18,.42);color:#ffce7a}
+@media(max-width:760px){.close-hero-grid{grid-template-columns:1fr;text-align:center}.close-svg{max-width:240px;order:-1;margin-bottom:8px}.close-chip{white-space:normal}}
 </style>
 </head>
 <body>
@@ -1074,12 +1083,51 @@ h2{font-family:'Syne';font-weight:800;color:var(--navy);line-height:1.05;letter-
 
 <!-- SLIDE 42: ENCERRAMENTO -->
 <section class="slide">
-  <div class="wrap" style="text-align:center">
-    <div class="kick r" style="justify-content:center">Encerramento</div>
-    <div class="card r" style="--d:1;background:var(--navy);border:none;padding:40px;max-width:760px;margin:18px auto 0">
-      <p style="font-family:'Syne';font-weight:700;color:#fff;font-size:clamp(20px,2.6vw,30px);line-height:1.3;margin-bottom:18px">Caixa não mente. A DFC é onde a contabilidade encontra a realidade.</p>
-      <p style="color:#9fb4c2;font-size:14px;margin-bottom:16px">Obrigado por acompanhar este curso.</p>
-      <div style="color:#fff;font-size:13px">Antonio de Lima Junior · Scout Cursos</div>
+  <div class="wrap" style="max-width:1080px">
+    <div class="close-hero r">
+      <div class="close-hero-grid">
+        <div class="r" style="--d:1">
+          <span style="display:inline-flex;align-items:center;gap:8px;background:rgba(14,155,130,.18);border:1px solid rgba(14,155,130,.4);color:#7fe0c8;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.04em;margin-bottom:18px">&#10003; Curso conclu&iacute;do</span>
+          <div style="font-family:'Syne';font-weight:800;color:#fff;font-size:clamp(30px,4.4vw,56px);line-height:1.02;letter-spacing:-.02em;margin-bottom:18px">Parab&eacute;ns!<br>Voc&ecirc; chegou ao fim.</div>
+          <div style="border-left:3px solid var(--amber);padding-left:16px;margin-bottom:18px"><p style="font-family:'Syne';font-weight:700;color:#eaf2ff;font-size:clamp(15px,1.7vw,21px);line-height:1.35">Caixa n&atilde;o mente. A DFC &eacute; onde a contabilidade encontra a realidade.</p></div>
+          <p style="color:#aebccb;font-size:clamp(13px,1.4vw,16px);line-height:1.55;margin-bottom:20px;max-width:50ch">Agora &eacute; praticar: pegue um balan&ccedil;o de verdade e monte a sua DFC pelo m&eacute;todo indireto.</p>
+          <div style="font-family:'Syne';font-weight:700;color:#fff;font-size:clamp(15px,1.7vw,19px)">Antonio de Lima Junior</div>
+          <div style="color:#7fe0c8;font-size:12.5px;font-weight:600;margin-bottom:20px">Especialista em contabilidade societ&aacute;ria, IFRS e CPC &middot; Consultor</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span class="close-chip star">&#9733; Avalie o curso</span>
+            <span class="close-chip">Pratique com um caso real</span>
+            <span class="close-chip">Continue na trilha</span>
+          </div>
+        </div>
+        <div class="r" style="--d:2">
+          <svg class="close-svg" viewBox="0 0 360 300" xmlns="http://www.w3.org/2000/svg" fill="none">
+            <ellipse cx="150" cy="258" rx="150" ry="13" fill="#ffffff" opacity="0.05"/>
+            <rect x="36" y="185" width="38" height="65" rx="7" fill="#56c9ad"/>
+            <rect x="84" y="150" width="38" height="100" rx="7" fill="#1fae8f"/>
+            <rect x="132" y="110" width="38" height="140" rx="7" fill="#0e9b82"/>
+            <rect x="180" y="70" width="38" height="180" rx="7" fill="#0a7d68"/>
+            <rect x="228" y="34" width="38" height="216" rx="7" fill="#ef9c12"/>
+            <polyline points="55,182 103,148 151,108 199,68 244,35" stroke="#ffce7a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="55" cy="182" r="3.6" fill="#fff"/>
+            <circle cx="103" cy="148" r="3.6" fill="#fff"/>
+            <circle cx="151" cy="108" r="3.6" fill="#fff"/>
+            <circle cx="199" cy="68" r="3.6" fill="#fff"/>
+            <path d="M251,30 L243,44 L235,33 Z" fill="#ffce7a"/>
+            <g transform="translate(40,30)">
+              <ellipse cx="28" cy="46" rx="26" ry="4.5" fill="#ffffff" opacity="0.82"/>
+              <path d="M10,14 h36 v18 a18,9 0 0 1 -36,0 z" fill="#ffffff"/>
+              <ellipse cx="28" cy="14" rx="18" ry="4.5" fill="#6b4423"/>
+              <path d="M46,18 q12,4 0,15" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round"/>
+              <path d="M22,8 q-5,-7 0,-13 q5,-6 0,-12" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" opacity="0.55"/>
+              <path d="M34,8 q-5,-7 0,-13 q5,-6 0,-12" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" opacity="0.55"/>
+            </g>
+            <g transform="translate(324,152) rotate(28)"><ellipse rx="7" ry="10" fill="#7a4a28"/><path d="M0,-8 Q3.5,0 0,8" stroke="#f4ead8" stroke-width="1.5" fill="none"/></g>
+            <g transform="translate(70,250) rotate(-18)"><ellipse rx="6" ry="8.5" fill="#7a4a28"/><path d="M0,-7 Q3,0 0,7" stroke="#f4ead8" stroke-width="1.3" fill="none"/></g>
+            <g transform="translate(300,90)" fill="#ffce7a"><path d="M0,-8 L1.8,-1.8 L8,0 L1.8,1.8 L0,8 L-1.8,1.8 L-8,0 L-1.8,-1.8 Z"/></g>
+            <g transform="translate(150,42) scale(0.7)" fill="#7fe0c8"><path d="M0,-8 L1.8,-1.8 L8,0 L1.8,1.8 L0,8 L-1.8,1.8 L-8,0 L-1.8,-1.8 Z"/></g>
+          </svg>
+        </div>
+      </div>
     </div>
   </div>
 </section>
