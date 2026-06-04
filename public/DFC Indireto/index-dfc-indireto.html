@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DFC — Método Indireto · Scout Cursos</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:     #eef4f2;
+  --paper:  #ffffff;
+  --teal:   #0e9b82;
+  --teal-d: #0a6f5e;
+  --teal-l: #d4efe8;
+  --teal-xl:#eaf7f3;
+  --amber:  #ef9c12;
+  --amber-d:#c87a05;
+  --amber-l:#fdf0d8;
+  --navy:   #14283f;
+  --ink:    #1d3047;
+  --gray:   #5c6f7e;
+  --gray2:  #90a0ac;
+  --line:   #dfe9e6;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+body::before{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse 70% 50% at 15% 15%,rgba(14,155,130,.07) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 40% at 85% 85%,rgba(239,156,18,.05) 0%,transparent 60%);
+  pointer-events:none;z-index:0;}
+.container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:32px 32px 80px;}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+
+/* Top nav */
+.top-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;
+  opacity:0;transform:translateY(16px);animation:fadeUp .6s ease forwards;}
+.brand-link{display:flex;align-items:center;gap:9px;text-decoration:none;
+  font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--navy);
+  background:rgba(255,255,255,.8);border:1px solid var(--line);padding:7px 14px;border-radius:999px;transition:border-color .2s,color .2s;}
+.brand-link:hover{border-color:var(--teal-l);color:var(--teal-d);}
+.brand-dot{width:9px;height:9px;border-radius:50%;background:var(--teal);flex-shrink:0;}
+.brand-link i{color:var(--amber-d);font-style:normal;}
+.back-nav{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:8px;
+  border:1px solid var(--line);color:var(--gray);text-decoration:none;font-size:13px;
+  background:var(--paper);transition:all .2s;}
+.back-nav:hover{color:var(--teal-d);border-color:var(--teal-l);background:var(--teal-xl);}
+
+/* Header */
+.header{margin-bottom:52px;opacity:0;transform:translateY(24px);animation:fadeUp .8s ease .1s forwards;}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--teal-xl);
+  border:1px solid var(--teal-l);border-radius:4px;padding:6px 14px;
+  font-size:11px;font-weight:700;letter-spacing:2px;color:var(--teal-d);
+  text-transform:uppercase;margin-bottom:20px;}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);
+  animation:pulse 2s ease infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+h1{font-family:'Syne',sans-serif;font-size:clamp(32px,4.5vw,52px);font-weight:800;
+  line-height:1.06;letter-spacing:-1px;margin-bottom:16px;color:var(--navy);}
+h1 span.accent{color:var(--teal);}
+h1 span.sub{display:block;font-size:.58em;font-weight:700;color:var(--amber-d);margin-top:6px;letter-spacing:-.5px;}
+.subtitle{font-size:16px;color:var(--gray);font-weight:400;max-width:560px;line-height:1.65;}
+
+/* Stats */
+.stats{display:flex;gap:36px;margin-top:32px;padding-top:28px;
+  border-top:1px solid var(--line);flex-wrap:wrap;
+  opacity:0;animation:fadeUp .8s ease .25s forwards;}
+.stat-num{font-family:'Syne',sans-serif;font-size:26px;font-weight:700;color:var(--navy);}
+.stat-num span{color:var(--teal);}
+.stat-num .amber{color:var(--amber-d);}
+.stat-label{font-size:12px;color:var(--gray2);letter-spacing:.5px;margin-top:2px;}
+
+/* Auth controls */
+.access-controls{display:flex;gap:10px;align-items:center;margin-bottom:20px;
+  opacity:0;animation:fadeUp .7s ease .3s forwards;}
+.btn-login{display:inline-flex;align-items:center;justify-content:center;
+  padding:10px 16px;border-radius:8px;border:1px solid rgba(14,155,130,.4);
+  color:var(--teal-d);text-decoration:none;font-size:13px;font-weight:600;
+  background:var(--teal-xl);transition:all .2s;}
+.btn-login:hover{background:var(--teal-l);border-color:var(--teal);}
+.btn-logout{display:none;padding:10px 16px;border-radius:8px;border:1px solid var(--line);
+  background:var(--paper);color:var(--gray);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;}
+.btn-logout:hover{border-color:var(--gray2);color:var(--ink);}
+
+/* CTA intro */
+.cta-intro{margin-bottom:36px;opacity:0;animation:fadeUp .7s ease .35s forwards;}
+.btn-intro{display:inline-flex;align-items:center;gap:12px;background:var(--teal);
+  color:#fff;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
+  padding:15px 30px;border-radius:10px;text-decoration:none;transition:all .25s;margin-right:16px;}
+.btn-intro:hover{background:var(--teal-d);transform:translateY(-2px);box-shadow:0 12px 28px rgba(14,155,130,.3);}
+.intro-hint{font-size:13px;color:var(--gray2);}
+
+/* Section label */
+.section-label{font-size:11px;font-weight:700;letter-spacing:3px;color:var(--gray2);
+  text-transform:uppercase;margin-bottom:20px;opacity:0;animation:fadeUp .8s ease .4s forwards;}
+
+/* Cards grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;
+  padding:24px 24px 20px;text-decoration:none;color:inherit;
+  display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden;
+  transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+  opacity:0;animation:fadeUp .6s ease forwards;}
+.card:nth-child(1){animation-delay:.45s}
+.card:nth-child(2){animation-delay:.52s}
+.card:nth-child(3){animation-delay:.59s}
+.card:nth-child(4){animation-delay:.66s}
+.card:nth-child(5){animation-delay:.73s}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--teal);transform:scaleX(0);transform-origin:left;transition:transform .3s ease;}
+.card:hover{transform:translateY(-4px);border-color:var(--teal-l);box-shadow:0 16px 40px rgba(20,40,63,.12);}
+.card:hover::before{transform:scaleX(1);}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;}
+.mod-num{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--teal-d);letter-spacing:1px;}
+.mod-tag{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  padding:3px 9px;border-radius:3px;background:var(--teal-xl);color:var(--teal-d);border:1px solid var(--teal-l);}
+.mod-tag.amber{background:var(--amber-l);color:var(--amber-d);border-color:var(--amber-l);}
+.card h3{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;line-height:1.25;color:var(--navy);}
+.card p{font-size:13px;color:var(--gray);line-height:1.6;flex:1;}
+.card-footer{display:flex;align-items:center;justify-content:space-between;
+  padding-top:12px;border-top:1px solid var(--line);margin-top:auto;}
+.card-cta{font-size:12px;font-weight:600;color:var(--teal-d);letter-spacing:.5px;
+  display:flex;align-items:center;gap:6px;transition:gap .2s;}
+.card:hover .card-cta{gap:10px;}
+.card-cta svg{width:13px;height:13px;}
+.slides-count{font-size:11px;color:var(--gray2);}
+.card.available{border-color:rgba(14,155,130,.25);background:var(--teal-xl);}
+
+/* Footer */
+.footer{margin-top:60px;padding-top:28px;border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  opacity:0;animation:fadeUp .8s ease 1s forwards;}
+.footer-brand{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--gray2);}
+.footer-brand span{color:var(--teal-d);}
+.footer-note{font-size:12px;color:var(--gray2);}
+
+@media(max-width:900px){
+  .container{padding:24px 18px 56px;}
+  .header{margin-bottom:36px;}
+  .stats{gap:18px;margin-top:22px;padding-top:18px;}
+  .grid{grid-template-columns:1fr;gap:10px;}
+  .top-nav{flex-wrap:wrap;gap:10px;}
+}
+@media(max-width:640px){
+  h1{font-size:clamp(26px,8vw,38px);}
+  .subtitle{font-size:14px;}
+  .btn-intro{font-size:13px;padding:13px 22px;}
+  .intro-hint{display:none;}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Top nav -->
+  <div class="top-nav">
+    <a href="../home.html" class="brand-link">
+      <span class="brand-dot"></span>Scout <i>Cursos</i>
+    </a>
+    <a href="../contabil.html" class="back-nav">← Cursos Contábeis</a>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="badge">CPC 03 · IAS 7 · NBC TG 03</div>
+    <h1>
+      <span class="accent">DFC</span> — Método Indireto
+      <span class="sub">do lucro líquido ao fechamento do caixa</span>
+    </h1>
+    <p class="subtitle">Curso técnico para contadores, auditores e controllers. Como elaborar a Demonstração dos Fluxos de Caixa pelo método indireto, da lógica da norma ao fechamento de um exemplo prático real.</p>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">5<span> aulas</span></div>
+        <div class="stat-label">Conteúdo completo</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">~1<span>h40</span></div>
+        <div class="stat-label">De conteúdo</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span class="amber">CPC</span> 03</div>
+        <div class="stat-label">IAS 7 + NBC TG 03</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">1<span> caso</span></div>
+        <div class="stat-label">Que fecha número a número</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Auth controls -->
+  <div class="access-controls">
+    <a id="login-link" href="../login.html?returnUrl=DFC%20Indireto/index-dfc-indireto.html" class="btn-login">Entrar</a>
+    <button id="logout-btn" type="button" class="btn-logout">Sair</button>
+  </div>
+
+  <!-- CTA Intro -->
+  <div class="cta-intro">
+    <a href="dfc-intro-dfc.html" class="btn-intro">
+      ▶ Assistir apresentação do curso
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <span class="intro-hint">Conheça o instrutor e a metodologia antes de começar</span>
+  </div>
+
+  <p class="section-label">Aulas do curso</p>
+
+  <div class="grid">
+
+    <a href="dfc-metodo-indireto.html" class="card available">
+      <div class="card-top">
+        <span class="mod-num">Aula 01</span>
+        <span class="mod-tag">Disponível</span>
+      </div>
+      <h3>Fundamentos da DFC</h3>
+      <p>O que é, para que serve, obrigatoriedade, normas CPC 03, IAS 7 e NBC TG 03, e a definição de caixa e equivalentes de caixa.</p>
+      <div class="card-footer">
+        <span class="card-cta">Acessar aula <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="slides-count">10 slides</span>
+      </div>
+    </a>
+
+    <a href="dfc-metodo-indireto.html" class="card">
+      <div class="card-top">
+        <span class="mod-num">Aula 02</span>
+        <span class="mod-tag">Disponível</span>
+      </div>
+      <h3>A estrutura da DFC</h3>
+      <p>As três atividades (operacional, investimento, financiamento), a planta da demonstração e o demonstrativo montado linha a linha.</p>
+      <div class="card-footer">
+        <span class="card-cta">Acessar aula <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="slides-count">9 slides</span>
+      </div>
+    </a>
+
+    <a href="dfc-metodo-indireto.html" class="card">
+      <div class="card-top">
+        <span class="mod-num">Aula 03</span>
+        <span class="mod-tag">Disponível</span>
+      </div>
+      <h3>O método indireto, passo a passo</h3>
+      <p>Direto e indireto, a ponte competência-caixa, os ajustes ao lucro líquido, as variações de capital de giro e a regra de ouro.</p>
+      <div class="card-footer">
+        <span class="card-cta">Acessar aula <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="slides-count">8 slides</span>
+      </div>
+    </a>
+
+    <a href="dfc-metodo-indireto.html" class="card">
+      <div class="card-top">
+        <span class="mod-num">Aula 04</span>
+        <span class="mod-tag amber">Disponível</span>
+      </div>
+      <h3>Exemplo prático completo</h3>
+      <p>Balanço, DRE e fatos da Embalagens Lira, montagem do operacional, investimento e financiamento, conciliando até o saldo final.</p>
+      <div class="card-footer">
+        <span class="card-cta">Acessar aula <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="slides-count">10 slides</span>
+      </div>
+    </a>
+
+    <a href="dfc-metodo-indireto.html" class="card">
+      <div class="card-top">
+        <span class="mod-num">Aula 05</span>
+        <span class="mod-tag">Disponível</span>
+      </div>
+      <h3>Fechamento e boas práticas</h3>
+      <p>A DFC completa, divulgações obrigatórias, conferência final e os erros mais comuns a evitar na elaboração.</p>
+      <div class="card-footer">
+        <span class="card-cta">Acessar aula <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="slides-count">5 slides</span>
+      </div>
+    </a>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-brand">DFC <span>Método Indireto</span> · Curso Técnico</div>
+    <div class="footer-note">CPC 03 (R2), IAS 7 e NBC TG 03</div>
+  </footer>
+
+</div>
+<script src="../auth.js"></script>
+<script>
+const currentUser = window.CourseAuth.requireCourseAccess('dfc-indireto', { fallbackUrl: '../contabil.html' });
+const loginLink = document.getElementById('login-link');
+const logoutBtn = document.getElementById('logout-btn');
+if (currentUser) {
+  if (loginLink) loginLink.style.display = 'none';
+  if (logoutBtn) logoutBtn.style.display = 'inline-flex';
+}
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', function () {
+    window.CourseAuth.logout();
+    window.location.href = '../login.html';
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DFC — Apresentação do curso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eef4f2;--paper:#ffffff;
+  --teal:#0e9b82;--teal-d:#0a6f5e;--teal-l:#d4efe8;--teal-xl:#eaf7f3;
+  --amber:#ef9c12;--amber-d:#c87a05;--amber-l:#fdf0d8;
+  --navy:#14283f;--ink:#1d3047;--gray:#5c6f7e;--gray2:#90a0ac;--line:#dfe9e6;
+  --shadow:0 24px 60px -28px rgba(20,40,63,.28);
+  --shadow-s:0 10px 30px -16px rgba(20,40,63,.22);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);overflow:hidden;-webkit-font-smoothing:antialiased;}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(60% 50% at 12% 8%,rgba(14,155,130,.14),transparent 60%),
+    radial-gradient(55% 50% at 92% 96%,rgba(239,156,18,.13),transparent 60%),
+    linear-gradient(160deg,#f4f8f6,#e8f1ee);}
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(rgba(20,40,63,.05) 1px,transparent 1px);background-size:26px 26px;
+  mask-image:radial-gradient(circle at 50% 50%,#000 30%,transparent 78%);}
+.stage{position:relative;width:100%;height:100%;z-index:1}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(28px,5vw,90px);padding-bottom:clamp(90px,11vh,130px);
+  opacity:0;visibility:hidden;transform:scale(.985);
+  transition:opacity .55s ease,transform .55s ease,visibility .55s;}
+.slide.active{opacity:1;visibility:visible;transform:none}
+.wrap{width:100%;max-width:1120px;margin:0 auto}
+.r{opacity:0;transform:translateY(20px);
+  transition:opacity .65s cubic-bezier(.2,.7,.2,1),transform .65s cubic-bezier(.2,.7,.2,1);
+  transition-delay:calc(var(--d,0)*85ms)}
+.slide.active .r{opacity:1;transform:none}
+.kick{font-family:'DM Sans';font-weight:700;font-size:clamp(11px,1.1vw,13px);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--teal);
+  display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.kick::before{content:"";width:26px;height:2px;background:var(--teal);border-radius:2px}
+h1{font-family:'Syne';font-weight:800;color:var(--navy);line-height:1.02;letter-spacing:-.02em}
+h2{font-family:'Syne';font-weight:800;color:var(--navy);line-height:1.05;letter-spacing:-.015em;font-size:clamp(26px,3.6vw,46px)}
+.lead{font-size:clamp(15px,1.5vw,19px);color:var(--gray);line-height:1.6;max-width:60ch}
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:var(--shadow-s);position:relative;overflow:hidden}
+.card h3{font-family:'Syne';font-weight:700;color:var(--navy);font-size:clamp(16px,1.6vw,20px);margin-bottom:8px}
+.card p{font-size:clamp(13px,1.25vw,15px);color:var(--gray);line-height:1.55}
+.tag{display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;
+  font-size:13px;font-weight:700;background:var(--teal-l);color:var(--teal-d)}
+.tag.amber{background:var(--amber-l);color:var(--amber-d)}
+.stat{font-family:'Syne';font-weight:800;color:var(--teal-d);line-height:1;font-size:clamp(40px,7vw,86px);letter-spacing:-.03em}
+.stat.amber{color:var(--amber-d)}
+.flist{display:flex;flex-direction:column;gap:13px}
+.fitem{display:flex;gap:13px;align-items:flex-start;font-size:clamp(14px,1.35vw,16.5px);color:var(--ink);line-height:1.5}
+.fitem .b{width:9px;height:9px;border-radius:50%;background:var(--teal);flex-shrink:0;margin-top:8px}
+.fitem .b.a{background:var(--amber)}
+/* nav */
+#nav{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:30;
+  display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.78);
+  backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:999px;padding:9px 14px;box-shadow:var(--shadow)}
+.nb{width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;
+  background:var(--navy);color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;transition:.25s}
+.nb:hover:not(:disabled){background:var(--teal-d);transform:translateY(-2px)}
+.nb:disabled{opacity:.25;cursor:default}
+#dots{display:flex;gap:6px;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%;background:#cdd9d5;cursor:pointer;transition:.25s;flex-shrink:0}
+.dot.on{background:var(--teal);width:22px;border-radius:5px}
+#ctr{font-family:'Syne';font-weight:700;color:var(--navy);font-size:13px;min-width:54px;text-align:center}
+#prog{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--teal),var(--amber));z-index:40;transition:width .45s ease;border-radius:0 3px 3px 0}
+/* brand nav */
+.top-bar{position:fixed;top:0;left:0;right:0;z-index:25;display:flex;align-items:center;justify-content:space-between;padding:14px clamp(20px,4vw,48px);}
+.brand-link{display:flex;align-items:center;gap:9px;text-decoration:none;font-family:'Syne';font-weight:700;font-size:13px;color:var(--navy);background:rgba(255,255,255,.7);backdrop-filter:blur(8px);border:1px solid var(--line);padding:7px 14px;border-radius:999px;}
+.brand-link .d{width:9px;height:9px;border-radius:50%;background:var(--teal);flex-shrink:0;}
+.brand-link i{color:var(--amber-d);font-style:normal;}
+.back-pill{display:flex;align-items:center;gap:6px;text-decoration:none;font-size:12.5px;font-weight:600;color:var(--gray);background:rgba(255,255,255,.7);backdrop-filter:blur(8px);border:1px solid var(--line);padding:7px 14px;border-radius:999px;transition:color .2s,border-color .2s;}
+.back-pill:hover{color:var(--teal-d);border-color:var(--teal-l);}
+/* instructor */
+.foto{width:clamp(150px,20vw,230px);height:clamp(150px,20vw,230px);border-radius:50%;object-fit:cover;object-position:center top;border:5px solid #fff;box-shadow:0 0 0 4px var(--teal),var(--shadow)}
+.instr-grid{display:grid;grid-template-columns:auto 1fr;gap:38px;align-items:center}
+/* cta button */
+.btn-curso{display:inline-flex;align-items:center;gap:10px;background:var(--teal);color:#fff;font-family:'Syne';font-size:15px;font-weight:700;padding:15px 30px;border-radius:10px;text-decoration:none;transition:background .2s,transform .2s,box-shadow .2s;margin-top:24px;}
+.btn-curso:hover{background:var(--teal-d);transform:translateY(-2px);box-shadow:0 12px 28px rgba(14,155,130,.3);}
+@media(max-width:760px){
+  .g2,.g4{grid-template-columns:1fr}
+  .instr-grid{grid-template-columns:1fr;gap:20px;text-align:center;justify-items:center}
+  .slide{padding:24px 20px 110px}
+  .top-bar{padding:10px 16px}
+}
+</style>
+</head>
+<body>
+<div id="prog" style="width:5%"></div>
+
+<!-- Top bar -->
+<div class="top-bar">
+  <a href="../home.html" class="brand-link"><span class="d"></span>Scout <i>Cursos</i></a>
+  <a href="index-dfc-indireto.html" class="back-pill">← Índice do curso</a>
+</div>
+
+<div class="stage" id="stage">
+
+<!-- SLIDE 1: CAPA -->
+<section class="slide active">
+  <div class="wrap">
+    <div class="kick r">Curso completo · Contabilidade</div>
+    <h1 class="r" style="--d:1;font-size:clamp(32px,6vw,74px);margin-bottom:16px">Demonstração<br>dos Fluxos de Caixa</h1>
+    <div class="r" style="--d:2;margin:16px 0 20px"><span class="tag" style="font-size:15px;padding:9px 18px">Método Indireto</span></div>
+    <p class="lead r" style="--d:3">O lucro não é caixa. Aprenda a montar a DFC do zero ao fechamento, com a lógica das normas e um exemplo prático que concilia número a número.</p>
+    <div class="grid g4 r" style="--d:4;margin-top:28px;gap:14px">
+      <div class="card" style="text-align:center;padding:16px"><div class="stat" style="font-size:clamp(26px,3.4vw,40px)">5</div><p style="font-size:12.5px">aulas</p></div>
+      <div class="card" style="text-align:center;padding:16px"><div class="stat amber" style="font-size:clamp(26px,3.4vw,40px)">1h40</div><p style="font-size:12.5px">de conteúdo</p></div>
+      <div class="card" style="text-align:center;padding:16px"><div class="stat" style="font-size:clamp(26px,3.4vw,40px)">1</div><p style="font-size:12.5px">exemplo que fecha</p></div>
+      <div class="card" style="text-align:center;padding:16px"><div class="stat amber" style="font-size:clamp(20px,2.4vw,28px);line-height:1.1">CPC 03<br>IAS 7</div><p style="font-size:12.5px">e NBC TG 03</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 2: INSTRUTOR -->
+<section class="slide">
+  <div class="wrap">
+    <div class="kick r">Seu instrutor</div>
+    <h2 class="r" style="--d:1;margin-bottom:24px">Quem vai te ensinar</h2>
+    <div class="instr-grid">
+      <img class="foto r" style="--d:2" src="data:image/jpeg;base64,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" alt="Antonio de Lima Junior">
+      <div class="r" style="--d:3">
+        <div style="font-family:'Syne';font-weight:800;color:var(--navy);font-size:clamp(24px,3.2vw,40px);line-height:1.04">Antonio de Lima Junior</div>
+        <div style="color:var(--teal-d);font-weight:700;margin:8px 0 14px;font-size:clamp(13px,1.4vw,16px)">Especialista em contabilidade societária, IFRS e CPC · Consultor</div>
+        <p style="color:var(--gray);font-size:clamp(13.5px,1.4vw,16px);line-height:1.6;max-width:58ch">Mais de três décadas de atuação em empresas de grande porte, nacionais e multinacionais, com foco em normas internacionais, elaboração e revisão de demonstrações financeiras e consultoria técnica. Gosta de transformar o que é complexo em algo simples de entender e aplicar.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+          <span class="tag">Contabilidade societária</span>
+          <span class="tag">IFRS e CPC</span>
+          <span class="tag">Demonstrações financeiras</span>
+          <span class="tag">Consultoria técnica</span>
+        </div>
+        <div style="display:inline-flex;align-items:center;gap:10px;margin-top:16px;background:var(--amber-l);color:var(--amber-d);padding:8px 16px;border-radius:12px;font-weight:700"><span style="font-family:'Syne';font-size:22px">30+</span> anos de experiência</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3: CONTEÚDO DO CURSO -->
+<section class="slide">
+  <div class="wrap">
+    <div class="kick r">O conteúdo do curso</div>
+    <h2 class="r" style="--d:1;margin-bottom:18px">5 aulas, do conceito ao fechamento</h2>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="card r" style="--d:2;display:flex;align-items:flex-start;gap:16px;padding:13px 18px;border-left:4px solid var(--teal)">
+        <div class="stat" style="font-size:30px;min-width:34px;line-height:1">1</div>
+        <div><h3 style="margin:0 0 2px;font-size:clamp(15px,1.5vw,18px)">Fundamentos da DFC</h3><p style="font-size:12.5px;line-height:1.45">O que é, para que serve, obrigatoriedade, normas CPC 03, IAS 7 e NBC TG 03, e caixa e equivalentes.</p></div>
+      </div>
+      <div class="card r" style="--d:3;display:flex;align-items:flex-start;gap:16px;padding:13px 18px;border-left:4px solid var(--amber)">
+        <div class="stat amber" style="font-size:30px;min-width:34px;line-height:1">2</div>
+        <div><h3 style="margin:0 0 2px;font-size:clamp(15px,1.5vw,18px)">A estrutura da DFC</h3><p style="font-size:12.5px;line-height:1.45">As três atividades, a planta da demonstração e o demonstrativo montado linha a linha.</p></div>
+      </div>
+      <div class="card r" style="--d:4;display:flex;align-items:flex-start;gap:16px;padding:13px 18px;border-left:4px solid var(--teal)">
+        <div class="stat" style="font-size:30px;min-width:34px;line-height:1">3</div>
+        <div><h3 style="margin:0 0 2px;font-size:clamp(15px,1.5vw,18px)">O método indireto, passo a passo</h3><p style="font-size:12.5px;line-height:1.45">Direto e indireto, a ponte competência-caixa, os ajustes ao lucro, o capital de giro e a regra de ouro.</p></div>
+      </div>
+      <div class="card r" style="--d:5;display:flex;align-items:flex-start;gap:16px;padding:13px 18px;border-left:4px solid var(--amber)">
+        <div class="stat amber" style="font-size:30px;min-width:34px;line-height:1">4</div>
+        <div><h3 style="margin:0 0 2px;font-size:clamp(15px,1.5vw,18px)">Exemplo prático completo</h3><p style="font-size:12.5px;line-height:1.45">Balanço, DRE e fatos, montagem do operacional, investimento e financiamento, conciliando com o balanço.</p></div>
+      </div>
+      <div class="card r" style="--d:6;display:flex;align-items:flex-start;gap:16px;padding:13px 18px;border-left:4px solid var(--teal)">
+        <div class="stat" style="font-size:30px;min-width:34px;line-height:1">5</div>
+        <div><h3 style="margin:0 0 2px;font-size:clamp(15px,1.5vw,18px)">Fechamento e boas práticas</h3><p style="font-size:12.5px;line-height:1.45">A DFC completa, o roteiro de elaboração, as divulgações, a conferência final e os erros comuns.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4: HABILIDADES -->
+<section class="slide">
+  <div class="wrap">
+    <div class="kick r">O que você vai dominar</div>
+    <h2 class="r" style="--d:1;margin-bottom:24px">As habilidades que você leva</h2>
+    <div class="grid g2">
+      <div class="card r" style="--d:2;border-top:5px solid var(--teal)">
+        <h3 style="margin-bottom:12px">Entender e estruturar</h3>
+        <div class="flist">
+          <div class="fitem"><span class="b"></span><div>Explicar por que o lucro não é caixa</div></div>
+          <div class="fitem"><span class="b"></span><div>Aplicar o CPC 03, o IAS 7 e a NBC TG 03</div></div>
+          <div class="fitem"><span class="b"></span><div>Classificar as três atividades da DFC</div></div>
+        </div>
+      </div>
+      <div class="card r" style="--d:3;border-top:5px solid var(--amber)">
+        <h3 style="margin-bottom:12px">Montar e conferir</h3>
+        <div class="flist">
+          <div class="fitem"><span class="b a"></span><div>Montar o fluxo das operações pelo método indireto</div></div>
+          <div class="fitem"><span class="b a"></span><div>Conciliar a DFC com o saldo do balanço</div></div>
+          <div class="fitem"><span class="b a"></span><div>Divulgar certo e evitar os erros mais comuns</div></div>
+        </div>
+      </div>
+    </div>
+    <p class="r" style="--d:4;margin-top:18px;text-align:center;font-size:14px;color:var(--gray)">Tudo com slides claros, exemplos numéricos e linguagem direta.</p>
+  </div>
+</section>
+
+<!-- SLIDE 5: PARA QUEM É + CTA -->
+<section class="slide">
+  <div class="wrap" style="text-align:center">
+    <div class="kick r" style="justify-content:center">Para quem é</div>
+    <h2 class="r" style="--d:1;margin-bottom:16px">Feito para quem trabalha com números</h2>
+    <div class="r" style="--d:2;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:24px">
+      <span class="tag">Estudantes de contabilidade</span>
+      <span class="tag">Contadores e técnicos</span>
+      <span class="tag">Finanças e controladoria</span>
+      <span class="tag">Auditoria</span>
+      <span class="tag">Concursos e exames</span>
+    </div>
+    <div class="card r" style="--d:3;background:var(--navy);border:none;max-width:700px;margin:0 auto;padding:32px">
+      <p style="font-family:'Syne';font-weight:700;color:#fff;font-size:clamp(18px,2.4vw,28px);line-height:1.3;margin-bottom:12px">Bora começar? Te espero na primeira aula para montar a sua DFC.</p>
+      <p style="color:#9fb4c2;font-size:13.5px;margin-bottom:20px">Com Antonio de Lima Junior · Especialista em contabilidade societária, IFRS e CPC</p>
+      <a href="dfc-metodo-indireto.html" class="btn-curso" style="margin-top:0;justify-content:center">▶ Iniciar o curso →</a>
+    </div>
+  </div>
+</section>
+
+</div><!-- /stage -->
+
+<div id="nav">
+  <button class="nb" id="bp" onclick="go(-1)" disabled>&#8592;</button>
+  <div id="dots"></div>
+  <span id="ctr">1 / 5</span>
+  <button class="nb" id="bn" onclick="go(1)">&#8594;</button>
+</div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+const TOTAL=slides.length;
+let cur=0,busy=false;
+const dotsEl=document.getElementById('dots');
+slides.forEach((_,i)=>{
+  const d=document.createElement('div');
+  d.className='dot'+(i===0?' on':'');
+  d.onclick=()=>jump(i);
+  dotsEl.appendChild(d);
+});
+const dots=[...dotsEl.children];
+function render(){
+  slides.forEach((s,i)=>s.classList.toggle('active',i===cur));
+  dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
+  document.getElementById('ctr').textContent=(cur+1)+' / '+TOTAL;
+  document.getElementById('bp').disabled=cur===0;
+  document.getElementById('bn').disabled=cur===TOTAL-1;
+  document.getElementById('prog').style.width=((cur+1)/TOTAL*100)+'%';
+  const od=dots[cur];if(od)od.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
+}
+function go(dir){
+  if(busy)return;
+  const n=cur+dir;
+  if(n<0||n>=TOTAL)return;
+  busy=true;cur=n;render();
+  setTimeout(()=>busy=false,420);
+}
+function jump(i){if(i===cur)return;cur=i;render();}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(1);}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(-1);}
+  if(e.key==='Home')jump(0);
+  if(e.key==='End')jump(TOTAL-1);
+});
+let sx=null;
+document.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+document.addEventListener('touchend',e=>{
+  if(sx===null)return;
+  const dx=e.changedTouches[0].clientX-sx;
+  if(Math.abs(dx)>55)go(dx<0?1:-1);
+  sx=null;
+});
+render();
+</script>
+</body>
+</html>
