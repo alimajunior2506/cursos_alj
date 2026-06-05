@@ -1184,12 +1184,13 @@ h2{font-family:'Syne';font-weight:800;color:var(--navy);line-height:1.05;letter-
 
 <script src="../auth.js"></script>
 <script>
-// Auth manual: garante caminho correto do returnUrl para subpasta
+// ── Auth: preserva ?aula=N no returnUrl ──────────────────────────────────────
 (function(){
   var user = window.CourseAuth.getCurrentUser();
   if (!user) {
+    var qs = window.location.search;
     window.location.href = '../login.html'
-      + '?returnUrl=' + encodeURIComponent('DFC Indireto/dfc-metodo-indireto.html')
+      + '?returnUrl=' + encodeURIComponent('DFC Indireto/dfc-metodo-indireto.html' + qs)
       + '&fromUrl='   + encodeURIComponent('DFC Indireto/index-dfc-indireto.html');
     return;
   }
@@ -1198,47 +1199,70 @@ h2{font-family:'Syne';font-weight:800;color:var(--navy);line-height:1.05;letter-
     window.location.href = 'index-dfc-indireto.html';
   }
 })();
-const slides=[...document.querySelectorAll('.slide')];
-const TOTAL=slides.length;
-let cur=0,busy=false;
-const dotsEl=document.getElementById('dots');
-slides.forEach((_,i)=>{
-  const d=document.createElement('div');
-  d.className='dot'+(i===0?' on':'');
-  d.onclick=()=>jump(i);
+
+// ── Configuração de aulas (posições 0-indexed) ────────────────────────────────
+const _aulaStarts = {1:0, 2:10, 3:18, 4:26, 5:36};
+const _aulaSizes  = {1:10, 2:8,  3:8,  4:10, 5:5 };
+const _aulaNum    = parseInt(new URLSearchParams(window.location.search).get('aula')) || 0;
+const _aulaStart  = _aulaStarts[_aulaNum] ?? 0;
+const _aulaSize   = _aulaSizes[_aulaNum]  ?? null;
+const slides      = [...document.querySelectorAll('.slide')];
+const TOTAL       = slides.length;
+const _aulaEnd    = _aulaNum ? _aulaStart + _aulaSize - 1 : TOTAL - 1;
+
+let cur = _aulaStart, busy = false;
+
+// ── Dots: só para os slides da aula atual ────────────────────────────────────
+const dotsEl   = document.getElementById('dots');
+const dotRange = _aulaNum
+  ? Array.from({length: _aulaSize}, (_, i) => _aulaStart + i)
+  : Array.from({length: TOTAL},     (_, i) => i);
+
+dotRange.forEach(slideIdx => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (slideIdx === cur ? ' on' : '');
+  d.onclick   = () => jump(slideIdx);
   dotsEl.appendChild(d);
 });
-const dots=[...dotsEl.children];
-function render(){
-  slides.forEach((s,i)=>s.classList.toggle('active',i===cur));
-  dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
-  document.getElementById('ctr').textContent=(cur+1)+' / '+TOTAL;
-  document.getElementById('bp').disabled=cur===0;
-  document.getElementById('bn').disabled=cur===TOTAL-1;
-  document.getElementById('prog').style.width=((cur+1)/TOTAL*100)+'%';
-  const od=dots[cur];if(od)od.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
+const dots = [...dotsEl.children];
+
+// ── Render ────────────────────────────────────────────────────────────────────
+function render() {
+  slides.forEach((s,i) => s.classList.toggle('active', i === cur));
+  dots.forEach((d,i)   => d.classList.toggle('on', dotRange[i] === cur));
+  const pos   = cur - _aulaStart + 1;
+  const total = _aulaNum ? _aulaSize : TOTAL;
+  document.getElementById('ctr').textContent = pos + ' / ' + total;
+  document.getElementById('bp').disabled     = cur <= _aulaStart;
+  document.getElementById('bn').disabled     = cur >= _aulaEnd;
+  document.getElementById('prog').style.width = (pos / total * 100) + '%';
+  const od = dots.find((_, i) => dotRange[i] === cur);
+  if (od) od.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'});
 }
-function go(dir){
-  if(busy)return;
-  const n=cur+dir;
-  if(n<0||n>=TOTAL)return;
-  busy=true;cur=n;render();
-  setTimeout(()=>busy=false,420);
+
+// ── Navegação ─────────────────────────────────────────────────────────────────
+function go(dir) {
+  if (busy) return;
+  const n = cur + dir;
+  if (n < _aulaStart || n > _aulaEnd) return;
+  busy = true; cur = n; render();
+  setTimeout(() => busy = false, 420);
 }
-function jump(i){if(i===cur)return;cur=i;render();}
-document.addEventListener('keydown',e=>{
-  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(1);}
-  if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(-1);}
-  if(e.key==='Home')jump(0);
-  if(e.key==='End')jump(TOTAL-1);
+function jump(i) { if (i === cur) return; cur = i; render(); }
+
+document.addEventListener('keydown', e => {
+  if (e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(1);}
+  if (e.key==='ArrowLeft' ||e.key==='PageUp')               {e.preventDefault();go(-1);}
+  if (e.key==='Home') jump(_aulaStart);
+  if (e.key==='End')  jump(_aulaEnd);
 });
-let sx=null;
-document.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
-document.addEventListener('touchend',e=>{
-  if(sx===null)return;
-  const dx=e.changedTouches[0].clientX-sx;
-  if(Math.abs(dx)>55)go(dx<0?1:-1);
-  sx=null;
+let sx = null;
+document.addEventListener('touchstart', e => sx = e.touches[0].clientX, {passive:true});
+document.addEventListener('touchend', e => {
+  if (sx === null) return;
+  const dx = e.changedTouches[0].clientX - sx;
+  if (Math.abs(dx) > 55) go(dx < 0 ? 1 : -1);
+  sx = null;
 });
 render();
 </script>
