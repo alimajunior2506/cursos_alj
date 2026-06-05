@@ -293,7 +293,8 @@ h1 span.sub{display:block;font-size:.58em;font-weight:700;color:var(--amber-d);m
 </div>
 <script src="../auth.js"></script>
 <script>
-const currentUser = window.CourseAuth.requireCourseAccess('dfc-indireto', { fallbackUrl: '../contabil.html' });
+// Página aberta para todos — sem redirecionamento forçado
+const currentUser = window.CourseAuth.getCurrentUser();
 const loginLink = document.getElementById('login-link');
 const logoutBtn = document.getElementById('logout-btn');
 if (currentUser) {

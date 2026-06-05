@@ -1182,7 +1182,13 @@ h2{font-family:'Syne';font-weight:800;color:var(--navy);line-height:1.05;letter-
   <button class="nb" id="bn" onclick="go(1)">&#8594;</button>
 </div>
 
+<script src="../auth.js"></script>
 <script>
+// Exige login para acessar o conteúdo do curso
+window.CourseAuth.requireCourseAccess('dfc-indireto', {
+  fallbackUrl: 'index-dfc-indireto.html',
+  redirectTo: '../login.html'
+});
 const slides=[...document.querySelectorAll('.slide')];
 const TOTAL=slides.length;
 let cur=0,busy=false;
