@@ -165,6 +165,41 @@ h2{font-family:'Syne';font-weight:800;color:var(--navy);line-height:1.05;letter-
 .close-chip{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);color:#dce7f0;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
 .close-chip.star{background:rgba(239,156,18,.18);border-color:rgba(239,156,18,.42);color:#ffce7a}
 @media(max-width:760px){.close-hero-grid{grid-template-columns:1fr;text-align:center}.close-svg{max-width:240px;order:-1;margin-bottom:8px}.close-chip{white-space:normal}}
+
+/* ── MOBILE: MODO SCROLL ── */
+@media(max-width:760px){
+  html,body{height:auto !important;overflow-y:auto !important;overflow-x:hidden !important;}
+  body{padding-top:52px;}
+  .stage{height:auto !important;position:relative;}
+  /* Todos os slides ficam visíveis empilhados */
+  .slide{
+    position:relative !important;inset:auto !important;
+    opacity:1 !important;visibility:visible !important;
+    transform:none !important;
+    padding:24px 16px 36px !important;
+    padding-bottom:36px !important;
+    min-height:auto !important;
+    border-bottom:1px solid var(--line2);
+    display:flex !important;flex-direction:column;justify-content:flex-start !important;
+  }
+  .slide:last-child{border-bottom:none;}
+  /* Animações de entrada: mostrar tudo imediatamente */
+  .r{opacity:1 !important;transform:none !important;transition:none !important;}
+  /* Ocultar a nav inferior */
+  #nav{display:none !important;}
+  #prog{display:none !important;}
+  /* Wrap permite scroll horizontal em tabelas */
+  .wrap{overflow-x:auto;}
+  .ftab{min-width:480px;}
+  /* Tamanho da barra de número de aula */
+  .bgnum{font-size:30vh !important;}
+  /* Fechar cards para não ficarem muito largos */
+  .close-hero{padding:22px 16px;}
+  .close-chip{font-size:11px;padding:5px 11px;}
+  /* Instrutor */
+  .instr-grid{grid-template-columns:1fr;text-align:center;justify-items:center;gap:16px;}
+  .foto{width:clamp(100px,30vw,140px);height:clamp(100px,30vw,140px);}
+}
 </style>
 </head>
 <body>
